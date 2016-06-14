@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="description" content="Calcite Maps Demo - ArcGIS">
+  <link rel="icon" href="http://www.esri.com/favicon.ico">
+  <title>PeliTrack v2.0</title>
+
+  <!-- Calcite Bootstrap -->
+  <link rel="stylesheet" href="../../dist/css/calcite-bootstrap.min-v0.2.css">
+
+  <!-- Calcite Maps -->
+  <link rel="stylesheet" href="../../dist/css/calcite-maps-arcgis-4.x.min-v0.2.css">
+
+  <!-- ArcGIS JS 4.0 -->
+  <link rel="stylesheet" href="http://js.arcgis.com/4.0/esri/css/main.css">
+
+    <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <!-- jQuery (for Bootstrap's JavaScript plugins). NOTE: You can also use pure Dojo. See examples. -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Include all  plugins or individual files as needed -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="../../dist/js/datepicker/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <script type="text/javascript" src="../../dist/js/bootstrap_multiselect/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="../../dist/css/bootstrap_multiselect/bootstrap-multiselect.css" type="text/css"/>
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--script src="../../assets/js/ie10-viewport-bug-workaround.js"></script-->
+
+  <!-- Calcite Maps -->
+  <script src="../../dist/js/jquery/calcitemaps-v0.2.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+  </style>
+
+</head>
+
+<body class="calcite-nav-bottom">
+
+  <!-- Navbar -->
+
+  <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75">
+    <!-- Header -->
+    <div class="navbar-header">
+      <a class="navbar-brand"><span class="esri-icon esri-icon-map-pin"></span></a>
+    </div>
+    <!-- Title -->
+    <div class="calcite-title calcite-overflow-hidden">
+      <div class="calcite-title-main">PeliTrack v2.0</div>
+      <div class="calcite-title-sub">Utah Division of Wildlife Resources</div>
+    </div>
+     <!-- Nav -->
+    <ul class="nav navbar-nav">
+      <li><a id="mapNav" class="hidden-xs hidden-sm" href="#legend" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span>  Toggle Legend</a></li>
+      <li><a id="sceneNav" class="hidden-xs hidden-sm" href="#basemapselect" aria-controls="3Dtab" role="tab"  data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span>  Change Basemap</a></li>
+        <li id = "filterNav2" style ="cursor:pointer;"><a id ="filterNav" class="toggle " role ="tab" title="Filter Data" data-tooltip="tip" data-placement="bottom">
+            <span class="glyphicon glyphicon-cog"></span>  Filter Data
+        </a></li>
+    </ul>
+    <!-- Dropdown -->
+
+
+
+	</div>
+</div>
+  </nav><!--/.navbar -->
+
+
+
+  <!-- Map Container  -->
+
+  <div class="calcite-map calcite-map-absolute calcite-overflow-hidden">
+    <div id="tabContainer" class="tab-content">
+      <div id="2dTab" class="tab-pane fade in active" role="tabpanel">
+         <div id ="filtercont" class="container hidden" style="width:100%;">
+	<div class="row">
+        <div id="filter-panel" class="filter-panel ">
+            <div class="panel panel-default">
+                <div class="panel-body" style = "background-color:#333333; color: white;">
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <label class="filter-col" style="margin-left:20px;" for="nameselect">Filter by Bird:</label>
+                            <select id="nameselect" class="form-control input-sm" multiple="multiple">
+                                <option value="2">Annabelle</option>
+                                <option value="3">Barnabus</option>
+                                <option value="4">Chester</option>
+                                <option value="5">Daphne</option>
+                                <option value="6">George</option>
+                                <option value="7">Wilma</option>
+                                <option value="8">Gertrude</option>
+                                <option value="9">Bill</option>
+                                <option value="10">Ranger</option>
+                            </select>
+                        </div> <!-- form group [rows] -->
+                        <div class="form-group">
+                            <label class="filter-col" style="margin-left:20px;" for="daterange">Filter by Date:</label>
+                            <input type="text" class="form-control input-sm" id="daterange">
+                        </div><!-- form group [search] -->
+                        <div class="form-group">
+                            <div class="checkbox" style="margin-left:20px;">
+                                <label><input type="checkbox"> Show Track Lines</label>
+                            </div>
+                            <button type="submit" class="btn btn-default filter-col" style="margin-left:20px;>
+                                <span class="glyphicon glyphicon-record"></span>    Apply
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+     </div>
+          <div id="mapViewDiv"></div>
+      </div>
+      <div id="3dTab" class="tab-pane fade" role="tabpanel">
+        <div id="sceneViewDiv"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel Container -->
+
+
+
+    <!-- Info Panel -->
+
+    <div id="panelInfo" class="panel collapse">
+      <div id="headingInfo" class="panel-heading" role="tab">
+        <div class="panel-title">
+          <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo"  aria-expanded="true" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Info</a>
+          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
+        </div>
+      </div>
+      <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInfo">
+        <div class="panel-body">
+          <p>This is a great place to describe what your application is about.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Panel -->
+
+    <div id="panelSearch" class="panel collapse hidden-sm hidden-md hidden-lg">
+      <div id="headingSearch" class="panel-heading" role="tab">
+        <div class="panel-title">
+          <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseSearch"  aria-expanded="false" aria-controls="collapseSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</a>
+          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelSearch"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
+        </div>
+      </div>
+      <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSearch">
+        <div class="panel-body calcite-body-expander">
+          <div id="searchPanelDiv"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Basemaps Panel -->
+
+    <div id="panelBasemaps" class="panel collapse">
+      <div id="headingBasemaps" class="panel-heading" role="tab">
+        <div class="panel-title">
+          <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps" aria-expanded="false"   aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Basemaps</a>
+          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelBasemaps"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
+        </div>
+      </div>
+      <div id="collapseBasemaps" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBasemaps">
+        <div class="panel-body">
+          <select id="selectBasemapPanel" class="form-control">
+            <option value="streets" data-vector="vector-streets">Streets</option>
+            <option value="satellite" data-vector="satellite" selected>Satellite</option>
+            <option value="hybrid" data-vector="hybrid">Hybrid</option>
+            <option value="national-geographic" data-vector="national-geographic">National Geographic</option>
+            <option value="topo" data-vector="vector-streets-relief">Topographic</option>
+            <option value="gray" data-vector="vector-canvas-light">Gray</option>
+            <option value="dark-gray" data-vector="vector-canvas-dark">Dark Gray</option>
+            <option value="osm" data-vector="osm">Open Street Map</option>
+            <option value="dark-gray" data-vector="vector-streets-night">Streets Night</option>
+            <option value="streets" data-vector="vector-streets-mobile">Streets Mobile</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /.calcite-panels -->
+
+  <!-- ArcGIS JS 4.0 -->
+  <script src="http://js.arcgis.com/4.0/"></script>
+
+  <script>
+    var app;
+    require(["esri/Map",
+      "esri/Basemap",
+      "esri/views/MapView",
+      "esri/views/SceneView",
+      "esri/widgets/Search",
+      "esri/core/watchUtils",
+      "dojo/query",
+      "dojo/domReady!"
+    ], function(Map, Basemap, MapView, SceneView, Search, watchUtils, query) {
+
+      // App
+      app = {
+        scale: 50000000,
+        center: [-40,40],
+        initialExtent: null,
+        basemap: "dark-gray",
+        viewPadding: {
+          bottom: 65
+        },
+        uiPadding: {
+          top: 30, bottom: 15
+        },
+        mapView: null,
+        sceneView: null,
+        activeView: null,
+        searchWidgetNav: null
+      };
+      // Map
+      var map = new Map({
+        basemap: app.basemap
+      });
+      app.mapView = new MapView({
+        container: "mapViewDiv",
+        map: map,
+        scale: app.scale,
+        center: app.center,
+        padding: app.viewPadding,
+        ui: {
+          components: ["zoom", "compass"],
+          padding: app.uiPadding
+        }
+      });
+
+      // Scene
+      var mapScene = new Map({
+        basemap: app.basemap,
+        ground: "world-elevation"
+      });
+      app.sceneView = new SceneView({
+        container: "sceneViewDiv",
+        map: mapScene,
+        scale: app.scale,
+        center: app.center,
+        padding: app.viewPadding,
+        ui: {
+          padding: app.uiPadding
+        }
+      });
+      app.activeView = app.mapView;
+      app.activeView.then(function() {
+        app.initialExtent = app.activeView.extent;
+      });
+      // Search
+      app.searchWidgetNav = createSearchWidget("searchNavDiv");
+      function createSearchWidget(parentId) {
+        var search = new Search({
+          viewModel: {
+            view: app.activeView,
+            highlightEnabled: false,
+            popupEnabled: true,
+            showPopupOnSelect: true
+          }
+          }, parentId);
+        search.startup();
+        return search;
+      }
+      // Popup Events
+      app.mapView.popup.watch("currentDockPosition", function(result) {
+        setPanelVisibility();
+      });
+      app.sceneView.popup.watch("currentDockPosition", function(result) {
+        setPanelVisibility();
+      });
+      // Panel Events
+      query(".calcite-panels .panel").on("show.bs.collapse", function(e) {
+        if (app.activeView.popup.currentDockPosition) {
+          app.activeView.popup.dockEnabled = false;
+        }
+      });
+      // Window Events
+      query(window).on("resize", function() {
+        setPanelVisibility();
+      })
+      // Panel show/hide
+      function setPanelVisibility() {
+        if (app.activeView.popup.visible && app.activeView.popup.currentDockPosition && !(window.innerWidth > 544 && window.innerWidth < 768)) {
+          if (query(".calcite-panels .panel.in").length > 0) {
+            query(".calcite-panels").addClass("invisible");
+          } else {
+            query(".calcite-panels").removeClass("invisible");
+          }
+        } else {
+          query(".calcite-panels").removeClass("invisible");
+        }
+      }
+     // Tab Events (Views)
+      query(".calcite-navbar li a[data-toggle='tab']").on("click", function(e) {
+        syncTabs(e);
+        if (e.target.text.indexOf("Map") > -1) {
+          syncViews(app.sceneView, app.mapView);
+          app.activeView = app.mapView;
+        } else {
+          syncViews(app.mapView, app.sceneView);
+          app.activeView = app.sceneView;
+        }
+        syncSearch();
+      });
+      // Tab
+      function syncTabs(e) {
+        query(".calcite-navbar li.active").removeClass("active");
+        query(e.target).addClass("active");
+      }
+       // View
+      function syncViews(fromView, toView) {
+        watchUtils.whenTrueOnce(toView, "ready").then(function(result) {
+          watchUtils.whenTrueOnce(toView, "stationary").then(function(result) {
+            toView.goTo(fromView.viewpoint);
+            toView.popup.reposition();
+          });
+        });
+      }
+      // Search
+      function syncSearch() {
+        app.searchWidgetNav.viewModel.view = app.activeView;
+        // Sync
+        if (app.searchWidgetNav.selectedResult) {
+          app.searchWidgetNav.search(app.searchWidgetNav.selectedResult.name);
+        }
+        app.activeView.popup.reposition();
+      }
+      // Basemap events
+      query("#selectBasemapPanel").on("change", function(e){
+        app.mapView.map.basemap = e.target.options[e.target.selectedIndex].dataset.vector;
+        app.sceneView.map.basemap = e.target.value;
+      });
+      // Collapsible popup (optional)
+      query(".esri-popup .esri-title").on("click", function(e){
+        query(".esri-popup .esri-container").toggleClass("esri-popup-collapsed");
+        app.activeView.popup.reposition();
+      });
+      // Home
+      query(".calcite-navbar .navbar-brand").on("click", function(e) {
+        app.activeView.goTo({target: app.initialExtent, rotation: 0});
+      })
+    });
+      $(function () {
+
+    $('.toggle').click(function (event) {
+        event.preventDefault();
+        $('#filtercont').toggleClass('hidden show');
+        $('#filterNav2').toggleClass('active');
+    });
+    $(document).ready(function() {
+        $('#nameselect').multiselect({
+            includeSelectAllOption: true,
+            maxHeight: 300
+        });
+        $('#daterange').daterangepicker();
+    });
+
+});
+  </script>
+
+
+
+</body>
+</html>

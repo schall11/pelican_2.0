@@ -1,0 +1,174 @@
+// ┌───────────────┐
+// │ Calicte Panel │
+// └───────────────┘
+//
+// Styling for panels, panel, title and body
+
+.calcite-panels {
+
+  &.panel-group {
+    margin-bottom: 0;
+  }
+
+  .panel {
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+    font-size: $panel_font_size;
+    background-color: inherit;
+  }
+
+  .panel + .panel {
+    margin-top: 0;
+  }
+
+  // Heading
+  
+  .panel-heading {
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .panel-title {
+    display: flex;
+    font-size: $panel_title_font_size;
+    font-weight: $panel_title_font_weight;  
+  }
+
+  .panel-toggle {
+    flex: 1;
+    padding: 9px 10px 8px;
+    text-decoration: none;
+    .glyphicon {
+      top: 2px;
+      margin: 0;
+    }
+  }
+
+  .panel-close {
+    padding: 10px 10px 8px;
+    font-size: $panel_font_size - 1;
+    text-decoration: none;
+  }
+
+  // Body - specific Bootstrap overrides for map apps
+
+  .panel-heading + .panel-collapse > .panel-body {
+    border-top: none;
+  }
+
+  .panel-body {
+    padding: 15px;
+    min-height: $panel_body_min_height;
+    max-height: $panel_body_max_height;
+    font-size: $panel_font_size;
+    overflow: auto;
+
+    // Elements formatted slightly smaller for map apps
+
+    button {
+      font-size: $panel_font_size;
+    }
+
+    input, 
+    select, 
+    textarea,
+    select {
+      font-size: $panel_font_size;
+    }
+
+    select {
+      -webkit-appearance: none;
+      appearance: none;
+      -moz-appearance: none;
+      //background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGcgZmlsbD0iIzU5NTk1OSI+PHBhdGggZD0iTTU2Ljc1IDM3LjQ2NmMuNDI1LjQyNS41NTIgMS4wNjMuMzIyIDEuNjE4LS4yMy41NTUtLjc3LjkxNi0xLjM3Mi45MTZINi4zYy0uNiAwLTEuMTQzLS4zNjItMS4zNzItLjkxNy0uMjMtLjU1NS0uMTAzLTEuMTkzLjMyMi0xLjYxOGwyMy40NC0yMy40NGMxLjI3Ni0xLjI3NiAzLjM0My0xLjI3NiA0LjYyIDBsMjMuNDQgMjMuNDR6TTUuMjUgNjIuNTM0Yy0uNDI2LS40MjUtLjU1My0xLjA2My0uMzIzLTEuNjE4LjIzLS41NTUuNzctLjkxNiAxLjM3LS45MTZoNDkuNDA0Yy42MDIgMCAxLjE0My4zNiAxLjM3My45MTYuMjMuNTU1LjEwMyAxLjE5My0uMzIyIDEuNjE4TDMzLjMxIDg1Ljk3N2MtMS4yNzUgMS4yNzUtMy4zNDQgMS4yNzQtNC42MiAwTDUuMjUgNjIuNTM0eiIvPjwvZz48L3N2Zz4=");
+      //background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMTAwcHgiIGhlaWdodD0iMTAwcHgiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMDAgMTAwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxwYXRoIGZpbGw9IiNGOEY4RjgiIGQ9Ik01Ni43NSwzNy40NjZjMC40MjUsMC40MjUsMC41NTIsMS4wNjMsMC4zMjIsMS42MThDNTYuODQyLDM5LjYzOSw1Ni4zMDIsNDAsNTUuNyw0MEg2LjMNCgkJYy0wLjYsMC0xLjE0My0wLjM2Mi0xLjM3Mi0wLjkxN2MtMC4yMy0wLjU1NS0wLjEwMy0xLjE5MywwLjMyMi0xLjYxOGwyMy40NC0yMy40NGMxLjI3Ni0xLjI3NiwzLjM0My0xLjI3Niw0LjYyLDBMNTYuNzUsMzcuNDY2DQoJCUw1Ni43NSwzNy40NjZ6IE01LjI1LDYyLjUzNGMtMC40MjYtMC40MjUtMC41NTMtMS4wNjMtMC4zMjMtMS42MThDNS4xNTcsNjAuMzYxLDUuNjk3LDYwLDYuMjk3LDYwaDQ5LjQwNA0KCQljMC42MDIsMCwxLjE0MywwLjM1OSwxLjM3MywwLjkxNmMwLjIzLDAuNTU1LDAuMTAzLDEuMTkzLTAuMzIyLDEuNjE4TDMzLjMxLDg1Ljk3N2MtMS4yNzUsMS4yNzUtMy4zNDQsMS4yNzQtNC42MiwwTDUuMjUsNjIuNTM0eiINCgkJLz4NCjwvZz4NCjwvc3ZnPg0K");
+      background-position: center right;
+      background-repeat: no-repeat;
+      background-size: 18px;
+      outline: none;
+      padding-right: 22px;
+    }
+
+    //
+
+    .form-control {
+      height: $panel_form_control_height;
+      padding: 4px 8px;
+    }
+
+    select.form-control {
+      padding: 4px 22px 4px 8px;
+    }
+
+    .calcite-form-title {
+      padding: 20px 0 5px;
+    }
+    .calcite-form-padding {
+      padding: 15px 0 0;
+    }
+    .nav-tabs > li > a {
+      padding: 6px 12px 4px;
+    }
+    .nav-tabs > li > a:hover,
+    .nav-tabs > li > a:focus, {
+      padding-top: 5px;
+      border-top: 2px solid;
+      border-bottom-color: transparent;
+    }
+  }
+
+  // Auto expand
+
+  .calcite-body-expander {
+    min-height: $panel_body_min_height;
+    -webkit-transition: min-height 0.25s ease-out;
+    -o-transition: min-height 0.25s ease-out;
+    transition: min-height 0.25s ease-out;
+  }
+
+  .calcite-body-expander:focus,
+  .calcite-body-expander:hover {
+    min-height: $panel_body_max_height_expanded;
+    -webkit-transition: min-height 0.25s ease-out;
+    -o-transition: min-height 0.25s ease-out;
+    transition: min-height 0.25s ease-out;
+  }
+
+  // Expand
+
+  .calcite-body-expanded {
+    height: $panel_body_max_height_expanded;
+    -webkit-transition: height 0.25s ease-out;
+    -o-transition: height 0.25s ease-out;
+    transition: height 0.25s ease-out;
+  }
+
+  // Panel animation (entire panel)
+
+  .panel.collapsing {
+    // -webkit-transition: none;
+    // transition: none;
+    -webkit-transition: height 0.01s ease-out;
+    -o-transition: height 0.01s ease-out;
+    transition: height 0.01s ease-out;
+  }
+
+  // Panel body animation
+
+  .panel-collapse.collapsing {
+    -webkit-transition: height 0.35s ease-out;
+    -o-transition: height 0.35s ease-out;
+    transition: height 0.35s ease-out;
+  }
+}
+
+// Mobile screens
+
+@media (max-height: $panels_breakpoint_height_mobile) { 
+  .calcite-panels {
+    .panel-body {
+      max-height: $panel_body_max_height_mobile;
+    }
+  }
+}

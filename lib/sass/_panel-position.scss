@@ -1,0 +1,104 @@
+// ┌──────────────────────────┐
+// │ Calicte Panel - Position │
+// └──────────────────────────┘
+//
+// Top and bottom positions - top right on desktop, bottom full width on mobile
+
+.calcite-panels {
+  position: absolute;
+  top: $panel_position_top;
+  right: $panel_position_right;
+  width: $panel_width;
+  // z-index: 50;
+}
+
+&.calcite-panels-right {
+  .calcite-panels {
+    left: auto;
+    right: $panel_position_right;
+  }
+}
+
+&.calcite-panels-left {
+  .calcite-panels {
+    left: $panel_position_left;
+    right: auto;
+  }
+}
+
+// Navbar - Top 
+
+&.calcite-nav-top,
+&.calcite-nav-top-fixed {
+  .calcite-panels {
+    top: $panel_position_top + $navbar_height;
+  }
+}
+
+&.calcite-nav-top.calcite-margin-top, 
+&.calcite-nav-top.calcite-margin-all {
+  .calcite-panels {
+    top: $panel_position_top + $navbar_height + $base_ui_margin;
+  }
+}
+
+// Navbar - Bottom
+
+&.calcite-nav-bottom,
+&.calcite-nav-bottom-fixed,
+&.calcite-nav-bottom.calcite-margin-bottom,
+&.calcite-nav-bottom.calcite-margin-all {
+  .calcite-panels {
+    top: $panel_position_top + $base_ui_margin;
+  }
+}
+
+// Mobile screens
+
+@media (max-width: $panels_breakpoint_width_mobile) {
+
+  // Panel - Reset
+
+  .calcite-panels,
+  &.calcite-panels-right .calcite-panels,
+  &.calcite-panels-left .calcite-panels {
+    right: 0;
+    left: 0;
+    width: $panel_width_mobile;
+  }
+
+  // Navbar - Top
+
+  &.calcite-nav-top,
+  &.calcite-nav-top-fixed,
+  &.calcite-nav-top.calcite-margin-top, 
+  &.calcite-nav-top.calcite-margin-all {
+    .calcite-panels {
+      top: auto;
+      bottom: 0;
+    }
+  }
+
+  // Navbar - Bottom
+
+  &.calcite-nav-bottom,
+  &.calcite-nav-bottom-fixed, 
+  &.calcite-nav-bottom.calcite-margin-bottom,
+  &.calcite-nav-bottom.calcite-margin-all {
+    .calcite-panels {
+      top: auto;
+      bottom: $navbar_height;
+    }
+  }
+
+  // Navbar - Top/bottom + margin all
+
+  &.calcite-nav-top.calcite-margin-all,
+  &.calcite-nav-bottom.calcite-margin-all {
+    .calcite-panels {
+      margin: auto $base_ui_margin ($base_ui_margin * 2) $base_ui_margin;
+      width: auto;
+    }
+  }  
+}
+
