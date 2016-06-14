@@ -360,12 +360,38 @@
         $('#filtercont').toggleClass('hidden show');
         $('#filterNav2').toggleClass('active');
     });
+
+      var today = new Date();
+
     $(document).ready(function() {
         $('#nameselect').multiselect({
             includeSelectAllOption: true,
             maxHeight: 300
         });
-        $('#daterange').daterangepicker();
+        $('#daterange').daterangepicker({
+    "ranges": {
+        "Last 7 Days": [
+            today,
+            today.setDate(today.getDate()-7)
+        ],
+        "Last 30 Days": [
+            today,
+            today.setDate(today.getDate()-30)
+        ],
+        "Last Southern Migration": [
+            today,
+            today.setDate(today.getDate()-180)
+        ],
+        "Last Northern Migration": [
+            today,
+            today.setDate(today.getDate()-365)
+        ]
+    },
+    "startDate": today,
+    "endDate": today.setDate(today.getDate()-7)
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+});
     });
 
 });
