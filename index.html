@@ -30,6 +30,7 @@
     <script type="text/javascript" src="dist/js/bootstrap_multiselect/bootstrap-multiselect.js"></script>
     <link rel="stylesheet" href="dist/css/bootstrap_multiselect/bootstrap-multiselect.css" type="text/css"/>
 
+
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <!--script src="../../assets/js/ie10-viewport-bug-workaround.js"></script-->
 
@@ -42,6 +43,7 @@
       padding: 0;
       height: 100%;
     }
+
   </style>
 
 </head>
@@ -50,7 +52,7 @@
 
   <!-- Navbar -->
 
-  <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75">
+  <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75 dropup">
     <!-- Header -->
     <div class="navbar-header">
       <a class="navbar-brand"><span class="esri-icon esri-icon-map-pin"></span></a>
@@ -63,17 +65,16 @@
      <!-- Nav -->
     <ul class="nav navbar-nav">
       <li><a id="mapNav" href="#legend" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm"> Toggle Legend</span> </a></li>
-      <li><a id="sceneNav" href="#basemapselect" aria-controls="3Dtab" role="tab"  data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a></li>
+      <li><a aria-controls="3Dtab" role="button" data-target="#panelBasemaps" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a>
+
+      </li>
         <li id = "filterNav2" style ="cursor:pointer;"><a id ="filterNav" class="toggle " role ="tab" title="Filter Data" data-tooltip="tip" data-placement="bottom">
             <span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm">  Filter Data</span>
         </a></li>
     </ul>
-    <!-- Dropdown -->
 
 
 
-	</div>
-</div>
   </nav><!--/.navbar -->
 
 
@@ -84,43 +85,46 @@
     <div id="tabContainer" class="tab-content">
       <div id="2dTab" class="tab-pane fade in active" role="tabpanel">
          <div id ="filtercont" class="container hidden" style="width:100%;">
-	<div class="row">
-        <div id="filter-panel" class="filter-panel ">
-            <div class="panel panel-default">
-                <div class="panel-body" style = "background-color:#333333; color: white;">
-                    <form class="form-inline" role="form">
-                        <div class="form-group">
-                            <label class="filter-col" style="margin-left:20px;" for="nameselect">Filter by Bird:</label>
-                            <select id="nameselect" class="form-control input-sm" multiple="multiple">
-                                <option value="2">Annabelle</option>
-                                <option value="3">Barnabus</option>
-                                <option value="4">Chester</option>
-                                <option value="5">Daphne</option>
-                                <option value="6">George</option>
-                                <option value="7">Wilma</option>
-                                <option value="8">Gertrude</option>
-                                <option value="9">Bill</option>
-                                <option value="10">Ranger</option>
-                            </select>
-                        </div> <!-- form group [rows] -->
-                        <div class="form-group">
-                            <label class="filter-col" style="margin-left:20px;" for="daterange">Filter by Date:</label>
-                            <input type="text" class="form-control input-sm" id="daterange">
-                        </div><!-- form group [search] -->
-                        <div class="form-group">
-                            <div class="checkbox" style="margin-left:20px;">
-                                <label><input type="checkbox"> Show Track Lines</label>
-                            </div>
-                            <button type="submit" class="btn btn-default filter-col" style="margin-left:20px;>
-                                <span class="glyphicon glyphicon-record"></span>    Apply
-                            </button>
+            <div class="row">
+                <div id="filter-panel" class="filter-panel ">
+                    <div class="panel panel-default">
+                        <div class="panel-body" style = "background-color:#333333; color: white;">
+                            <form class="form-inline" role="form">
+                                <div class="form-group">
+                                    <label class="filter-col" style="margin-left:20px;" for="nameselect">Filter by Name: </label>
+                                    <select id="nameselect" class="form-control input-sm" multiple="multiple">
+                                        <option value="2">Annabelle</option>
+                                        <option value="3">Barnabus</option>
+                                        <option value="4">Chester</option>
+                                        <option value="5">Daphne</option>
+                                        <option value="6">George</option>
+                                        <option value="7">Wilma</option>
+                                        <option value="8">Gertrude</option>
+                                        <option value="9">Bill</option>
+                                        <option value="10">Ranger</option>
+                                    </select>
+                                </div> <!-- form group [rows] -->
+                                <div class="form-group">
+                                    <label class="filter-col" style="margin-left:20px;" for="daterange">Filter by Date: </label>
+                                    <input type="text" class="form-control input-sm" id="daterange" placeholder="No Date Range Chosen">
+                                </div><!-- form group [search] -->
+                                <div class="form-group">
+                                    <div class="checkbox" style="margin-left:20px;">
+                                        <label><input type="checkbox"> Show Track Lines</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-default filter-col" style="margin-left:20px;>
+                                        <span class="glyphicon glyphicon-record"></span>    Apply
+                                    </button>
+                                    <button id = 'resetBtn' type="button" class="btn btn-default filter-col" style="margin-left:20px;>
+                                        <span class="glyphicon glyphicon-record"></span>    Reset Filters
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div>
-        </div>
-     </div>
+                </div>
+             </div>
           <div id="mapViewDiv"></div>
       </div>
       <div id="3dTab" class="tab-pane fade" role="tabpanel">
@@ -130,63 +134,27 @@
   </div>
 
   <!-- Panel Container -->
-
-
-
-    <!-- Info Panel -->
-
-    <div id="panelInfo" class="panel collapse">
-      <div id="headingInfo" class="panel-heading" role="tab">
-        <div class="panel-title">
-          <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo"  aria-expanded="true" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Info</a>
-          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
-        </div>
-      </div>
-      <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInfo">
-        <div class="panel-body">
-          <p>This is a great place to describe what your application is about.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Search Panel -->
-
-    <div id="panelSearch" class="panel collapse hidden-sm hidden-md hidden-lg">
-      <div id="headingSearch" class="panel-heading" role="tab">
-        <div class="panel-title">
-          <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseSearch"  aria-expanded="false" aria-controls="collapseSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</a>
-          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelSearch"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
-        </div>
-      </div>
-      <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSearch">
-        <div class="panel-body calcite-body-expander">
-          <div id="searchPanelDiv"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Basemaps Panel -->
-
-    <div id="panelBasemaps" class="panel collapse">
+<div class="calcite-panels calcite-bg-light calcite-text-dark panel-group" role="tablist" aria-multiselectable="true">
+    <div id="panelBasemaps" class="panel">
       <div id="headingBasemaps" class="panel-heading" role="tab">
         <div class="panel-title">
           <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps" aria-expanded="false"   aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Basemaps</a>
           <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelBasemaps"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
         </div>
       </div>
-      <div id="collapseBasemaps" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBasemaps">
+      <div id="collapseBasemaps" class="panel" role="tabpanel" aria-labelledby="headingBasemaps">
         <div class="panel-body">
           <select id="selectBasemapPanel" class="form-control">
-            <option value="streets" data-vector="vector-streets">Streets</option>
-            <option value="satellite" data-vector="satellite" selected>Satellite</option>
+            <option value="streets" data-vector="streets-vector">Streets</option>
+            <option value="satellite" data-vector="satellite" selected="">Satellite</option>
             <option value="hybrid" data-vector="hybrid">Hybrid</option>
             <option value="national-geographic" data-vector="national-geographic">National Geographic</option>
-            <option value="topo" data-vector="vector-streets-relief">Topographic</option>
-            <option value="gray" data-vector="vector-canvas-light">Gray</option>
-            <option value="dark-gray" data-vector="vector-canvas-dark">Dark Gray</option>
+            <option value="topo" data-vector="topo-vector">Topographic</option>
+            <option value="gray" data-vector="gray-vector">Gray</option>
+            <option value="dark-gray" data-vector="dark-gray-vector">Dark Gray</option>
             <option value="osm" data-vector="osm">Open Street Map</option>
-            <option value="dark-gray" data-vector="vector-streets-night">Streets Night</option>
-            <option value="streets" data-vector="vector-streets-mobile">Streets Mobile</option>
+            <option value="dark-gray" data-vector="streets-night-vector">Streets Night</option>
+            <option value="streets" data-vector="streets-navigation-vector">Streets Mobile</option>
           </select>
         </div>
       </div>
@@ -353,7 +321,14 @@
         app.activeView.goTo({target: app.initialExtent, rotation: 0});
       })
     });
-      $(function () {
+
+    $('#resetBtn').click(function (event) {
+        event.preventDefault();
+        $('#daterange').val('');
+        $('#nameselect').multiselect("clearSelection");
+    });
+
+    $(function () {
 
     $('.toggle').click(function (event) {
         event.preventDefault();
@@ -361,38 +336,68 @@
         $('#filterNav2').toggleClass('active');
     });
 
-      var today = new Date();
-
+    var today = new Date();
+          var week = new Date().setDate(today.getDate()-7);
+          console.log(week);
+          var month =  new Date().setDate(today.getDate()-31);
+          var year = new Date().setDate(today.getDate()-365);
+    console.log(today);
     $(document).ready(function() {
         $('#nameselect').multiselect({
             includeSelectAllOption: true,
             maxHeight: 300
         });
+
         $('#daterange').daterangepicker({
+     autoUpdateInput: false,
+            locale: {
+          cancelLabel: 'Clear'
+      },
+            "showDropdowns": true,
+    "timePicker": true,
+    "autoApply": true,
     "ranges": {
         "Last 7 Days": [
-            today,
-            today.setDate(today.getDate()-7)
+            week,
+            today
         ],
         "Last 30 Days": [
-            today,
-            today.setDate(today.getDate()-30)
+            month,
+            today
+        ],
+        "Last Year": [
+            year,
+            today
         ],
         "Last Southern Migration": [
-            today,
-            today.setDate(today.getDate()-180)
+            new Date().setDate(today.getDate()-180),
+            today
         ],
         "Last Northern Migration": [
-            today,
-            today.setDate(today.getDate()-365)
+            new Date().setDate(today.getDate()-365),
+                today
         ]
     },
-    "startDate": today,
-    "endDate": today.setDate(today.getDate()-7)
+    "opens": "center"
 }, function(start, end, label) {
-  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+  console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
 });
+
+
+        $(function() {
+  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+  });
+
+  $('#daterange').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+  });
+
+});
+        var drp = $('#daterange').data('daterangepicker');
+          console.log(drp);
     });
+
 
 });
   </script>
