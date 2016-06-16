@@ -70,13 +70,12 @@
     </div>
      <!-- Nav -->
     <ul class="nav navbar-nav">
-      <li><a id="mapNav" href="#legend" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm"> Toggle Legend</span> </a></li>
-      <li id ="basemapNav2" style="cursor:pointer;"><a id="filterNav" aria-controls="BasemapTab" role="tab" class="toggle" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a>
-
-      </li>
         <li id = "filterNav2" style ="cursor:pointer;"><a id ="filterNav" class="toggle " role ="tab" title="Filter Data" data-tooltip="tip" data-placement="bottom">
             <span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm">  Filter Data</span>
         </a></li>
+        <li id = "legendNav" style="cursor:pointer;"><a id="legendNav2" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm"> Toggle Legend</span> </a></li>
+      <li id ="basemapNav2" style="cursor:pointer;"><a id="basemapNav" aria-controls="BasemapTab" role="tab" class="toggle" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a>
+      </li>
     </ul>
 
 
@@ -413,6 +412,11 @@
             event.preventDefault();
             $('#panelBasemaps').toggleClass('hidden show');
             $('#basemapNav2').toggleClass('active');
+        });
+        $('li#legendNav').click(function (event) {
+            event.preventDefault();
+            $('.esri-legend').toggleClass('hidden show');
+            $('#legendNav').toggleClass('active');
         });
 
     $(
