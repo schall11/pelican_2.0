@@ -43,7 +43,12 @@
       padding: 0;
       height: 100%;
     }
-
+    .esri-legend{
+        max-width: 30px;
+        background-color: #333333;
+        color: white;
+        border: 1px solid #4c4c4c;
+    }
 
   </style>
 
@@ -109,7 +114,7 @@
                                 </div> <!-- form group [rows] -->
                                 <div class="form-group">
                                     <label class="filter-col" for="daterange">Filter by Date: </label>
-                                    <input type="text" class="form-control input-sm" id="daterange" placeholder="No Date Range Chosen">
+                                    <input type="text" class="form-control input-sm" id="daterange" placeholder="Most Recent Points Shown">
                                 </div><!-- form group [search] -->
                                 <div class="form-group">
                                     <!--<div class="checkbox" style="margin-left:20px;">
@@ -177,15 +182,19 @@
       "esri/views/SceneView",
       "esri/widgets/Search",
         "esri/layers/FeatureLayer",
+            "esri/widgets/Popup",
+		"esri/PopupTemplate",
+            "esri/widgets/Legend",
       "esri/core/watchUtils",
       "dojo/query",
       "dojo/domReady!"
-    ], function(Map, Basemap, MapView, SceneView, Search,FeatureLayer, watchUtils, query) {
+    ], function(Map, Basemap, MapView, SceneView, Search,FeatureLayer,Popup, PopupTemplate,Legend, watchUtils, query) {
 
         // App
         app = {
             scale: 50000000,
-            center: [-40, 40],
+            center: [-111.95, 39.419],
+            zoom: 5,
             initialExtent: null,
             basemap: "dark-gray",
             viewPadding: {
@@ -206,23 +215,62 @@
         app.mapView = new MapView({
             container: "mapViewDiv",
             map: map,
-            scale: app.scale,
+            zoom: app.zoom,
             center: app.center,
             padding: app.viewPadding,
             ui: {
                 components: ["zoom", "compass"],
                 padding: app.uiPadding
+            },
+            popup:{
+                dockEnabled: true,
+                dockOptions: {
+                    buttonEnabled: true,
+                    breakpoint:true,
+                    position: 'top-center'
+                }
             }
         });
+        //app.mapView.zoom =6;
+        var template = new PopupTemplate({
+        title: "{ptt_id}",
+        content: "Seen here on {Date_time}",
+        fieldInfos: [{
+			fieldName: "Date_time",
+			label: "Date",
+			format:{
+                dateFormat: 'short-date-short-time'
+            }
+		  }, {
+			fieldName: "ptt_id",
+			label: "ID",
+			visible: true
+		  }
+		  ]
+		  });
+
+        console.log(app.mapView.popup.ViewModel);
+
         var mrp = new FeatureLayer ({
-            url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data_MRP/MapServer'
+            url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data_MRP/MapServer/0',
+            outFields: ["*"],
+            popupTemplate: template
         });
         var fl = new FeatureLayer({
-            url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0"
+            url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0",
+            outFields: ["*"],
+            popupTemplate: template
         });
         fl.load();
         map.add(mrp);
-
+        var legend = new Legend({
+            view: app.mapView,
+            layerInfos: [{
+                title: "Legend",
+                layer: mrp
+            }]
+         });
+        app.mapView.ui.add(legend, "bottom-left");
         // Scene
         var mapScene = new Map({
             basemap: app.basemap,
@@ -243,6 +291,9 @@
             app.initialExtent = app.activeView.extent;
         });
         // Search
+
+
+
         app.searchWidgetNav = createSearchWidget("searchNavDiv");
         function createSearchWidget(parentId) {
             var search = new Search({
@@ -366,17 +417,21 @@
 
     $(
             document).ready(function() {
-        $(
-                '#nameselect').multiselect({
+        $('#nameselect').multiselect({
             includeSelectAllOption: true,
             maxHeight: 400, dropUp:true
         });
+        $("#nameselect").multiselect('selectAll', false);
+        $("#nameselect").multiselect('updateButtonText');
+
         function cb(start, end) {
         $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     }
     cb(moment().subtract(29, 'days'), moment());
 
     $('#daterange').daterangepicker({
+        "startDate": moment().subtract(6, 'days'),
+        "endDate": moment(),
         autoUpdateInput: false,
         locale: {
           cancelLabel: 'Clear'
@@ -386,13 +441,17 @@
            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
            'This Month': [moment().startOf('month'), moment().endOf('month')],
            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }, "drops":"up"},
+        },
+        "drops":"up",
+        "opens":"center"
+    },
         function(start, end, label) {
             console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
                 startDate = start;
                 endDate = end;
         }
     );
+
         /* $('#daterange').daterangepicker({
      autoUpdateInput: false,
             locale: {
@@ -491,7 +550,7 @@
 });
         var drp = $('#daterange').data(
                 'daterangepicker');
-          console.log(drp);
+          console.log(drp.startDate_d);
     });
 
 });
