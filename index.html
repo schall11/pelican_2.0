@@ -230,7 +230,6 @@
                 }
             }
         });
-        //app.mapView.zoom =6;
         var template = new PopupTemplate({
         title: "{ptt_id}",
         content: "Seen here on {Date_time}",
@@ -265,10 +264,15 @@
         var legend = new Legend({
             view: app.mapView,
             layerInfos: [{
-                title: "Legend",
-                layer: mrp
-            }]
+                layer: mrp,
+                title: "Tracked Pelicans"
+            },
+                {
+                    layer: fl,
+                    title: "Tracked Pelicans"
+                }]
          });
+        legend.startup();
         app.mapView.ui.add(legend, "bottom-left");
         // Scene
         var mapScene = new Map({
