@@ -44,6 +44,7 @@
       height: 100%;
     }
 
+
   </style>
 
 </head>
@@ -65,7 +66,7 @@
      <!-- Nav -->
     <ul class="nav navbar-nav">
       <li><a id="mapNav" href="#legend" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm"> Toggle Legend</span> </a></li>
-      <li><a aria-controls="3Dtab" role="button" data-target="#panelBasemaps" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a>
+      <li id ="basemapNav2" style="cursor:pointer;"><a id="filterNav" aria-controls="BasemapTab" role="tab" class="toggle" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a>
 
       </li>
         <li id = "filterNav2" style ="cursor:pointer;"><a id ="filterNav" class="toggle " role ="tab" title="Filter Data" data-tooltip="tip" data-placement="bottom">
@@ -84,38 +85,40 @@
   <div class="calcite-map calcite-map-absolute calcite-overflow-hidden">
     <div id="tabContainer" class="tab-content">
       <div id="2dTab" class="tab-pane fade in active" role="tabpanel">
-         <div id ="filtercont" class="container hidden" style="width:100%;">
+         <div id ="filtercont" class="container-fluid hidden " style="width:100%;">
             <div class="row">
-                <div id="filter-panel" class="filter-panel ">
+                <div id="filter-panel" class="filter-panel calcite-text-light calcite-bg-dark calcite-black-75" style="position:absolute;bottom:65px;z-index:1; width:100%; display:inline-block;text-align:center">
                     <div class="panel panel-default">
                         <div class="panel-body" style = "background-color:#333333; color: white;">
-                            <form class="form-inline" role="form">
+                            <form class="form-inline" role="form" style="padding-top:20px;">
                                 <div class="form-group">
-                                    <label class="filter-col" style="margin-left:20px;" for="nameselect">Filter by Name: </label>
+                                    <label class="filter-col" for="nameselect">Filter by Name: </label>
                                     <select id="nameselect" class="form-control input-sm" multiple="multiple">
-                                        <option value="2">Annabelle</option>
-                                        <option value="3">Barnabus</option>
-                                        <option value="4">Chester</option>
-                                        <option value="5">Daphne</option>
-                                        <option value="6">George</option>
-                                        <option value="7">Wilma</option>
-                                        <option value="8">Gertrude</option>
-                                        <option value="9">Bill</option>
-                                        <option value="10">Ranger</option>
+                                        <option value="141566">Abigail</option>
+                                        <option value="141556">Annabelle</option>
+                                        <option value="141557">Barnabus</option>
+                                        <option value="141568">Bartholomew</option>
+                                        <option value="141567">Cecilia</option>
+                                        <option value="141558">Chester</option>
+                                        <option value="141559">Daphne</option>
+                                        <option value="141569">Derek</option>
+                                        <option value="141560">Eleanor</option>
+                                        <option value="141553">Finnigan</option>
+                                        <option value="141554">George</option>
                                     </select>
                                 </div> <!-- form group [rows] -->
                                 <div class="form-group">
-                                    <label class="filter-col" style="margin-left:20px;" for="daterange">Filter by Date: </label>
+                                    <label class="filter-col" for="daterange">Filter by Date: </label>
                                     <input type="text" class="form-control input-sm" id="daterange" placeholder="No Date Range Chosen">
                                 </div><!-- form group [search] -->
                                 <div class="form-group">
-                                    <div class="checkbox" style="margin-left:20px;">
+                                    <!--<div class="checkbox" style="margin-left:20px;">
                                         <label><input type="checkbox"> Show Track Lines</label>
-                                    </div>
-                                    <button type="submit" class="btn btn-default filter-col" style="margin-left:20px;>
+                                    </div>-->
+                                    <button id ='applyBtn' type="button" class="btn btn-default filter-col">
                                         <span class="glyphicon glyphicon-record"></span>    Apply
                                     </button>
-                                    <button id = 'resetBtn' type="button" class="btn btn-default filter-col" style="margin-left:20px;>
+                                    <button id = 'resetBtn' type="button" class="btn btn-default filter-col">
                                         <span class="glyphicon glyphicon-record"></span>    Reset Filters
                                     </button>
                                 </div>
@@ -134,8 +137,8 @@
   </div>
 
   <!-- Panel Container -->
-<div class="calcite-panels calcite-bg-light calcite-text-dark panel-group" role="tablist" aria-multiselectable="true">
-    <div id="panelBasemaps" class="panel">
+<div class="calcite-panels calcite-text-light calcite-bg-dark calcite-black-75 panel-group" role="tablist" aria-multiselectable="true" style="z-index:2;">
+    <div id="panelBasemaps" class="panel hidden">
       <div id="headingBasemaps" class="panel-heading" role="tab">
         <div class="panel-title">
           <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps" aria-expanded="false"   aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Basemaps</a>
@@ -144,7 +147,7 @@
       </div>
       <div id="collapseBasemaps" class="panel" role="tabpanel" aria-labelledby="headingBasemaps">
         <div class="panel-body">
-          <select id="selectBasemapPanel" class="form-control">
+          <select id="selectBasemapPanel" class="form-control" style="background-color:white;color:black">
             <option value="streets" data-vector="streets-vector">Streets</option>
             <option value="satellite" data-vector="satellite" selected="">Satellite</option>
             <option value="hybrid" data-vector="hybrid">Hybrid</option>
@@ -166,189 +169,226 @@
 
   <script>
     var app;
+    var startDate;
+    var endDate;
     require(["esri/Map",
       "esri/Basemap",
       "esri/views/MapView",
       "esri/views/SceneView",
       "esri/widgets/Search",
+        "esri/layers/FeatureLayer",
       "esri/core/watchUtils",
       "dojo/query",
       "dojo/domReady!"
-    ], function(Map, Basemap, MapView, SceneView, Search, watchUtils, query) {
+    ], function(Map, Basemap, MapView, SceneView, Search,FeatureLayer, watchUtils, query) {
 
-      // App
-      app = {
-        scale: 50000000,
-        center: [-40,40],
-        initialExtent: null,
-        basemap: "dark-gray",
-        viewPadding: {
-          bottom: 65
-        },
-        uiPadding: {
-          top: 30, bottom: 15
-        },
-        mapView: null,
-        sceneView: null,
-        activeView: null,
-        searchWidgetNav: null
-      };
-      // Map
-      var map = new Map({
-        basemap: app.basemap
-      });
-      app.mapView = new MapView({
-        container: "mapViewDiv",
-        map: map,
-        scale: app.scale,
-        center: app.center,
-        padding: app.viewPadding,
-        ui: {
-          components: ["zoom", "compass"],
-          padding: app.uiPadding
-        }
-      });
-
-      // Scene
-      var mapScene = new Map({
-        basemap: app.basemap,
-        ground: "world-elevation"
-      });
-      app.sceneView = new SceneView({
-        container: "sceneViewDiv",
-        map: mapScene,
-        scale: app.scale,
-        center: app.center,
-        padding: app.viewPadding,
-        ui: {
-          padding: app.uiPadding
-        }
-      });
-      app.activeView = app.mapView;
-      app.activeView.then(function() {
-        app.initialExtent = app.activeView.extent;
-      });
-      // Search
-      app.searchWidgetNav = createSearchWidget("searchNavDiv");
-      function createSearchWidget(parentId) {
-        var search = new Search({
-          viewModel: {
-            view: app.activeView,
-            highlightEnabled: false,
-            popupEnabled: true,
-            showPopupOnSelect: true
-          }
-          }, parentId);
-        search.startup();
-        return search;
-      }
-      // Popup Events
-      app.mapView.popup.watch("currentDockPosition", function(result) {
-        setPanelVisibility();
-      });
-      app.sceneView.popup.watch("currentDockPosition", function(result) {
-        setPanelVisibility();
-      });
-      // Panel Events
-      query(".calcite-panels .panel").on("show.bs.collapse", function(e) {
-        if (app.activeView.popup.currentDockPosition) {
-          app.activeView.popup.dockEnabled = false;
-        }
-      });
-      // Window Events
-      query(window).on("resize", function() {
-        setPanelVisibility();
-      })
-      // Panel show/hide
-      function setPanelVisibility() {
-        if (app.activeView.popup.visible && app.activeView.popup.currentDockPosition && !(window.innerWidth > 544 && window.innerWidth < 768)) {
-          if (query(".calcite-panels .panel.in").length > 0) {
-            query(".calcite-panels").addClass("invisible");
-          } else {
-            query(".calcite-panels").removeClass("invisible");
-          }
-        } else {
-          query(".calcite-panels").removeClass("invisible");
-        }
-      }
-     // Tab Events (Views)
-      query(".calcite-navbar li a[data-toggle='tab']").on("click", function(e) {
-        syncTabs(e);
-        if (e.target.text.indexOf("Map") > -1) {
-          syncViews(app.sceneView, app.mapView);
-          app.activeView = app.mapView;
-        } else {
-          syncViews(app.mapView, app.sceneView);
-          app.activeView = app.sceneView;
-        }
-        syncSearch();
-      });
-      // Tab
-      function syncTabs(e) {
-        query(".calcite-navbar li.active").removeClass("active");
-        query(e.target).addClass("active");
-      }
-       // View
-      function syncViews(fromView, toView) {
-        watchUtils.whenTrueOnce(toView, "ready").then(function(result) {
-          watchUtils.whenTrueOnce(toView, "stationary").then(function(result) {
-            toView.goTo(fromView.viewpoint);
-            toView.popup.reposition();
-          });
+        // App
+        app = {
+            scale: 50000000,
+            center: [-40, 40],
+            initialExtent: null,
+            basemap: "dark-gray",
+            viewPadding: {
+                bottom: 65
+            },
+            uiPadding: {
+                top: 30, bottom: 15
+            },
+            mapView: null,
+            sceneView: null,
+            activeView: null,
+            searchWidgetNav: null
+        };
+        // Map
+        var map = new Map({
+            basemap: app.basemap
         });
-      }
-      // Search
-      function syncSearch() {
-        app.searchWidgetNav.viewModel.view = app.activeView;
-        // Sync
-        if (app.searchWidgetNav.selectedResult) {
-          app.searchWidgetNav.search(app.searchWidgetNav.selectedResult.name);
+        app.mapView = new MapView({
+            container: "mapViewDiv",
+            map: map,
+            scale: app.scale,
+            center: app.center,
+            padding: app.viewPadding,
+            ui: {
+                components: ["zoom", "compass"],
+                padding: app.uiPadding
+            }
+        });
+
+        var fl = new FeatureLayer({
+            url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0"
+        });
+        map.add(fl);
+
+        // Scene
+        var mapScene = new Map({
+            basemap: app.basemap,
+            ground: "world-elevation"
+        });
+        app.sceneView = new SceneView({
+            container: "sceneViewDiv",
+            map: mapScene,
+            scale: app.scale,
+            center: app.center,
+            padding: app.viewPadding,
+            ui: {
+                padding: app.uiPadding
+            }
+        });
+        app.activeView = app.mapView;
+        app.activeView.then(function () {
+            app.initialExtent = app.activeView.extent;
+        });
+        // Search
+        app.searchWidgetNav = createSearchWidget("searchNavDiv");
+        function createSearchWidget(parentId) {
+            var search = new Search({
+                viewModel: {
+                    view: app.activeView,
+                    highlightEnabled: false,
+                    popupEnabled: true,
+                    showPopupOnSelect: true
+                }
+            }, parentId);
+            search.startup();
+            return search;
         }
-        app.activeView.popup.reposition();
-      }
-      // Basemap events
-      query("#selectBasemapPanel").on("change", function(e){
-        app.mapView.map.basemap = e.target.options[e.target.selectedIndex].dataset.vector;
-        app.sceneView.map.basemap = e.target.value;
-      });
-      // Collapsible popup (optional)
-      query(".esri-popup .esri-title").on("click", function(e){
-        query(".esri-popup .esri-container").toggleClass("esri-popup-collapsed");
-        app.activeView.popup.reposition();
-      });
-      // Home
-      query(".calcite-navbar .navbar-brand").on("click", function(e) {
-        app.activeView.goTo({target: app.initialExtent, rotation: 0});
-      })
-    });
 
-    $('#resetBtn').click(function (event) {
-        event.preventDefault();
-        $('#daterange').val('');
-        $('#nameselect').multiselect("clearSelection");
-    });
+        // Popup Events
+        app.mapView.popup.watch("currentDockPosition", function (result) {
+            setPanelVisibility();
+        });
+        app.sceneView.popup.watch("currentDockPosition", function (result) {
+            setPanelVisibility();
+        });
 
-    $(function () {
 
-    $('.toggle').click(function (event) {
-        event.preventDefault();
-        $('#filtercont').toggleClass('hidden show');
-        $('#filterNav2').toggleClass('active');
-    });
+        // Panel Events
+        query(".calcite-panels .panel").on("show.bs.collapse", function (e) {
+            if (app.activeView.popup.currentDockPosition) {
+                app.activeView.popup.dockEnabled = false;
+            }
+        });
+        // Window Events
+        query(window).on("resize", function () {
+            setPanelVisibility();
+        })
+        // Panel show/hide
+        function setPanelVisibility() {
+            if (app.activeView.popup.visible && app.activeView.popup.currentDockPosition && !(window.innerWidth > 544 && window.innerWidth < 768)) {
+                if (query(".calcite-panels .panel.in").length > 0) {
+                    query(".calcite-panels").addClass("invisible");
+                } else {
+                    query(".calcite-panels").removeClass("invisible");
+                }
+            } else {
+                query(".calcite-panels").removeClass("invisible");
+            }
+        }
 
-    var today = new Date();
-          var week = new Date().setDate(today.getDate()-7);
-          console.log(week);
-          var month =  new Date().setDate(today.getDate()-31);
-          var year = new Date().setDate(today.getDate()-365);
-    console.log(today);
-    $(document).ready(function() {
-        $('#nameselect').multiselect({
+        // Tab Events (Views)
+        query(".calcite-navbar li a[data-toggle='tab']").on("click", function (e) {
+            syncTabs(e);
+            if (e.target.text.indexOf("Map") > -1) {
+                syncViews(app.sceneView, app.mapView);
+                app.activeView = app.mapView;
+            } else {
+                syncViews(app.mapView, app.sceneView);
+                app.activeView = app.sceneView;
+            }
+            syncSearch();
+        });
+        // Tab
+        function syncTabs(e) {
+            query(".calcite-navbar li.active").removeClass("active");
+            query(e.target).addClass("active");
+        }
+
+        // View
+        function syncViews(fromView, toView) {
+            watchUtils.whenTrueOnce(toView, "ready").then(function (result) {
+                watchUtils.whenTrueOnce(toView, "stationary").then(function (result) {
+                    toView.goTo(fromView.viewpoint);
+                    toView.popup.reposition();
+                });
+            });
+        }
+
+        // Search
+        function syncSearch() {
+            app.searchWidgetNav.viewModel.view = app.activeView;
+            // Sync
+            if (app.searchWidgetNav.selectedResult) {
+                app.searchWidgetNav.search(app.searchWidgetNav.selectedResult.name);
+            }
+            app.activeView.popup.reposition();
+        }
+
+        // Basemap events
+        query("#selectBasemapPanel").on("change", function (e) {
+            app.mapView.map.basemap = e.target.options[e.target.selectedIndex].dataset.vector;
+            app.sceneView.map.basemap = e.target.value;
+        });
+        // Collapsible popup (optional)
+        query(".esri-popup .esri-title").on("click", function (e) {
+            query(".esri-popup .esri-container").toggleClass("esri-popup-collapsed");
+            app.activeView.popup.reposition();
+        });
+        // Home
+        query(".calcite-navbar .navbar-brand").on("click", function (e) {
+            app.activeView.goTo({target: app.initialExtent, rotation: 0});
+        })
+
+
+        $('#resetBtn').click(function (event) {
+            event.preventDefault();
+            $('#daterange').val('');
+            $('#nameselect').multiselect("clearSelection");
+        });
+
+
+
+        $('li#filterNav2').click(function (event) {
+            event.preventDefault();
+            $('#filtercont').toggleClass('hidden show');
+            $('#filterNav2').toggleClass('active');
+        });
+        $('li#basemapNav2').click(function (event) {
+            event.preventDefault();
+            $('#panelBasemaps').toggleClass('hidden show');
+            $('#basemapNav2').toggleClass('active');
+        });
+
+    $(
+            document).ready(function() {
+        $(
+                '#nameselect').multiselect({
             includeSelectAllOption: true,
-            maxHeight: 300
+            maxHeight: 400, dropUp:true
         });
+        function cb(start, end) {
+        $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+    cb(moment().subtract(29, 'days'), moment());
 
-        $('#daterange').daterangepicker({
+    $('#daterange').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+          cancelLabel: 'Clear'
+      },
+        ranges: {
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }, "drops":"up"},
+        function(start, end, label) {
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
+                startDate = start;
+                endDate = end;
+        }
+    );
+        /* $('#daterange').daterangepicker({
      autoUpdateInput: false,
             locale: {
           cancelLabel: 'Clear'
@@ -378,28 +418,76 @@
                 today
         ]
     },
-    "opens": "center"
+    "opens": "right",
+            "drops":"up"
 }, function(start, end, label) {
   console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
-});
+});*/
 
+        $('#applyBtn').click(function (event) {
+            event.preventDefault();
+            var selected = $('#nameselect option:selected').map(function (a, item) {
+                return item.value;
+            });
+            if (selected.length > 0) {
+                var nameListStr = "ptt_id IN (";
+                for (var i = 0; i < selected.length; i++) {
+                    if (i < selected.length - 1) {
+                        nameListStr = nameListStr + "'" + selected[i] + "',";
+                    }
+                    else {
+                        nameListStr = nameListStr + "'" + selected[i] + "')";
+                    }
+                }
+            }
+            else{
+                nameListStr = "";
+            }
+            var dQuery;
+            //console.log(startDate);
+            if (typeof startDate !== "undefined") {
+                var sDate = startDate.format('MM-DD-YYYY');
+                var eDate = endDate.format('MM-DD-YYYY');
+                dQuery = "Date_time <= date'"+eDate+"' AND Date_time >= date'"+sDate+"'";
+            }
+            else {
+                dQuery = ""
+            }
+            if (nameListStr == ""){
+                var query = dQuery
+            }
+            else{
+                var query = dQuery + " AND "+ nameListStr;
+            }
+            //console.log(nameListStr);
+            //var query = "ptt_id IN "+nameListStr;
+
+            console.log(query);
+            //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
+            //console.log(dQuery);
+            fl.definitionExpression = query;
+        });
 
         $(function() {
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+      $(this).val(picker.startDate.format(
+                      'MM/DD/YYYY') + ' - ' + picker.endDate.format(
+                      'MM/DD/YYYY'));
   });
 
-  $('#daterange').on('cancel.daterangepicker', function(ev, picker) {
+  $('#daterange').on('cancel.daterangepicker',
+          function(ev, picker) {
       $(this).val('');
   });
 
 });
-        var drp = $('#daterange').data('daterangepicker');
+        var drp = $('#daterange').data(
+                'daterangepicker');
           console.log(drp);
     });
 
-
 });
+
   </script>
 
 
