@@ -214,11 +214,14 @@
                 padding: app.uiPadding
             }
         });
-
+        var mrp = new FeatureLayer ({
+            url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data_MRP/MapServer'
+        });
         var fl = new FeatureLayer({
             url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0"
         });
-        map.add(fl);
+        fl.load();
+        map.add(mrp);
 
         // Scene
         var mapScene = new Map({
@@ -344,6 +347,8 @@
             event.preventDefault();
             $('#daterange').val('');
             $('#nameselect').multiselect("clearSelection");
+            map.remove(fl);
+            map.add(mrp);
         });
 
 
@@ -426,6 +431,8 @@
 
         $('#applyBtn').click(function (event) {
             event.preventDefault();
+            map.remove(mrp);
+
             var selected = $('#nameselect option:selected').map(function (a, item) {
                 return item.value;
             });
@@ -466,6 +473,7 @@
             //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
             //console.log(dQuery);
             fl.definitionExpression = query;
+            map.add(fl);
         });
 
         $(function() {
