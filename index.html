@@ -80,7 +80,7 @@
         <li id = "filterNav2" style ="cursor:pointer;"><a id ="filterNav" class="toggle " role ="tab" title="Filter Data" data-tooltip="tip" data-placement="bottom">
             <span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm">  Filter Data</span>
         </a></li>
-        <li id = "legendNav" style="cursor:pointer;"><a id="legendNav2" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm"> Toggle Legend</span> </a></li>
+        <li id = "legendNav" class = "active" style="cursor:pointer;"><a id="legendNav2" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm"> Toggle Legend</span> </a></li>
       <li id ="basemapNav2" style="cursor:pointer;"><a id="basemapNav" aria-controls="BasemapTab" role="tab" class="toggle" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a>
       </li>
     </ul>
@@ -159,16 +159,11 @@
       <div id="collapseBasemaps" class="panel" role="tabpanel" aria-labelledby="headingBasemaps">
         <div class="panel-body">
           <select id="selectBasemapPanel" class="form-control" style="background-color:white;color:black">
-            <option value="streets" data-vector="streets-vector">Streets</option>
-            <option value="satellite" data-vector="satellite" selected="">Satellite</option>
-            <option value="hybrid" data-vector="hybrid">Hybrid</option>
+            <option value="satellite" data-vector="satellite" >Imagery</option>
+            <option value="hybrid" data-vector="hybrid">Imagery with Labels</option>
             <option value="national-geographic" data-vector="national-geographic">National Geographic</option>
             <option value="topo" data-vector="topo-vector">Topographic</option>
-            <option value="gray" data-vector="gray-vector">Gray</option>
-            <option value="dark-gray" data-vector="dark-gray-vector">Dark Gray</option>
-            <option value="osm" data-vector="osm">Open Street Map</option>
-            <option value="dark-gray" data-vector="streets-night-vector">Streets Night</option>
-            <option value="streets" data-vector="streets-navigation-vector">Streets Mobile</option>
+            <option value="dark-gray" data-vector="dark-gray-vector" selected="">Dark Gray</option>
           </select>
         </div>
       </div>
@@ -179,22 +174,96 @@
   <script src="http://js.arcgis.com/4.0/"></script>
 
   <script>
-    var app;
+      var app;
     var startDate;
     var endDate;
+    var names_all = ["Abigail","Annabelle","Barnabus","Bartholomew","Cecilia","Chester","Daphne","Derek","Eleanor","Everett","Flagg","George","Gerald","Hector","Indie","Jerome"];
+      var name_colors = [
+                    [166, 206, 227],
+                    [31, 120, 180],
+                    [178, 223, 138],
+                    [51, 160, 44],
+                    [251, 154, 153],
+                    [227, 26, 28],
+                    [253, 191, 111],
+                    [255, 127, 0],
+                    [202, 178, 214],
+                    [106, 61, 154],
+                    [255, 255, 153],
+                    [177, 89, 40],
+                    [86, 90, 153],
+                    [204, 80, 25],
+                    [117, 255, 0],
+                    [237, 142, 255],
+                    [123, 178, 151],
+                    [255, 236, 191],
+                    [238, 211, 255],
+                    [203, 54, 126],
+                    [102, 202, 234],
+                    [230, 120, 120],
+                    [102, 189, 202],
+                    [95, 95, 215],
+                    [175, 65, 175],
+                    [250, 165, 105],
+                    [120, 120, 120],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0],
+					[0, 255, 0]
+
+                ];
+
+                var nameColor = [];
+				var dict = {};
+                for (var n = 0; n < names_all.length; n++) {
+                    dict[names_all[n]] = name_colors[n]
+					var tL = [];
+                    tL.push(names_all[n]);
+                    tL.push(name_colors[n]);
+                    nameColor.push(tL);
+                }
+        console.log(dict);
+      console.log(dict['Abigail']);
     require(["esri/Map",
       "esri/Basemap",
       "esri/views/MapView",
       "esri/views/SceneView",
       "esri/widgets/Search",
         "esri/layers/FeatureLayer",
+            "esri/layers/GraphicsLayer",
+            "esri/Graphic",
             "esri/widgets/Popup",
 		"esri/PopupTemplate",
+            "esri/geometry/Polyline",
+            "esri/symbols/SimpleLineSymbol","esri/symbols/SimpleMarkerSymbol",
             "esri/widgets/Legend",
+            "esri/renderers/UniqueValueRenderer",
       "esri/core/watchUtils",
       "dojo/query",
       "dojo/domReady!"
-    ], function(Map, Basemap, MapView, SceneView, Search,FeatureLayer,Popup, PopupTemplate,Legend, watchUtils, query) {
+    ], function(Map, Basemap, MapView, SceneView, Search,FeatureLayer,GraphicsLayer, Graphic, Popup, PopupTemplate,Polyline,SimpleLineSymbol,SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
 
         // App
         app = {
@@ -237,6 +306,28 @@
                 }
             }
         });
+          var rendererPts = new UniqueValueRenderer({
+          field: "name"
+          //defaultSymbol: new SimpleFillSymbol()
+        });
+        var rendererLns = new UniqueValueRenderer({
+          field: "name"
+          //defaultSymbol: new SimpleFillSymbol()
+        });
+         for (i in dict){
+            rendererPts.addUniqueValueInfo(i,
+            new SimpleMarkerSymbol({
+                color: dict[i],
+                size: '8px'
+            })
+            );
+             rendererLns.addUniqueValueInfo(i,
+            new SimpleLineSymbol({
+                color: dict[i],
+                width: 1
+            })
+            );
+        }
         var template = new PopupTemplate({
         title: "{ptt_id}",
         content: "Seen here on {Date_time}",
@@ -255,19 +346,31 @@
 		  });
 
         console.log(app.mapView.popup.ViewModel);
-
+        var graphicA = new Graphic();
+        var gLayer = new GraphicsLayer({
+            graphics: [graphicA]
+            });
         var mrp = new FeatureLayer ({
-            url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data_MRP/MapServer/0',
+            url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/1',
             outFields: ["*"],
-            popupTemplate: template
+            popupTemplate: template,
+            renderer: rendererPts
         });
         var fl = new FeatureLayer({
             url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0",
             outFields: ["*"],
-            popupTemplate: template
+            popupTemplate: template,
+            renderer: rendererPts
+
         });
         fl.load();
+
+
+
+
+
         map.add(mrp);
+        map.add(gLayer);
         var legend = new Legend({
             view: app.mapView,
             layerInfos: [{
@@ -390,8 +493,7 @@
 
         // Basemap events
         query("#selectBasemapPanel").on("change", function (e) {
-            app.mapView.map.basemap = e.target.options[e.target.selectedIndex].dataset.vector;
-            app.sceneView.map.basemap = e.target.value;
+            app.mapView.map.basemap = e.target.value;
         });
         // Collapsible popup (optional)
         query(".esri-popup .esri-title").on("click", function (e) {
@@ -410,9 +512,15 @@
             $('#nameselect').multiselect("clearSelection");
             map.remove(fl);
             map.add(mrp);
+            gLayer.removeAll();
         });
 
+        $('.panel-close').click(function (event) {
+            event.preventDefault();
+            $('#panelBasemaps').toggleClass('hidden show');
+            $('#basemapNav2').toggleClass('active');
 
+        });
 
         $('li#filterNav2').click(function (event) {
             event.preventDefault();
@@ -509,9 +617,13 @@
 }, function(start, end, label) {
   console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
 });*/
+         function isInArray(value, array) {
+            return array.indexOf(value) > -1;
+            }
 
         $('#applyBtn').click(function (event) {
             event.preventDefault();
+            gLayer.removeAll();
             map.remove(mrp);
 
             var selected = $('#nameselect option:selected').map(function (a, item) {
@@ -554,6 +666,50 @@
             //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
             //console.log(dQuery);
             fl.definitionExpression = query;
+            fl.queryFeatures().then(function(results){
+              // prints the array of result graphics to the console
+              var ptt_list = [];
+                var geom = results.features;
+            console.log(results);
+                console.log(geom);
+                geom.forEach(function(i){
+                    var x = i.attributes.name;
+                        if (!isInArray(x,ptt_list)){
+                            ptt_list.push(x);
+                            }
+                });
+                console.log(ptt_list);
+                for (var i = 0; i < ptt_list.length; i++) {
+                    var latLngArray = [];
+                    geom.forEach(function (arrayItem) {
+                        if (arrayItem.attributes.name == ptt_list[i]) {
+                            var coords = [];
+                            coords.push(arrayItem.geometry.longitude);
+                            coords.push(arrayItem.geometry.latitude);
+                            latLngArray.push(coords);
+                        }
+                    });
+                    var pl = new Polyline({
+                        paths: latLngArray
+                    });
+                    var lineAtt = {
+                        name: ptt_list[i],  // The name of the pipeline
+                      };
+                     var lineSymbol = new SimpleLineSymbol({
+                        color: dict[ptt_list[i]],  // RGB color values as an array
+                        width: 1
+                    });
+                    var plGraphic = new Graphic({
+                        geometry: pl,
+                        symbol: lineSymbol,
+                        attributes: lineAtt
+                    });
+
+                    //console.log(latLngArray);
+                gLayer.add(plGraphic);
+            }
+
+            });
             map.add(fl);
         });
 
