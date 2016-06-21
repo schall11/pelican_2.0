@@ -256,14 +256,14 @@
             "esri/Graphic",
             "esri/widgets/Popup",
 		"esri/PopupTemplate",
-            "esri/geometry/Polyline",
+            "esri/geometry/Polyline","esri/geometry/Point",
             "esri/symbols/SimpleLineSymbol","esri/symbols/SimpleMarkerSymbol",
             "esri/widgets/Legend",
             "esri/renderers/UniqueValueRenderer",
       "esri/core/watchUtils",
       "dojo/query",
       "dojo/domReady!"
-    ], function(Map, Basemap, MapView, SceneView, Search,FeatureLayer,GraphicsLayer, Graphic, Popup, PopupTemplate,Polyline,SimpleLineSymbol,SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
+    ], function(Map, Basemap, MapView, SceneView, Search,FeatureLayer,GraphicsLayer, Graphic, Popup, PopupTemplate,Polyline,Point,SimpleLineSymbol,SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
 
         // App
         app = {
@@ -310,6 +310,10 @@
           field: "name"
           //defaultSymbol: new SimpleFillSymbol()
         });
+        var rendererPtsMRP = new UniqueValueRenderer({
+          field: "name"
+          //defaultSymbol: new SimpleFillSymbol()
+        });
         var rendererLns = new UniqueValueRenderer({
           field: "name"
           //defaultSymbol: new SimpleFillSymbol()
@@ -318,7 +322,13 @@
             rendererPts.addUniqueValueInfo(i,
             new SimpleMarkerSymbol({
                 color: dict[i],
-                size: '8px'
+                size: '4px'
+            })
+            );
+             rendererPtsMRP.addUniqueValueInfo(i,
+            new SimpleMarkerSymbol({
+                color: dict[i],
+                size: '12px'
             })
             );
              rendererLns.addUniqueValueInfo(i,
@@ -350,11 +360,12 @@
         var gLayer = new GraphicsLayer({
             graphics: [graphicA]
             });
+        var gLayerMRP = new GraphicsLayer();
         var mrp = new FeatureLayer ({
             url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/1',
             outFields: ["*"],
             popupTemplate: template,
-            renderer: rendererPts
+            renderer: rendererPtsMRP
         });
         var fl = new FeatureLayer({
             url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0",
@@ -370,7 +381,7 @@
 
 
         map.add(mrp);
-        map.add(gLayer);
+
         var legend = new Legend({
             view: app.mapView,
             layerInfos: [{
@@ -624,6 +635,7 @@
         $('#applyBtn').click(function (event) {
             event.preventDefault();
             gLayer.removeAll();
+            gLayerMRP.removeAll();
             map.remove(mrp);
 
             var selected = $('#nameselect option:selected').map(function (a, item) {
@@ -679,16 +691,48 @@
                             }
                 });
                 console.log(ptt_list);
+
                 for (var i = 0; i < ptt_list.length; i++) {
                     var latLngArray = [];
-                    geom.forEach(function (arrayItem) {
+                    console.log(ptt_list[i]);
+
+                    geom.forEach(function (arrayItem, idx, array) {
                         if (arrayItem.attributes.name == ptt_list[i]) {
-                            var coords = [];
+                            if (idx == array.length -1){
+                                console.log(i);
+                                var coords = [];
                             coords.push(arrayItem.geometry.longitude);
                             coords.push(arrayItem.geometry.latitude);
                             latLngArray.push(coords);
+                            var ptAtt = {
+                                name: ptt_list[i],  // The name of the pipeline
+                            };
+                                var mrpPt = new Point({
+                                    latitude:arrayItem.geometry.latitude,
+                                    longitude: arrayItem.geometry.longitude,
+                                });
+                                var mrpGraphic = new Graphic({
+                                geometry: mrpPt,
+                                symbol: new SimpleMarkerSymbol({
+                                        color: dict[ptt_list[i]],
+                                        size: '12px'
+                                        }),
+                                attributes: ptAtt
+                            });
+                                console.log("added mrp");
+                            gLayerMRP.add(mrpGraphic);
+                            }
+                            else{
+                                var coords = [];
+                            coords.push(arrayItem.geometry.longitude);
+                            coords.push(arrayItem.geometry.latitude);
+                            latLngArray.push(coords);
+                            }
                         }
+
                     });
+
+                    console.log(gLayerMRP);
                     var pl = new Polyline({
                         paths: latLngArray
                     });
@@ -711,6 +755,8 @@
 
             });
             map.add(fl);
+            map.add(gLayer);
+            map.add(gLayerMRP);
         });
 
         $(function() {
