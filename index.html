@@ -691,36 +691,17 @@
                             }
                 });
                 console.log(ptt_list);
-
+                var ptList = [];
                 for (var i = 0; i < ptt_list.length; i++) {
                     var latLngArray = [];
                     console.log(ptt_list[i]);
-
+                    var ptList2 =[];
                     geom.forEach(function (arrayItem, idx, array) {
                         if (arrayItem.attributes.name == ptt_list[i]) {
+                            ptList2.push(arrayItem);
                             if (idx == array.length -1){
                                 console.log(i);
-                                var coords = [];
-                            coords.push(arrayItem.geometry.longitude);
-                            coords.push(arrayItem.geometry.latitude);
-                            latLngArray.push(coords);
-                            var ptAtt = {
-                                name: ptt_list[i],  // The name of the pipeline
-                            };
-                                var mrpPt = new Point({
-                                    latitude:arrayItem.geometry.latitude,
-                                    longitude: arrayItem.geometry.longitude,
-                                });
-                                var mrpGraphic = new Graphic({
-                                geometry: mrpPt,
-                                symbol: new SimpleMarkerSymbol({
-                                        color: dict[ptt_list[i]],
-                                        size: '12px'
-                                        }),
-                                attributes: ptAtt
-                            });
-                                console.log("added mrp");
-                            gLayerMRP.add(mrpGraphic);
+
                             }
                             else{
                                 var coords = [];
@@ -732,26 +713,89 @@
 
                     });
 
-                    console.log(gLayerMRP);
-                    var pl = new Polyline({
-                        paths: latLngArray
+
+
+
+
+                    ptList2.sort(function(a, b) {
+                        return parseFloat(a.attributes.Date_time) - parseFloat(b.attributes.Date_time);
                     });
-                    var lineAtt = {
-                        name: ptt_list[i],  // The name of the pipeline
+                    ptList.push(ptList2);
+                    for (var x = 0; x < ptList.length; x++) {
+                        var coordinates =[];
+                        var name = ptList[x][0].attributes.name;
+                        for(var y=0; y < ptList[x].length;y++){
+                            /*if (y=  ptList[x].length-1){
+                                ///////////////////////
+//                                var ll = [];
+//                                var c = [];
+//                            c.push(ptList[x][y].geometry.longitude);
+//                            c.push(ptList[x][y].geometry.latitude);
+//                            ll.push(coords);
+                            var ptAtt = {
+                                name: name,
+                            };
+                                var mrpPt = new Point({
+                                    latitude:ptList[x][y].geometry.latitude,
+                                    longitude: ptList[x][y].geometry.longitude,
+                                });
+                                var mrpGraphic = new Graphic({
+                                geometry: mrpPt,
+                                symbol: new SimpleMarkerSymbol({
+                                        color: dict[name],
+                                        size: '12px'
+                                        }),
+                                attributes: ptAtt
+                            });
+
+                            gLayerMRP.add(mrpGraphic);
+                                //////////////////////////
+                            }*/
+                            var coordTemp = [];
+                            coordTemp.push(ptList[x][y].geometry.longitude);
+                            coordTemp.push(ptList[x][y].geometry.latitude);
+                            coordinates.push(coordTemp);
+                        }
+                        var endIndex = ptList[x].length -1;
+                        var ptAtt = {
+                                name: name,
+                            };
+                                var mrpPt = new Point({
+                                    latitude:ptList[x][endIndex].geometry.latitude,
+                                    longitude: ptList[x][endIndex].geometry.longitude,
+                                });
+                                var mrpGraphic = new Graphic({
+                                geometry: mrpPt,
+                                symbol: new SimpleMarkerSymbol({
+                                        color: dict[name],
+                                        size: '12px'
+                                        }),
+                                attributes: ptAtt
+                            });
+
+                            gLayerMRP.add(mrpGraphic);
+
+                        var pl = new Polyline({
+                            paths: coordinates
+                        });
+                        var lineAtt = {
+                        name: name,
                       };
-                     var lineSymbol = new SimpleLineSymbol({
-                        color: dict[ptt_list[i]],  // RGB color values as an array
+                         var lineSymbol = new SimpleLineSymbol({
+                        color: dict[name],
                         width: 1
                     });
-                    var plGraphic = new Graphic({
+                        var plGraphic = new Graphic({
                         geometry: pl,
                         symbol: lineSymbol,
                         attributes: lineAtt
                     });
-
+                        gLayer.add(plGraphic);
+                    }
                     //console.log(latLngArray);
-                gLayer.add(plGraphic);
+
             }
+
 
             });
             map.add(fl);
