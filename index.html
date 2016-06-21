@@ -105,17 +105,23 @@
                                 <div class="form-group">
                                     <label class="filter-col" for="nameselect">Filter by Name: </label>
                                     <select id="nameselect" class="form-control input-sm" multiple="multiple">
-                                        <option value="141566">Abigail</option>
-                                        <option value="141556">Annabelle</option>
-                                        <option value="141557">Barnabus</option>
-                                        <option value="141568">Bartholomew</option>
-                                        <option value="141567">Cecilia</option>
-                                        <option value="141558">Chester</option>
-                                        <option value="141559">Daphne</option>
-                                        <option value="141569">Derek</option>
-                                        <option value="141560">Eleanor</option>
-                                        <option value="141553">Finnigan</option>
-                                        <option value="141554">George</option>
+                                        <option value="Abigail">Abigail</option>
+                                        <option value="Annabelle">Annabelle</option>
+                                        <option value="Barnabus">Barnabus</option>
+                                        <option value="Bartholomew">Bartholomew</option>
+                                        <option value="Cecilia">Cecilia</option>
+                                        <option value="Chester">Chester</option>
+                                        <option value="Daphne">Daphne</option>
+                                        <option value="Derek">Derek</option>
+                                        <option value="Eleanor">Eleanor</option>
+                                        <option value="Everett">Everett</option>
+                                        <option value="Finnigan">Finnigan</option>
+                                        <option value="Flagg">Finnigan</option>
+                                        <option value="George">George</option>
+                                        <option value="Gerald">Gerald</option>
+                                        <option value="Hector">Hector</option>
+                                        <option value="Indie">Indie</option>
+
                                     </select>
                                 </div> <!-- form group [rows] -->
                                 <div class="form-group">
@@ -244,8 +250,7 @@
                     tL.push(name_colors[n]);
                     nameColor.push(tL);
                 }
-        console.log(dict);
-      console.log(dict['Abigail']);
+
     require(["esri/Map",
       "esri/Basemap",
       "esri/views/MapView",
@@ -339,7 +344,7 @@
             );
         }
         var template = new PopupTemplate({
-        title: "{ptt_id}",
+        title: "{name}",
         content: "Seen here on {Date_time}",
         fieldInfos: [{
 			fieldName: "Date_time",
@@ -348,8 +353,8 @@
                 dateFormat: 'short-date-short-time'
             }
 		  }, {
-			fieldName: "ptt_id",
-			label: "ID",
+			fieldName: "name",
+			label: "Name",
 			visible: true
 		  }
 		  ]
@@ -360,7 +365,9 @@
         var gLayer = new GraphicsLayer({
             graphics: [graphicA]
             });
-        var gLayerMRP = new GraphicsLayer();
+        var gLayerMRP = new GraphicsLayer({
+            popupTemplate: template
+        });
         var mrp = new FeatureLayer ({
             url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/1',
             outFields: ["*"],
@@ -581,7 +588,8 @@
            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
            'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+            'Last Year': [moment().subtract(1, 'year'), moment()]
         },
         "drops":"up",
         "opens":"center"
@@ -642,7 +650,7 @@
                 return item.value;
             });
             if (selected.length > 0) {
-                var nameListStr = "ptt_id IN (";
+                var nameListStr = "name IN (";
                 for (var i = 0; i < selected.length; i++) {
                     if (i < selected.length - 1) {
                         nameListStr = nameListStr + "'" + selected[i] + "',";
@@ -690,17 +698,16 @@
                             ptt_list.push(x);
                             }
                 });
-                console.log(ptt_list);
+
                 var ptList = [];
                 for (var i = 0; i < ptt_list.length; i++) {
                     var latLngArray = [];
-                    console.log(ptt_list[i]);
+
                     var ptList2 =[];
                     geom.forEach(function (arrayItem, idx, array) {
                         if (arrayItem.attributes.name == ptt_list[i]) {
                             ptList2.push(arrayItem);
                             if (idx == array.length -1){
-                                console.log(i);
 
                             }
                             else{
@@ -757,8 +764,10 @@
                             coordinates.push(coordTemp);
                         }
                         var endIndex = ptList[x].length -1;
+                        var date1 = ptList[x][endIndex].attributes.Date_time;
                         var ptAtt = {
                                 name: name,
+                                Date_time: date1
                             };
                                 var mrpPt = new Point({
                                     latitude:ptList[x][endIndex].geometry.latitude,
@@ -783,7 +792,7 @@
                       };
                          var lineSymbol = new SimpleLineSymbol({
                         color: dict[name],
-                        width: 1
+                        width: "0.2px"
                     });
                         var plGraphic = new Graphic({
                         geometry: pl,
@@ -798,7 +807,7 @@
 
 
             });
-            map.add(fl);
+            //map.add(fl);
             map.add(gLayer);
             map.add(gLayerMRP);
         });
