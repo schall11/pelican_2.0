@@ -327,7 +327,7 @@
             rendererPts.addUniqueValueInfo(i,
             new SimpleMarkerSymbol({
                 color: dict[i],
-                size: '4px'
+                size: '12px'
             })
             );
              rendererPtsMRP.addUniqueValueInfo(i,
@@ -360,10 +360,14 @@
 		  ]
 		  });
 
-        console.log(app.mapView.popup.ViewModel);
+        //console.log(app.mapView.popup.ViewModel);
         var graphicA = new Graphic();
         var gLayer = new GraphicsLayer({
             graphics: [graphicA]
+            });
+        var legendLayer = new FeatureLayer({
+            url: 'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Tracked_Pelicans/FeatureServer',
+            renderer: rendererPtsMRP
             });
         var gLayerMRP = new GraphicsLayer({
             popupTemplate: template
@@ -386,18 +390,14 @@
 
 
 
-
+        map.add(legendLayer);
         map.add(mrp);
 
         var legend = new Legend({
             view: app.mapView,
             layerInfos: [{
-                layer: mrp,
+                layer: legendLayer,
                 title: "Tracked Pelicans"
-            },
-                {
-                    layer: fl,
-                    title: "Tracked Pelicans"
                 }]
          });
         legend.startup();
@@ -553,7 +553,7 @@
         $('li#legendNav').click(function (event) {
             event.preventDefault();
             $('.esri-legend').toggleClass('hidden show');
-            console.log(screen.width);
+            //console.log(screen.width);
             if ((screen.width<768)) {
                 console.log("screen small");
                 // if screen size is 1025px wide or larger
@@ -565,6 +565,12 @@
 
     $(
             document).ready(function() {
+
+        $('#daterange').keypress(function(e) {
+            if(e.which == 13) { // Checks for the enter key
+                e.preventDefault();
+                $("#applyBtn").click();
+    }});
         $('#nameselect').multiselect({
             includeSelectAllOption: true,
             maxHeight: 400, dropUp:true
@@ -580,6 +586,7 @@
     $('#daterange').daterangepicker({
         "startDate": moment().subtract(6, 'days'),
         "endDate": moment(),
+        "autoApply":true,
         autoUpdateInput: false,
         locale: {
           cancelLabel: 'Clear'
@@ -690,8 +697,6 @@
               // prints the array of result graphics to the console
               var ptt_list = [];
                 var geom = results.features;
-            console.log(results);
-                console.log(geom);
                 geom.forEach(function(i){
                     var x = i.attributes.name;
                         if (!isInArray(x,ptt_list)){
@@ -703,32 +708,30 @@
                 for (var i = 0; i < ptt_list.length; i++) {
                     var latLngArray = [];
 
-                    var ptList2 =[];
-                    geom.forEach(function (arrayItem, idx, array) {
+                    var ptList2 = [];
+                    geom.forEach(function (arrayItem) {
                         if (arrayItem.attributes.name == ptt_list[i]) {
                             ptList2.push(arrayItem);
-                            if (idx == array.length -1){
-
-                            }
-                            else{
                                 var coords = [];
-                            coords.push(arrayItem.geometry.longitude);
-                            coords.push(arrayItem.geometry.latitude);
-                            latLngArray.push(coords);
-                            }
+                                coords.push(arrayItem.geometry.longitude);
+                                coords.push(arrayItem.geometry.latitude);
+                                latLngArray.push(coords);
+
                         }
 
                     });
-
-
-
-
-
-                    ptList2.sort(function(a, b) {
+                     ptList2.sort(function(a, b) {
                         return parseFloat(a.attributes.Date_time) - parseFloat(b.attributes.Date_time);
                     });
                     ptList.push(ptList2);
-                    for (var x = 0; x < ptList.length; x++) {
+                    }
+
+
+
+
+
+                    console.log("ListL",ptList.length);
+                    for (var x = 0; x < ptList.length;x++) {
                         var coordinates =[];
                         var name = ptList[x][0].attributes.name;
                         for(var y=0; y < ptList[x].length;y++){
@@ -788,11 +791,11 @@
                             paths: coordinates
                         });
                         var lineAtt = {
-                        name: name,
+                        name: name
                       };
                          var lineSymbol = new SimpleLineSymbol({
                         color: dict[name],
-                        width: "0.2px"
+                        width: "0.75px"
                     });
                         var plGraphic = new Graphic({
                         geometry: pl,
@@ -803,7 +806,7 @@
                     }
                     //console.log(latLngArray);
 
-            }
+
 
 
             });
