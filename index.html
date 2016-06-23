@@ -129,7 +129,7 @@
                                 </div> <!-- form group [rows] -->
                                 <div class="form-group">
                                     <label class="filter-col" for="daterange">Filter by Date: </label>
-                                    <input type="button" class="form-control input-sm" id="daterange" placeholder="Most Recent Points Shown">
+                                    <input type="button" class="form-control input-sm" id="daterange" value="Most Recent Points Shown">
                                 </div><!-- form group [search] -->
                                 <div class="form-group">
                                     <button id ='applyBtn' type="button" class="btn btn-default filter-col">
@@ -582,8 +582,9 @@
 
         $('#resetBtn').click(function (event) {
             event.preventDefault();
-            $('#daterange').val('');
-            $('#nameselect').multiselect("clearSelection");
+            $('#daterange').val('Most Recent Points Shown');
+            $('#nameselect').multiselect("selectAll", false);
+            $('#nameselect').multiselect('refresh');
             $('#togglePts').attr('checked', false);
             map.remove(fl);
             map.add(mrp);
