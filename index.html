@@ -60,12 +60,21 @@
     .esri-ui-top-left{
           z-index: 0;
       }
+  #load {
+      position:absolute;
+      z-index: 5;
+      top: 50%;
+      left:50%;
+      height:150px;
+      width:100px;
+      margin: -150px 0 0 -75px;
+  }
   </style>
 
 </head>
 
 <body class="calcite-nav-bottom">
-
+    <div class = "hidden" id = "load"><img src="load.gif" class="img-fluid" alt="Loading..." style = "heigh:32px; width:32px;"></div>
   <!-- Navbar -->
 
   <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75 dropup">
@@ -707,6 +716,7 @@
             }
 
         $('#applyBtn').click(function (event) {
+            $('#load').toggleClass('hidden show');
             event.preventDefault();
             gLayer.removeAll();
             gLayerMRP.removeAll();
@@ -754,7 +764,8 @@
             fl.definitionExpression = query;
             fl.queryFeatures().then(function(results){
               // prints the array of result graphics to the console
-              var ptt_list = [];
+
+                var ptt_list = [];
                 var geom = results.features;
                 geom.forEach(function(i){
                     var x = i.attributes.name;
@@ -867,7 +878,7 @@
 
 
 
-
+            $('#load').toggleClass('hidden show');
             });
             //map.add(fl);
             map.add(gLayer);
@@ -891,6 +902,17 @@
                 'daterangepicker');
           console.log(drp.startDate_d);
     });
+    app.mapView.watch("updating", function(val) {
+        console.log(val);
+        if (val == 'loaded'){
+            //hide gif
+            $('#load').toggleClass('hidden show');
+        }
+        else{
+            //show gif
+            $('#load').toggleClass('hidden show');
+        }
+    });// wait for the layer view to finish updating
 
 });
 
