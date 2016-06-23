@@ -57,6 +57,9 @@
 .forceLegend{
     display:block !important;
 }
+    .esri-ui-top-left{
+          z-index: 0;
+      }
   </style>
 
 </head>
@@ -126,7 +129,7 @@
                                 </div> <!-- form group [rows] -->
                                 <div class="form-group">
                                     <label class="filter-col" for="daterange">Filter by Date: </label>
-                                    <input type="text" class="form-control input-sm" id="daterange" placeholder="Most Recent Points Shown">
+                                    <input type="button" class="form-control input-sm" id="daterange" placeholder="Most Recent Points Shown">
                                 </div><!-- form group [search] -->
                                 <div class="form-group">
                                     <button id ='applyBtn' type="button" class="btn btn-default filter-col">
