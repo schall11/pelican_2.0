@@ -377,6 +377,19 @@
 		  }
 		  ]
 		  });
+        var colonyTemplate = new PopupTemplate({
+        title: "{COLONY}",
+        content: "Colony Name: {COLONY}<br>Population: {pop}",
+        fieldInfos: [{
+			fieldName: "COLONY",
+			label: "Colony Name"
+		  }, {
+			fieldName: "pop",
+			label: "Population",
+			visible: true
+		  }
+		  ]
+		  });
 
         //console.log(app.mapView.popup.ViewModel);
         var graphicA = new Graphic();
@@ -405,7 +418,8 @@
         });
         var colonies = new FeatureLayer({
             url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Western_Colonies/MapServer/0",
-            outFields: ["*"]
+            outFields: ["*"],
+            popupTemplate: colonyTemplate
         });
         fl.load();
 
@@ -420,7 +434,10 @@
             layerInfos: [{
                 layer: legendLayer,
                 title: "Tracked Pelicans"
-                }]
+                },{
+                layer: colonies,
+                title: "Breeding Colonies"
+            }]
          });
         legend.startup();
         app.mapView.ui.add(legend, "bottom-left");
