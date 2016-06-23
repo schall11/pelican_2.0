@@ -63,11 +63,8 @@
   #load {
       position:absolute;
       z-index: 5;
-      top: 50%;
+      top: 40%;
       left:50%;
-      height:150px;
-      width:100px;
-      margin: -150px 0 0 -75px;
   }
   </style>
 
@@ -903,7 +900,6 @@
           console.log(drp.startDate_d);
     });
     app.mapView.watch("updating", function(val) {
-        console.log(val);
         if (val == 'loaded'){
             //hide gif
             $('#load').toggleClass('hidden show');
