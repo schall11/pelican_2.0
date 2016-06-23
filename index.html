@@ -41,7 +41,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
+        height:100%;
     }
     .esri-legend{
         max-width: 30px;
@@ -68,7 +68,7 @@
   <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75 dropup">
     <!-- Header -->
     <div class="navbar-header">
-      <a class="navbar-brand"><span class="esri-icon esri-icon-map-pin"></span></a>
+      <a class="navbar-brand"><img src="pelican_fly.png" class="img-fluid" alt="Flying pelican"></a>
     </div>
     <!-- Title -->
     <div class="calcite-title calcite-overflow-hidden">
@@ -77,8 +77,8 @@
     </div>
      <!-- Nav -->
     <ul class="nav navbar-nav">
-        <li id = "filterNav2" style ="cursor:pointer;"><a id ="filterNav" class="toggle " role ="tab" title="Filter Data" data-tooltip="tip" data-placement="bottom">
-            <span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm">  Filter Data</span>
+        <li id = "filterNav2" style ="cursor:pointer;"><a id ="filterNav" class="toggle " role ="tab" title="Tools" data-tooltip="tip" data-placement="bottom">
+            <span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm">  Tools</span>
         </a></li>
         <li id = "legendNav" class = "active" style="cursor:pointer;"><a id="legendNav2" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm"> Toggle Legend</span> </a></li>
       <li id ="basemapNav2" style="cursor:pointer;"><a id="basemapNav" aria-controls="BasemapTab" role="tab" class="toggle" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a>
@@ -129,15 +129,21 @@
                                     <input type="text" class="form-control input-sm" id="daterange" placeholder="Most Recent Points Shown">
                                 </div><!-- form group [search] -->
                                 <div class="form-group">
-                                    <!--<div class="checkbox" style="margin-left:20px;">
-                                        <label><input type="checkbox"> Show Track Lines</label>
-                                    </div>-->
                                     <button id ='applyBtn' type="button" class="btn btn-default filter-col">
                                         <span class="glyphicon glyphicon-record"></span>    Apply
                                     </button>
                                     <button id = 'resetBtn' type="button" class="btn btn-default filter-col">
                                         <span class="glyphicon glyphicon-record"></span>    Reset Filters
                                     </button>
+                                    <div class="checkbox" style="margin-left:20px;">
+                                        <label><input type="checkbox" id = "togglePts"> Show Data Points</label>
+                                    </div>
+                                    <div class="checkbox" style="margin-left:20px;">
+                                        <label><input type="checkbox" id = "toggleHeat"> Toggle Heatmap</label>
+                                    </div>
+                                    <div class="checkbox" style="margin-left:20px;">
+                                        <label><input type="checkbox" id = "toggleColony"> Toggle Colony Layer</label>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -253,6 +259,8 @@
 
     require(["esri/Map",
       "esri/Basemap",
+        "esri/widgets/Home",
+            "esri/widgets/Compass",
       "esri/views/MapView",
       "esri/views/SceneView",
       "esri/widgets/Search",
@@ -268,7 +276,7 @@
       "esri/core/watchUtils",
       "dojo/query",
       "dojo/domReady!"
-    ], function(Map, Basemap, MapView, SceneView, Search,FeatureLayer,GraphicsLayer, Graphic, Popup, PopupTemplate,Polyline,Point,SimpleLineSymbol,SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
+    ], function(Map, Basemap, Home, Compass, MapView, SceneView, Search,FeatureLayer,GraphicsLayer, Graphic, Popup, PopupTemplate,Polyline,Point,SimpleLineSymbol,SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
 
         // App
         app = {
@@ -292,6 +300,7 @@
         var map = new Map({
             basemap: app.basemap
         });
+
         app.mapView = new MapView({
             container: "mapViewDiv",
             map: map,
@@ -299,7 +308,7 @@
             center: app.center,
             padding: app.viewPadding,
             ui: {
-                components: ["zoom", "compass"],
+                components: ["zoom"],
                 padding: app.uiPadding
             },
             popup:{
@@ -311,6 +320,15 @@
                 }
             }
         });
+        var homeBtn = new Home({
+            view: app.mapView
+        });
+        var compass = new Compass({
+            view: app.mapView
+        });
+
+        app.mapView.ui.add(homeBtn, "top-left");
+        app.mapView.ui.add(compass, "top-left");
           var rendererPts = new UniqueValueRenderer({
           field: "name"
           //defaultSymbol: new SimpleFillSymbol()
@@ -327,7 +345,7 @@
             rendererPts.addUniqueValueInfo(i,
             new SimpleMarkerSymbol({
                 color: dict[i],
-                size: '12px'
+                size: '6px'
             })
             );
              rendererPtsMRP.addUniqueValueInfo(i,
@@ -385,11 +403,15 @@
             renderer: rendererPts
 
         });
+        var colonies = new FeatureLayer({
+            url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Western_Colonies/MapServer/0",
+            outFields: ["*"]
+        });
         fl.load();
 
 
 
-
+        map.add(colonies);
         map.add(legendLayer);
         map.add(mrp);
 
@@ -524,13 +546,29 @@
         })
 
 
+        $('#togglePts').click(function(){
+            if($(this).is(':checked')&& typeof startDate !== "undefined"){
+                    map.add(fl);
+                    map.add(gLayerMRP);
+
+            }
+                    else if ($(this).is(':checked')&& typeof startDate == "undefined"){
+                $('#togglePts').attr('checked', false);
+            }
+            else {
+                map.remove(fl);
+            }
+        });
+
         $('#resetBtn').click(function (event) {
             event.preventDefault();
             $('#daterange').val('');
             $('#nameselect').multiselect("clearSelection");
+            $('#togglePts').attr('checked', false);
             map.remove(fl);
             map.add(mrp);
             gLayer.removeAll();
+            gLayerMRP.removeAll();
         });
 
         $('.panel-close').click(function (event) {
@@ -573,7 +611,7 @@
     }});
         $('#nameselect').multiselect({
             includeSelectAllOption: true,
-            maxHeight: 400, dropUp:true
+            maxHeight: 200, dropUp:true
         });
         $("#nameselect").multiselect('selectAll', false);
         $("#nameselect").multiselect('updateButtonText');
@@ -795,7 +833,7 @@
                       };
                          var lineSymbol = new SimpleLineSymbol({
                         color: dict[name],
-                        width: "0.75px"
+                        width: "1.5px"
                     });
                         var plGraphic = new Graphic({
                         geometry: pl,
