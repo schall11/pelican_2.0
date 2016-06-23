@@ -148,7 +148,7 @@
                                         <label><input type="checkbox" id = "togglePts"> Show Data Points</label>
                                     </div>
                                     <div class="checkbox" style="margin-left:20px;">
-                                        <label><input type="checkbox" id = "toggleHeat"> Toggle Heatmap</label>
+                                        <label><input type="checkbox" id = "toggleHeat"> Toggle Resight Locations</label>
                                     </div>
                                     <div class="checkbox" style="margin-left:20px;">
                                         <label><input type="checkbox" id = "toggleColony"> Toggle Colony Layer</label>
@@ -198,19 +198,19 @@
       var app;
     var startDate;
     var endDate;
-    var names_all = ["Abigail","Annabelle","Barnabus","Bartholomew","Cecilia","Chester","Daphne","Derek","Eleanor","Everett","Flagg","George","Gerald","Hector","Indie","Jerome"];
+    var names_all = ["Abigail","Annabelle","Barnabus","Bartholomew","Cecilia","Chester","Daphne","Derek","Eleanor","Everett","Finnigan","Flagg","George","Gerald","Hector","Indie","Jerome"];
       var name_colors = [
                     [166, 206, 227],
                     [31, 120, 180],
                     [178, 223, 138],
                     [51, 160, 44],
-                    [251, 154, 153],
+                    [255, 86, 153],
                     [227, 26, 28],
                     [253, 191, 111],
                     [255, 127, 0],
                     [202, 178, 214],
                     [106, 61, 154],
-                    [255, 255, 153],
+                    [251, 154, 153],
                     [177, 89, 40],
                     [86, 90, 153],
                     [204, 80, 25],
@@ -430,6 +430,14 @@
             outFields: ["*"],
             popupTemplate: colonyTemplate
         });
+        var resightUT = new FeatureLayer({
+            url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/0",
+            outFields: ["*"]
+        });
+        var resightID = new FeatureLayer({
+            url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/1",
+            outFields: ["*"]
+        });
         fl.load();
 
 
@@ -586,6 +594,24 @@
             }
         });
 
+        $('#toggleHeat').click(function(){
+
+            if($(this).is(':checked')){
+                    map.add(resightID);
+                    map.add(resightUT);
+                    map.add(gLayer);
+                    map.add(gLayerMRP);
+
+            }
+                    else if ($(this).is(':checked')&& typeof startDate == "undefined"){
+                $('#togglePts').attr('checked', false);
+            }
+            else {
+                map.remove(resightID);
+                map.remove(resightUT);
+            }
+        });
+
         $('#resetBtn').click(function (event) {
             event.preventDefault();
             $('#daterange').val('Most Recent Points Shown');
@@ -649,8 +675,11 @@
     cb(moment().subtract(29, 'days'), moment());
 
     $('#daterange').daterangepicker({
+        "timePicker":true,
         "startDate": moment().subtract(6, 'days'),
         "endDate": moment(),
+        "minDate":"08/10/2015",
+        "maxDate": moment(),
         "autoApply":true,
         autoUpdateInput: false,
         locale: {
@@ -661,7 +690,8 @@
            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
            'This Month': [moment().startOf('month'), moment().endOf('month')],
            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-            'Last Year': [moment().subtract(1, 'year'), moment()]
+            'Last Year': [moment().subtract(1, 'year'), moment()],
+            'Show All Data': ["08/10/2015", moment()]
         },
         "drops":"up",
         "opens":"center"
