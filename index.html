@@ -66,6 +66,14 @@
       top: 40%;
       left:50%;
   }
+      .dropdown-toggle {
+        min-width: auto;
+          width: 100% !important;
+
+}
+.dropdown-menu select{
+    left:0;
+}
   </style>
 
 </head>
@@ -86,12 +94,9 @@
     </div>
      <!-- Nav -->
     <ul class="nav navbar-nav">
-        <li id = "filterNav2" style ="cursor:pointer;"><a id ="filterNav" class="toggle " role ="tab" title="Tools" data-tooltip="tip" data-placement="bottom">
-            <span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm">  Tools</span>
-        </a></li>
-        <li id = "legendNav" class = "active" style="cursor:pointer;"><a id="legendNav2" aria-controls="2Dtab" aria-expanded="true" role="tab"  data-tooltip="tip" title="Toggle Legend" data-placement="bottom"><span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm"> Toggle Legend</span> </a></li>
-      <li id ="basemapNav2" style="cursor:pointer;"><a id="basemapNav" aria-controls="BasemapTab" role="tab" class="toggle" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-th-large"></span><span class="hidden-xs hidden-sm">  Change Basemap</span></a>
+        <li id ="basemapNav2" style="cursor:pointer;"><a id="basemapNav" aria-controls="BasemapTab" role="tab" class="toggle" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a>
       </li>
+        <a class="navbar-brand"><img src="http://wildlife.utah.gov/pelican_webmap/images/DWR_logo_small.png" class="img-fluid" alt="Flying pelican"></a>
     </ul>
 
 
@@ -103,11 +108,62 @@
   <!-- Map Container  -->
 
   <div class="calcite-map calcite-map-absolute calcite-overflow-hidden">
-    <div id="tabContainer" class="tab-content">
+
+      <div id = "buttonContainer"  style = "position:absolute; top:20px; right:10px; z-index: 5;">
+          <div class = "btn-group ">
+              <button id="filterNav2" type="button" class="btn btn-default ">
+                  <span class="esri-icon esri-icon-filter"></span><span class="hidden-xs hidden-sm">   Filter Data</span>
+              </button>
+            </div>
+          <div id ="layers" class = 'btn-group'>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="esri-icon esri-icon-layers"></span><span class="hidden-xs hidden-sm">   Toggle Layers</span>
+              </button>
+                  <ul class="dropdown-menu ">
+                    <li>
+                        <div class="checkbox" style="margin-left:20px;margin-right:20px;">
+                        <label><input type="checkbox" id = "togglePts"> Show Data Points
+                        </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkbox" style="margin-left:20px;margin-right:20px;">
+                            <label><input type="checkbox" id = "toggleHeat"> Toggle Resight Locations</label>
+                        </div>
+                    </li>
+                    <li >
+                        <div class="checkbox" style="margin-left:20px;margin-right:20px;">
+                            <label><input type="checkbox" id = "toggleColony" checked> Toggle Colony Layer</label>
+                        </div>
+                    </li>
+                  </ul>
+          </div>
+           <div class = 'btn-group'>
+              <button id="legendNav" type="button" class="btn btn-default">
+                  <span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm">   Toggle Legend</span>
+              </button>
+           </div>
+           <div id = "basemap" class = 'btn-group'>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="esri-icon esri-icon-basemap"></span><span class="hidden-xs hidden-sm">   Change Basemap</span>
+              </button>
+               <ul class="dropdown-menu dropdown-menu-right">
+               <select id="selectBasemapPanel" class="form-control" style="background-color:white;color:black">
+                    <option value="satellite" data-vector="satellite" >Imagery</option>
+                    <option value="hybrid" data-vector="hybrid">Imagery with Labels</option>
+                    <option value="national-geographic" data-vector="national-geographic">National Geographic</option>
+                    <option value="topo" data-vector="topo-vector">Topographic</option>
+                    <option value="dark-gray" data-vector="dark-gray-vector" selected="">Dark Gray</option>
+                </select>
+                   </ul>
+               </div>
+      </div>
+      <div id="tabContainer" class="tab-content">
       <div id="2dTab" class="tab-pane fade in active" role="tabpanel">
          <div id ="filtercont" class="container-fluid hidden " style="width:100%;">
             <div class="row">
                 <div id="filter-panel" class="filter-panel calcite-text-light calcite-bg-dark calcite-black-75" style="position:absolute;bottom:65px;z-index:1; width:100%; display:inline-block;text-align:center">
+
                     <div class="panel panel-default">
                         <div class="panel-body" style = "background-color:#333333; color: white;">
                             <form class="form-inline" role="form" style="padding-top:20px;">
@@ -144,22 +200,15 @@
                                     <button id = 'resetBtn' type="button" class="btn btn-default filter-col">
                                         <span class="glyphicon glyphicon-record"></span>    Reset Filters
                                     </button>
-                                    <div class="checkbox" style="margin-left:20px;">
-                                        <label><input type="checkbox" id = "togglePts"> Show Data Points</label>
-                                    </div>
-                                    <div class="checkbox" style="margin-left:20px;">
-                                        <label><input type="checkbox" id = "toggleHeat"> Toggle Resight Locations</label>
-                                    </div>
-                                    <div class="checkbox" style="margin-left:20px;">
-                                        <label><input type="checkbox" id = "toggleColony"> Toggle Colony Layer</label>
-                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+
                 </div>
                 </div>
              </div>
+
           <div id="mapViewDiv"></div>
       </div>
       <div id="3dTab" class="tab-pane fade" role="tabpanel">
@@ -168,28 +217,6 @@
     </div>
   </div>
 
-  <!-- Panel Container -->
-<div class="calcite-panels calcite-text-light calcite-bg-dark calcite-black-75 panel-group" role="tablist" aria-multiselectable="true" style="z-index:2;">
-    <div id="panelBasemaps" class="panel hidden">
-      <div id="headingBasemaps" class="panel-heading" role="tab">
-        <div class="panel-title">
-          <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps" aria-expanded="false"   aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Basemaps</a>
-          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelBasemaps"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
-        </div>
-      </div>
-      <div id="collapseBasemaps" class="panel" role="tabpanel" aria-labelledby="headingBasemaps">
-        <div class="panel-body">
-          <select id="selectBasemapPanel" class="form-control" style="background-color:white;color:black">
-            <option value="satellite" data-vector="satellite" >Imagery</option>
-            <option value="hybrid" data-vector="hybrid">Imagery with Labels</option>
-            <option value="national-geographic" data-vector="national-geographic">National Geographic</option>
-            <option value="topo" data-vector="topo-vector">Topographic</option>
-            <option value="dark-gray" data-vector="dark-gray-vector" selected="">Dark Gray</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div> <!-- /.calcite-panels -->
 
   <!-- ArcGIS JS 4.0 -->
   <script src="http://js.arcgis.com/4.0/"></script>
@@ -568,6 +595,7 @@
         // Basemap events
         query("#selectBasemapPanel").on("change", function (e) {
             app.mapView.map.basemap = e.target.value;
+            $('#basemap').removeClass('open');
         });
         // Collapsible popup (optional)
         query(".esri-popup .esri-title").on("click", function (e) {
@@ -575,9 +603,7 @@
             app.activeView.popup.reposition();
         });
         // Home
-        query(".calcite-navbar .navbar-brand").on("click", function (e) {
-            app.activeView.goTo({target: app.initialExtent, rotation: 0});
-        })
+
 
 
         $('#togglePts').click(function(){
@@ -611,6 +637,20 @@
                 map.remove(resightUT);
             }
         });
+        $('#toggleColony').click(function(){
+
+            if($(this).is(':checked')){
+                    map.add(colonies);
+                    map.add(gLayer);
+                    map.add(gLayerMRP);
+
+            }
+
+            else {
+                map.remove(colonies);
+
+            }
+        });
 
         $('#resetBtn').click(function (event) {
             event.preventDefault();
@@ -631,7 +671,7 @@
 
         });
 
-        $('li#filterNav2').click(function (event) {
+        $('#filterNav2').click(function (event) {
             event.preventDefault();
             $('#filtercont').toggleClass('hidden show');
             $('#filterNav2').toggleClass('active');
@@ -641,7 +681,7 @@
             $('#panelBasemaps').toggleClass('hidden show');
             $('#basemapNav2').toggleClass('active');
         });
-        $('li#legendNav').click(function (event) {
+        $('#legendNav').click(function (event) {
             event.preventDefault();
             $('.esri-legend').toggleClass('hidden show');
             //console.log(screen.width);
@@ -738,7 +778,17 @@
 }, function(start, end, label) {
   console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
 });*/
-         function isInArray(value, array) {
+        $(document).on('click', '#basemap .dropdown-menu', function (e) {
+            e.stopPropagation();
+        });
+        $(document).on('click', '#layers .dropdown-menu', function (e) {
+            e.stopPropagation();
+        });
+
+
+
+
+        function isInArray(value, array) {
             return array.indexOf(value) > -1;
             }
 
