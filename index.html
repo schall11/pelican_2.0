@@ -74,6 +74,25 @@
 .dropdown-menu select{
     left:0;
 }
+  #filter-panel .btn-group{
+      display: block;
+  }
+  #filter-panel .dropdown-toggle{
+      margin-left: 0px;
+      margin-right: 0px;
+      width: 85%!important;
+  }
+      #filter-panel .btn{
+          float:none;
+      }
+       #filter-panel .form-control{
+           width:85%;
+       }
+       @media screen and (max-width: 768px) {
+    #filter-panel {
+        width:100%!important;
+    }
+}
   </style>
 
 </head>
@@ -160,13 +179,13 @@
       </div>
       <div id="tabContainer" class="tab-content">
       <div id="2dTab" class="tab-pane fade in active" role="tabpanel">
-         <div id ="filtercont" class="container-fluid hidden " style="width:100%;">
+         <div id ="filtercont" class="container-fluid hidden ">
             <div class="row">
-                <div id="filter-panel" class="filter-panel calcite-text-light calcite-bg-dark calcite-black-75" style="position:absolute;bottom:65px;z-index:1; width:100%; display:inline-block;text-align:center">
+                <div id="filter-panel" class="filter-panel calcite-text-light calcite-bg-dark calcite-black-75" style="position:absolute;bottom:65px;right:0px;z-index:1; width:auto; display:inline-block;text-align:center">
 
                     <div class="panel panel-default">
                         <div class="panel-body" style = "background-color:#333333; color: white;">
-                            <form class="form-inline" role="form" style="padding-top:20px;">
+                            <form class="form" role="form" style="padding-top:20px; display:inline-block !important">
                                 <div class="form-group">
                                     <label class="filter-col" for="nameselect">Filter by Name: </label>
                                     <select id="nameselect" class="form-control input-sm" multiple="multiple">
@@ -190,14 +209,14 @@
                                     </select>
                                 </div> <!-- form group [rows] -->
                                 <div class="form-group">
-                                    <label class="filter-col" for="daterange">Filter by Date: </label>
+                                    <label class="filter-col" for="daterange" style = "padding-top:10px;">Filter by Date: </label>
                                     <input type="button" class="form-control input-sm" id="daterange" value="Most Recent Points Shown">
                                 </div><!-- form group [search] -->
                                 <div class="form-group">
-                                    <button id ='applyBtn' type="button" class="btn btn-default filter-col">
+                                    <button id ='applyBtn' type="button" class="btn btn-default filter-col" style = "margin-right:20px;margin-left:20px;">
                                         <span class="glyphicon glyphicon-record"></span>    Apply
                                     </button>
-                                    <button id = 'resetBtn' type="button" class="btn btn-default filter-col">
+                                    <button id = 'resetBtn' type="button" class="btn btn-default filter-col" style = "margin-right:20px;margin-left:20px;">
                                         <span class="glyphicon glyphicon-record"></span>    Reset Filters
                                     </button>
                                 </div>
