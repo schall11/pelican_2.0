@@ -1,147 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <meta name="description" content="Calcite Maps Demo - ArcGIS">
-  <link rel="icon" href="http://www.esri.com/favicon.ico">
-  <title>PeliTrack v2.0</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="description" content="Calcite Maps Demo - ArcGIS">
+    <link rel="icon" href="http://www.esri.com/favicon.ico">
+    <title>PeliTrack v2.0</title>
 
-  <!-- Calcite Bootstrap -->
-  <link rel="stylesheet" href="dist/css/calcite-bootstrap.min-v0.2.css">
+    <!-- Calcite Bootstrap -->
+    <link rel="stylesheet" href="dist/css/calcite-bootstrap.min-v0.2.css">
 
-  <!-- Calcite Maps -->
-  <link rel="stylesheet" href="dist/css/calcite-maps-arcgis-4.x.min-v0.2.css">
+    <!-- Calcite Maps -->
+    <link rel="stylesheet" href="dist/css/calcite-maps-arcgis-4.x.min-v0.2.css">
 
-  <!-- ArcGIS JS 4.0 -->
-  <link rel="stylesheet" href="http://js.arcgis.com/4.0/esri/css/main.css">
+    <!-- ArcGIS JS 4.0 -->
+    <link rel="stylesheet" href="http://js.arcgis.com/4.0/esri/css/main.css">
 
     <!-- Bootstrap core JavaScript
   ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <!-- jQuery (for Bootstrap's JavaScript plugins). NOTE: You can also use pure Dojo. See examples. -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <!-- Include all  plugins or individual files as needed -->
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- jQuery (for Bootstrap's JavaScript plugins). NOTE: You can also use pure Dojo. See examples. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all  plugins or individual files as needed -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="dist/js/datepicker/daterangepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     <script type="text/javascript" src="dist/js/bootstrap_multiselect/bootstrap-multiselect.js"></script>
-    <link rel="stylesheet" href="dist/css/bootstrap_multiselect/bootstrap-multiselect.css" type="text/css"/>
+    <link rel="stylesheet" href="dist/css/bootstrap_multiselect/bootstrap-multiselect.css" type="text/css" />
 
 
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <!--script src="../../assets/js/ie10-viewport-bug-workaround.js"></script-->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--script src="../../assets/js/ie10-viewport-bug-workaround.js"></script-->
 
-  <!-- Calcite Maps -->
-  <script src="dist/js/jquery/calcitemaps-v0.2.js"></script>
+    <!-- Calcite Maps -->
+    <script src="dist/js/jquery/calcitemaps-v0.2.js"></script>
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-        height:100%;
-    }
-    .esri-legend{
-        max-width: 30px;
-        background-color: #333333;
-        color: white;
-        border: 1px solid #4c4c4c;
-    }
-      @media screen and (max-width: 768px) {
-    .esri-legend {
-        display: none;
-    }
-}
-.forceLegend{
-    display:block !important;
-}
-    .esri-ui-top-left{
-          z-index: 0;
-      }
-  #load {
-      position:absolute;
-      z-index: 5;
-      top: 40%;
-      left:50%;
-  }
-      .dropdown-toggle {
-        min-width: auto;
-          width: 100% !important;
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
 
-}
-.dropdown-menu select{
-    left:0;
-}
-  #filter-panel .btn-group{
-      display: block;
-  }
-  #filter-panel .dropdown-toggle{
-      margin-left: 0px;
-      margin-right: 0px;
-      width: 85%!important;
-  }
-      #filter-panel .btn{
-          float:none;
-      }
-       #filter-panel .form-control{
-           width:85%;
-       }
-       @media screen and (max-width: 768px) {
-    #filter-panel {
-        width:100%!important;
-    }
-}
-  </style>
+        .esri-legend {
+            max-width: 30px;
+            background-color: #333333;
+            color: white;
+            border: 1px solid #4c4c4c;
+        }
+
+        @media screen and (max-width: 768px) {
+            .esri-legend {
+                display: none;
+            }
+        }
+
+        .forceLegend {
+            display: block !important;
+        }
+
+        .esri-ui-top-left {
+            z-index: 0;
+        }
+
+        #load {
+            position: absolute;
+            z-index: 5;
+            top: 40%;
+            left: 50%;
+        }
+
+        .dropdown-toggle {
+            min-width: auto;
+            width: 100% !important;
+        }
+
+        .dropdown-menu select {
+            left: 0;
+        }
+
+        #filter-panel .btn-group {
+            display: block;
+        }
+
+        #filter-panel .dropdown-toggle {
+            margin-left: 0px;
+            margin-right: 0px;
+            width: 85%!important;
+        }
+
+        #filter-panel .btn {
+            float: none;
+        }
+
+        #filter-panel .form-control {
+            width: 85%;
+        }
+
+        @media screen and (max-width: 768px) {
+            #filter-panel {
+                width: 100%!important;
+            }
+        }
+    </style>
 
 </head>
 
 <body class="calcite-nav-bottom">
-    <div class = "hidden" id = "load"><img src="load.gif" class="img-fluid" alt="Loading..." style = "heigh:32px; width:32px;"></div>
-  <!-- Navbar -->
+    <div class="hidden" id="load"><img src="load.gif" class="img-fluid" alt="Loading..." style="heigh:32px; width:32px;"></div>
+    <!-- Navbar -->
 
-  <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75 dropup">
-    <!-- Header -->
-    <div class="navbar-header">
-      <a class="navbar-brand"><img src="pelican_fly.png" class="img-fluid" alt="Flying pelican"></a>
-    </div>
-    <!-- Title -->
-    <div class="calcite-title calcite-overflow-hidden">
-      <div class="calcite-title-main">PeliTrack v2.0</div>
-      <div class="calcite-title-sub">Utah Division of Wildlife Resources</div>
-    </div>
-     <!-- Nav -->
-    <ul class="nav navbar-nav">
-        <li id ="basemapNav2" style="cursor:pointer;"><a id="basemapNav" aria-controls="BasemapTab" role="tab" class="toggle" data-tooltip="tip" title="Change Basemap" data-placement="bottom"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a>
-      </li>
-        <a class="navbar-brand"><img src="http://wildlife.utah.gov/pelican_webmap/images/DWR_logo_small.png" class="img-fluid" alt="Flying pelican"></a>
-    </ul>
-
-
-
-  </nav><!--/.navbar -->
+    <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75 dropup">
+        <!-- Header -->
+        <div class="navbar-header">
+            <a class="navbar-brand"><img src="pelican_fly.png" class="img-fluid" alt="Flying pelican"></a>
+        </div>
+        <!-- Title -->
+        <div class="calcite-title calcite-overflow-hidden">
+            <div class="calcite-title-main">PeliTrack v2.0</div>
+            <div class="calcite-title-sub">Utah Division of Wildlife Resources</div>
+        </div>
+        <!-- Nav -->
+        <ul class="nav navbar-nav">
+            <li style="cursor:pointer;"><a id="modalToggle" aria-controls="InfoTab" role="button" data-toggle="modal" data-tooltip="More Info" title="More Info" data-placement="bottom" data-target="#modalSplash"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a>
+            </li>
+            <a class="navbar-brand"><img src="http://wildlife.utah.gov/pelican_webmap/images/DWR_logo_small.png" class="img-fluid" alt="Flying pelican"></a>
+        </ul>
 
 
 
-  <!-- Map Container  -->
+    </nav>
+    <!--/.Modal -->
+    <div class="modal fade" id="modalSplash" tabindex="-1" role="dialog" aria-labelledby="splashlModal" style="overflow-y: auto;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><br>
+			</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="splash-body">
+								<div class="text-center">
+								 	<h3>What is this project all about?</h3>
+								 	<hr>
+								 	<p>Pelicans are pretty easy to spot. They are large, weigh 10-20 pounds and have a wingspan of 8-10 feet. They are white with a long neck and a massive, orange bill. You can often see them by the hundreds either swimming, fishing or soaring. They can soar for what seems like forever, on long, broad white and black wings. Seeing one is easy, and usually there isn&#8217;t just one. Catching one, however, is hard.</p>
+                                        <div id="attachment_4379" style="width: 385px" class="wp-caption alignleft"><a href="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png" rel="attachment wp-att-4379"><img class="wp-image-4379" src="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png" alt="American white pelicans in Utah." width="375" height="211" srcset="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png 777w, http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog-300x169.png 300w, http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog-768x432.png 768w" sizes="(max-width: 375px) 100vw, 375px" /></a><p class="wp-caption-text">American white pelicans in Utah.</p></div>
+                                        <p>I&#8217;ve had the privilege of being involved in the monitoring and management of American White Pelicans in Utah. Pelicans have had some tough times, from disturbance of nesting colonies, pesticide use and population controls.</p>
+                                        <p>But through conservation efforts, pelicans have started to make a comeback. They are still not as abundant as they used to be, but the overall outlook is bright. That is a good thing for these birds and for people like me who love to see them.</p>
+                                        <p>However, it can also be a not-so-good thing if you are a fish in a sensitive fishery, or an airplane that just had a negative, mid-air interaction with a pelican.</p>
+                                        <p>So I — along with a whole team of biologists — am working on answering the questions to better help us continue conserving the pelican and avoid the issues they can cause.</p>
+                                        <p>A portion of this kind of work involves banding and tagging young pelicans at the nesting colony on Gunnison Island, <a href="http://wildlife.utah.gov/blog/2015/the-low-speed-stampede/">which you can read in a previous post</a>. Another part of the work (the part that I&#8217;ve been working on) involves catching adult pelicans and attaching GPS transmitters to track daily and seasonal movement patterns.</p>
+                                        <div class="form-inline">
+										<div class="form-group">
+                                            <a class="btn btn-success btn-lg" href="http://wildlife.utah.gov/fishing-in-utah/community-fisheries.html" target="_blank">More Information</a>
+										</div>
+									</div>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <div class="calcite-map calcite-map-absolute calcite-overflow-hidden">
+    <div id="filtercont" class="container-fluid hidden ">
+                    <div class="row">
+                        <div id="filter-panel" class="filter-panel calcite-text-light calcite-bg-dark calcite-black-75" style="position:absolute;bottom:65px;right:0px;z-index:1; width:auto; display:inline-block;text-align:center">
 
-      <div id = "buttonContainer"  style = "position:absolute; top:20px; right:10px; z-index: 5;">
-          <div class = "btn-group ">
-              <button id="filterNav2" type="button" class="btn btn-default ">
+                            <div class="panel panel-default">
+                                <div class="panel-body" style="background-color:#333333; color: white;">
+                                    <form class="form" role="form" style="padding-top:20px; display:inline-block !important">
+                                        <div class="form-group">
+                                            <label class="filter-col" for="nameselect">Filter by Name: </label>
+                                                <select id="nameselect" class="form-control input-sm" multiple="multiple">
+                                                    <option value="Abigail">Abigail</option>
+                                                    <option value="Annabelle">Annabelle</option>
+                                                    <option value="Barnabus">Barnabus</option>
+                                                    <option value="Bartholomew">Bartholomew</option>
+                                                    <option value="Cecilia">Cecilia</option>
+                                                    <option value="Chester">Chester</option>
+                                                    <option value="Daphne">Daphne</option>
+                                                    <option value="Derek">Derek</option>
+                                                    <option value="Eleanor">Eleanor</option>
+                                                    <option value="Everett">Everett</option>
+                                                    <option value="Finnigan">Finnigan</option>
+                                                    <option value="Flagg">Finnigan</option>
+                                                    <option value="George">George</option>
+                                                    <option value="Gerald">Gerald</option>
+                                                    <option value="Hector">Hector</option>
+                                                    <option value="Indie">Indie</option>
+                                                 </select>
+                                        </div>
+                                        <!-- form group [rows] -->
+                                        <div class="form-group">
+                                            <label class="filter-col" for="daterange" style="padding-top:10px;">Filter by Date: </label>
+                                            <input type="button" class="form-control input-sm" id="daterange" value="Most Recent Points Shown">
+                                        </div>
+                                        <!-- form group [search] -->
+                                        <div class="form-group">
+                                            <button id='applyBtn' type="button" class="btn btn-default filter-col" style="margin-right:20px;margin-left:20px;">
+                                        <span class="glyphicon glyphicon-record"></span>    Apply
+                                    </button>
+                                            <button id='resetBtn' type="button" class="btn btn-default filter-col" style="margin-right:20px;margin-left:20px;">
+                                        <span class="glyphicon glyphicon-record"></span>    Reset Filters
+                                    </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+    <!-- Map Container  -->
+
+    <div class="calcite-map calcite-map-absolute calcite-overflow-hidden">
+
+        <div id="buttonContainer" style="position:absolute; top:20px; right:10px; z-index: 5;">
+            <div class="btn-group ">
+                <button id="filterNav2" type="button" class="btn btn-default ">
                   <span class="esri-icon esri-icon-filter"></span><span class="hidden-xs hidden-sm">   Filter Data</span>
               </button>
             </div>
-          <div id ="layers" class = 'btn-group'>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <div id="layers" class='btn-group'>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   <span class="esri-icon esri-icon-layers"></span><span class="hidden-xs hidden-sm">   Toggle Layers</span>
               </button>
-                  <ul class="dropdown-menu ">
+                <ul class="dropdown-menu ">
                     <li>
                         <div class="checkbox" style="margin-left:20px;margin-right:20px;">
-                        <label><input type="checkbox" id = "togglePts"> Show Data Points
+                            <label><input type="checkbox" id = "togglePts"> Show Data Points
                         </label>
                         </div>
                     </li>
@@ -150,870 +245,756 @@
                             <label><input type="checkbox" id = "toggleHeat"> Toggle Resight Locations</label>
                         </div>
                     </li>
-                    <li >
+                    <li>
                         <div class="checkbox" style="margin-left:20px;margin-right:20px;">
                             <label><input type="checkbox" id = "toggleColony" checked> Toggle Colony Layer</label>
                         </div>
                     </li>
-                  </ul>
-          </div>
-           <div class = 'btn-group'>
-              <button id="legendNav" type="button" class="btn btn-default">
+                </ul>
+            </div>
+            <div class='btn-group'>
+                <button id="legendNav" type="button" class="btn btn-default">
                   <span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm">   Toggle Legend</span>
               </button>
-           </div>
-           <div id = "basemap" class = 'btn-group'>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            </div>
+            <div id="basemap" class='btn-group'>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   <span class="esri-icon esri-icon-basemap"></span><span class="hidden-xs hidden-sm">   Change Basemap</span>
               </button>
-               <ul class="dropdown-menu dropdown-menu-right">
-               <select id="selectBasemapPanel" class="form-control" style="background-color:white;color:black">
-                    <option value="satellite" data-vector="satellite" >Imagery</option>
-                    <option value="hybrid" data-vector="hybrid">Imagery with Labels</option>
-                    <option value="national-geographic" data-vector="national-geographic">National Geographic</option>
-                    <option value="topo" data-vector="topo-vector">Topographic</option>
-                    <option value="dark-gray" data-vector="dark-gray-vector" selected="">Dark Gray</option>
-                </select>
-                   </ul>
-               </div>
-      </div>
-      <div id="tabContainer" class="tab-content">
-      <div id="2dTab" class="tab-pane fade in active" role="tabpanel">
-         <div id ="filtercont" class="container-fluid hidden ">
-            <div class="row">
-                <div id="filter-panel" class="filter-panel calcite-text-light calcite-bg-dark calcite-black-75" style="position:absolute;bottom:65px;right:0px;z-index:1; width:auto; display:inline-block;text-align:center">
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <select id="selectBasemapPanel" class="form-control" style="background-color:white;color:black">
+                        <option value="satellite" data-vector="satellite" >Imagery</option>
+                        <option value="hybrid" data-vector="hybrid">Imagery with Labels</option>
+                        <option value="national-geographic" data-vector="national-geographic">National Geographic</option>
+                        <option value="topo" data-vector="topo-vector">Topographic</option>
+                        <option value="dark-gray" data-vector="dark-gray-vector" selected="">Dark Gray</option>
+                    </select>
+                </ul>
+            </div>
+        </div>
+        <div id="tabContainer" class="tab-content">
+            <div id="2dTab" class="tab-pane fade in active" role="tabpanel">
 
-                    <div class="panel panel-default">
-                        <div class="panel-body" style = "background-color:#333333; color: white;">
-                            <form class="form" role="form" style="padding-top:20px; display:inline-block !important">
-                                <div class="form-group">
-                                    <label class="filter-col" for="nameselect">Filter by Name: </label>
-                                    <select id="nameselect" class="form-control input-sm" multiple="multiple">
-                                        <option value="Abigail">Abigail</option>
-                                        <option value="Annabelle">Annabelle</option>
-                                        <option value="Barnabus">Barnabus</option>
-                                        <option value="Bartholomew">Bartholomew</option>
-                                        <option value="Cecilia">Cecilia</option>
-                                        <option value="Chester">Chester</option>
-                                        <option value="Daphne">Daphne</option>
-                                        <option value="Derek">Derek</option>
-                                        <option value="Eleanor">Eleanor</option>
-                                        <option value="Everett">Everett</option>
-                                        <option value="Finnigan">Finnigan</option>
-                                        <option value="Flagg">Finnigan</option>
-                                        <option value="George">George</option>
-                                        <option value="Gerald">Gerald</option>
-                                        <option value="Hector">Hector</option>
-                                        <option value="Indie">Indie</option>
 
-                                    </select>
-                                </div> <!-- form group [rows] -->
-                                <div class="form-group">
-                                    <label class="filter-col" for="daterange" style = "padding-top:10px;">Filter by Date: </label>
-                                    <input type="button" class="form-control input-sm" id="daterange" value="Most Recent Points Shown">
-                                </div><!-- form group [search] -->
-                                <div class="form-group">
-                                    <button id ='applyBtn' type="button" class="btn btn-default filter-col" style = "margin-right:20px;margin-left:20px;">
-                                        <span class="glyphicon glyphicon-record"></span>    Apply
-                                    </button>
-                                    <button id = 'resetBtn' type="button" class="btn btn-default filter-col" style = "margin-right:20px;margin-left:20px;">
-                                        <span class="glyphicon glyphicon-record"></span>    Reset Filters
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                <div id="mapViewDiv">
 
                 </div>
-                </div>
-             </div>
+            </div>
 
-          <div id="mapViewDiv"></div>
-      </div>
-      <div id="3dTab" class="tab-pane fade" role="tabpanel">
-        <div id="sceneViewDiv"></div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 
 
-  <!-- ArcGIS JS 4.0 -->
-  <script src="http://js.arcgis.com/4.0/"></script>
+    <!-- ArcGIS JS 4.0 -->
+    <script src="http://js.arcgis.com/4.0/"></script>
 
-  <script>
-      var app;
-    var startDate;
-    var endDate;
-    var names_all = ["Abigail","Annabelle","Barnabus","Bartholomew","Cecilia","Chester","Daphne","Derek","Eleanor","Everett","Finnigan","Flagg","George","Gerald","Hector","Indie","Jerome"];
-      var name_colors = [
-                    [166, 206, 227],
-                    [31, 120, 180],
-                    [178, 223, 138],
-                    [51, 160, 44],
-                    [255, 86, 153],
-                    [227, 26, 28],
-                    [253, 191, 111],
-                    [255, 127, 0],
-                    [202, 178, 214],
-                    [106, 61, 154],
-                    [251, 154, 153],
-                    [177, 89, 40],
-                    [86, 90, 153],
-                    [204, 80, 25],
-                    [117, 255, 0],
-                    [237, 142, 255],
-                    [123, 178, 151],
-                    [255, 236, 191],
-                    [238, 211, 255],
-                    [203, 54, 126],
-                    [102, 202, 234],
-                    [230, 120, 120],
-                    [102, 189, 202],
-                    [95, 95, 215],
-                    [175, 65, 175],
-                    [250, 165, 105],
-                    [120, 120, 120],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0],
-					[0, 255, 0]
+    <script>
+        var app;
+        var startDate;
+        var endDate;
+        var names_all = ["Abigail", "Annabelle", "Barnabus", "Bartholomew", "Cecilia", "Chester", "Daphne", "Derek", "Eleanor", "Everett", "Finnigan", "Flagg", "George", "Gerald", "Hector", "Indie", "Jerome"];
+        var name_colors = [
+            [166, 206, 227],
+            [31, 120, 180],
+            [178, 223, 138],
+            [51, 160, 44],
+            [255, 86, 153],
+            [227, 26, 28],
+            [253, 191, 111],
+            [255, 127, 0],
+            [202, 178, 214],
+            [106, 61, 154],
+            [251, 154, 153],
+            [177, 89, 40],
+            [86, 90, 153],
+            [204, 80, 25],
+            [117, 255, 0],
+            [237, 142, 255],
+            [123, 178, 151],
+            [255, 236, 191],
+            [238, 211, 255],
+            [203, 54, 126],
+            [102, 202, 234],
+            [230, 120, 120],
+            [102, 189, 202],
+            [95, 95, 215],
+            [175, 65, 175],
+            [250, 165, 105],
+            [120, 120, 120],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0],
+            [0, 255, 0]
 
-                ];
+        ];
 
-                var nameColor = [];
-				var dict = {};
-                for (var n = 0; n < names_all.length; n++) {
-                    dict[names_all[n]] = name_colors[n]
-					var tL = [];
-                    tL.push(names_all[n]);
-                    tL.push(name_colors[n]);
-                    nameColor.push(tL);
-                }
+        var nameColor = [];
+        var dict = {};
+        for (var n = 0; n < names_all.length; n++) {
+            dict[names_all[n]] = name_colors[n]
+            var tL = [];
+            tL.push(names_all[n]);
+            tL.push(name_colors[n]);
+            nameColor.push(tL);
+        }
 
-    require(["esri/Map",
-      "esri/Basemap",
-        "esri/widgets/Home",
+        require(["esri/Map",
+            "esri/Basemap",
+            "esri/widgets/Home",
             "esri/widgets/Compass",
-      "esri/views/MapView",
-      "esri/views/SceneView",
-      "esri/widgets/Search",
-        "esri/layers/FeatureLayer",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/widgets/Search",
+            "esri/layers/FeatureLayer",
             "esri/layers/GraphicsLayer",
             "esri/Graphic",
             "esri/widgets/Popup",
-		"esri/PopupTemplate",
-            "esri/geometry/Polyline","esri/geometry/Point",
-            "esri/symbols/SimpleLineSymbol","esri/symbols/SimpleMarkerSymbol",
+            "esri/PopupTemplate",
+            "esri/geometry/Polyline", "esri/geometry/Point",
+            "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleMarkerSymbol",
             "esri/widgets/Legend",
             "esri/renderers/UniqueValueRenderer",
-      "esri/core/watchUtils",
-      "dojo/query",
-      "dojo/domReady!"
-    ], function(Map, Basemap, Home, Compass, MapView, SceneView, Search,FeatureLayer,GraphicsLayer, Graphic, Popup, PopupTemplate,Polyline,Point,SimpleLineSymbol,SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
+            "esri/core/watchUtils",
+            "dojo/query",
+            "dojo/domReady!"
+        ], function(Map, Basemap, Home, Compass, MapView, SceneView, Search, FeatureLayer, GraphicsLayer, Graphic, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
 
-        // App
-        app = {
-            scale: 50000000,
-            center: [-111.95, 39.419],
-            zoom: 5,
-            initialExtent: null,
-            basemap: "dark-gray",
-            viewPadding: {
-                bottom: 65
-            },
-            uiPadding: {
-                top: 30, bottom: 15
-            },
-            mapView: null,
-            sceneView: null,
-            activeView: null,
-            searchWidgetNav: null
-        };
-        // Map
-        var map = new Map({
-            basemap: app.basemap
-        });
-
-        app.mapView = new MapView({
-            container: "mapViewDiv",
-            map: map,
-            zoom: app.zoom,
-            center: app.center,
-            padding: app.viewPadding,
-            ui: {
-                components: ["zoom"],
-                padding: app.uiPadding
-            },
-            popup:{
-                dockEnabled: true,
-                dockOptions: {
-                    buttonEnabled: true,
-                    breakpoint:true,
-                    position: 'top-center'
-                }
-            }
-        });
-        var homeBtn = new Home({
-            view: app.mapView
-        });
-        var compass = new Compass({
-            view: app.mapView
-        });
-
-        app.mapView.ui.add(homeBtn, "top-left");
-        app.mapView.ui.add(compass, "top-left");
-          var rendererPts = new UniqueValueRenderer({
-          field: "name"
-          //defaultSymbol: new SimpleFillSymbol()
-        });
-        var rendererPtsMRP = new UniqueValueRenderer({
-          field: "name"
-          //defaultSymbol: new SimpleFillSymbol()
-        });
-        var rendererLns = new UniqueValueRenderer({
-          field: "name"
-          //defaultSymbol: new SimpleFillSymbol()
-        });
-         for (i in dict){
-            rendererPts.addUniqueValueInfo(i,
-            new SimpleMarkerSymbol({
-                color: dict[i],
-                size: '6px'
-            })
-            );
-             rendererPtsMRP.addUniqueValueInfo(i,
-            new SimpleMarkerSymbol({
-                color: dict[i],
-                size: '12px'
-            })
-            );
-             rendererLns.addUniqueValueInfo(i,
-            new SimpleLineSymbol({
-                color: dict[i],
-                width: 1
-            })
-            );
-        }
-        var template = new PopupTemplate({
-        title: "{name}",
-        content: "Seen here on {Date_time}",
-        fieldInfos: [{
-			fieldName: "Date_time",
-			label: "Date",
-			format:{
-                dateFormat: 'short-date-short-time'
-            }
-		  }, {
-			fieldName: "name",
-			label: "Name",
-			visible: true
-		  }
-		  ]
-		  });
-        var colonyTemplate = new PopupTemplate({
-        title: "{COLONY}",
-        content: "Colony Name: {COLONY}<br>Population: {pop}",
-        fieldInfos: [{
-			fieldName: "COLONY",
-			label: "Colony Name"
-		  }, {
-			fieldName: "pop",
-			label: "Population",
-			visible: true
-		  }
-		  ]
-		  });
-
-        //console.log(app.mapView.popup.ViewModel);
-        var graphicA = new Graphic();
-        var gLayer = new GraphicsLayer({
-            graphics: [graphicA]
+            // App
+            app = {
+                scale: 50000000,
+                center: [-111.95, 39.419],
+                zoom: 5,
+                initialExtent: null,
+                basemap: "dark-gray",
+                viewPadding: {
+                    bottom: 65
+                },
+                uiPadding: {
+                    top: 30,
+                    bottom: 15
+                },
+                mapView: null,
+                sceneView: null,
+                activeView: null,
+                searchWidgetNav: null
+            };
+            // Map
+            var map = new Map({
+                basemap: app.basemap
             });
-        var legendLayer = new FeatureLayer({
-            url: 'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Tracked_Pelicans/FeatureServer',
-            renderer: rendererPtsMRP
-            });
-        var gLayerMRP = new GraphicsLayer({
-            popupTemplate: template
-        });
-        var mrp = new FeatureLayer ({
-            url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/1',
-            outFields: ["*"],
-            popupTemplate: template,
-            renderer: rendererPtsMRP
-        });
-        var fl = new FeatureLayer({
-            url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0",
-            outFields: ["*"],
-            popupTemplate: template,
-            renderer: rendererPts
 
-        });
-        var colonies = new FeatureLayer({
-            url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Western_Breeding_Colonies/FeatureServer/0",
-            outFields: ["*"],
-            popupTemplate: colonyTemplate
-        });
-        var resightUT = new FeatureLayer({
-            url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/0",
-            outFields: ["*"]
-        });
-        var resightID = new FeatureLayer({
-            url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/1",
-            outFields: ["*"]
-        });
-        fl.load();
-
-
-
-        map.add(colonies);
-        map.add(legendLayer);
-        map.add(mrp);
-
-        var legend = new Legend({
-            view: app.mapView,
-            layerInfos: [{
-                layer: legendLayer,
-                title: "Tracked Pelicans"
-                },{
-                layer: colonies,
-                title: "Breeding Colonies"
-            }]
-         });
-        legend.startup();
-        app.mapView.ui.add(legend, "bottom-left");
-        // Scene
-        var mapScene = new Map({
-            basemap: app.basemap,
-            ground: "world-elevation"
-        });
-        app.sceneView = new SceneView({
-            container: "sceneViewDiv",
-            map: mapScene,
-            scale: app.scale,
-            center: app.center,
-            padding: app.viewPadding,
-            ui: {
-                padding: app.uiPadding
-            }
-        });
-        app.activeView = app.mapView;
-        app.activeView.then(function () {
-            app.initialExtent = app.activeView.extent;
-        });
-        // Search
-
-
-
-        app.searchWidgetNav = createSearchWidget("searchNavDiv");
-        function createSearchWidget(parentId) {
-            var search = new Search({
-                viewModel: {
-                    view: app.activeView,
-                    highlightEnabled: false,
-                    popupEnabled: true,
-                    showPopupOnSelect: true
+            app.mapView = new MapView({
+                container: "mapViewDiv",
+                map: map,
+                zoom: app.zoom,
+                center: app.center,
+                padding: app.viewPadding,
+                ui: {
+                    components: ["zoom"],
+                    padding: app.uiPadding
+                },
+                popup: {
+                    dockEnabled: true,
+                    dockOptions: {
+                        buttonEnabled: true,
+                        breakpoint: true,
+                        position: 'top-center'
+                    }
                 }
-            }, parentId);
-            search.startup();
-            return search;
-        }
+            });
+            var homeBtn = new Home({
+                view: app.mapView
+            });
+            var compass = new Compass({
+                view: app.mapView
+            });
 
-        // Popup Events
-        app.mapView.popup.watch("currentDockPosition", function (result) {
-            setPanelVisibility();
-        });
-        app.sceneView.popup.watch("currentDockPosition", function (result) {
-            setPanelVisibility();
-        });
-
-
-        // Panel Events
-        query(".calcite-panels .panel").on("show.bs.collapse", function (e) {
-            if (app.activeView.popup.currentDockPosition) {
-                app.activeView.popup.dockEnabled = false;
+            app.mapView.ui.add(homeBtn, "top-left");
+            app.mapView.ui.add(compass, "top-left");
+            var rendererPts = new UniqueValueRenderer({
+                field: "name"
+                    //defaultSymbol: new SimpleFillSymbol()
+            });
+            var rendererPtsMRP = new UniqueValueRenderer({
+                field: "name"
+                    //defaultSymbol: new SimpleFillSymbol()
+            });
+            var rendererLns = new UniqueValueRenderer({
+                field: "name"
+                    //defaultSymbol: new SimpleFillSymbol()
+            });
+            for (i in dict) {
+                rendererPts.addUniqueValueInfo(i,
+                    new SimpleMarkerSymbol({
+                        color: dict[i],
+                        size: '6px'
+                    })
+                );
+                rendererPtsMRP.addUniqueValueInfo(i,
+                    new SimpleMarkerSymbol({
+                        color: dict[i],
+                        size: '12px'
+                    })
+                );
+                rendererLns.addUniqueValueInfo(i,
+                    new SimpleLineSymbol({
+                        color: dict[i],
+                        width: 1
+                    })
+                );
             }
-        });
-        // Window Events
-        query(window).on("resize", function () {
-            setPanelVisibility();
-        })
-        // Panel show/hide
-        function setPanelVisibility() {
-            if (app.activeView.popup.visible && app.activeView.popup.currentDockPosition && !(window.innerWidth > 544 && window.innerWidth < 768)) {
-                if (query(".calcite-panels .panel.in").length > 0) {
-                    query(".calcite-panels").addClass("invisible");
+            var template = new PopupTemplate({
+                title: "{name}",
+                content: "Seen here on {Date_time}",
+                fieldInfos: [{
+                    fieldName: "Date_time",
+                    label: "Date",
+                    format: {
+                        dateFormat: 'short-date-short-time'
+                    }
+                }, {
+                    fieldName: "name",
+                    label: "Name",
+                    visible: true
+                }]
+            });
+            var colonyTemplate = new PopupTemplate({
+                title: "{COLONY}",
+                content: "Colony Name: {COLONY}<br>Population: {pop}",
+                fieldInfos: [{
+                    fieldName: "COLONY",
+                    label: "Colony Name"
+                }, {
+                    fieldName: "pop",
+                    label: "Population",
+                    visible: true
+                }]
+            });
+
+            //console.log(app.mapView.popup.ViewModel);
+            var gLayer = new GraphicsLayer({});
+            var legendLayer = new FeatureLayer({
+                url: 'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Tracked_Pelicans/FeatureServer',
+                renderer: rendererPtsMRP
+            });
+            var gLayerMRP = new GraphicsLayer({
+                popupTemplate: template
+            });
+            var mrp = new FeatureLayer({
+                url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/1',
+                outFields: ["*"],
+                popupTemplate: template,
+                renderer: rendererPtsMRP
+            });
+            var fl = new FeatureLayer({
+                url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0",
+                outFields: ["*"],
+                popupTemplate: template,
+                renderer: rendererPts
+
+            });
+            var colonies = new FeatureLayer({
+                url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Western_Breeding_Colonies/FeatureServer/0",
+                outFields: ["*"],
+                popupTemplate: colonyTemplate
+            });
+            var resightUT = new FeatureLayer({
+                url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/0",
+                outFields: ["*"]
+            });
+            var resightID = new FeatureLayer({
+                url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/1",
+                outFields: ["*"]
+            });
+            fl.load();
+
+
+
+            map.add(colonies);
+            map.add(legendLayer);
+            map.add(mrp);
+
+            var legend = new Legend({
+                view: app.mapView,
+                layerInfos: [{
+                    layer: legendLayer,
+                    title: "Tracked Pelicans"
+                }, {
+                    layer: colonies,
+                    title: "Breeding Colonies"
+                }]
+            });
+            legend.startup();
+            app.mapView.ui.add(legend, "bottom-left");
+            // Scene
+            var mapScene = new Map({
+                basemap: app.basemap,
+                ground: "world-elevation"
+            });
+            app.sceneView = new SceneView({
+                container: "sceneViewDiv",
+                map: mapScene,
+                scale: app.scale,
+                center: app.center,
+                padding: app.viewPadding,
+                ui: {
+                    padding: app.uiPadding
+                }
+            });
+            app.activeView = app.mapView;
+            app.activeView.then(function() {
+                app.initialExtent = app.activeView.extent;
+            });
+            // Search
+
+
+
+            app.searchWidgetNav = createSearchWidget("searchNavDiv");
+
+            function createSearchWidget(parentId) {
+                var search = new Search({
+                    viewModel: {
+                        view: app.activeView,
+                        highlightEnabled: false,
+                        popupEnabled: true,
+                        showPopupOnSelect: true
+                    }
+                }, parentId);
+                search.startup();
+                return search;
+            }
+
+            // Popup Events
+            app.mapView.popup.watch("currentDockPosition", function(result) {
+                setPanelVisibility();
+            });
+            app.sceneView.popup.watch("currentDockPosition", function(result) {
+                setPanelVisibility();
+            });
+
+
+            // Panel Events
+            query(".calcite-panels .panel").on("show.bs.collapse", function(e) {
+                if (app.activeView.popup.currentDockPosition) {
+                    app.activeView.popup.dockEnabled = false;
+                }
+            });
+            // Window Events
+            query(window).on("resize", function() {
+                    setPanelVisibility();
+                })
+                // Panel show/hide
+            function setPanelVisibility() {
+                if (app.activeView.popup.visible && app.activeView.popup.currentDockPosition && !(window.innerWidth > 544 && window.innerWidth < 768)) {
+                    if (query(".calcite-panels .panel.in").length > 0) {
+                        query(".calcite-panels").addClass("invisible");
+                    } else {
+                        query(".calcite-panels").removeClass("invisible");
+                    }
                 } else {
                     query(".calcite-panels").removeClass("invisible");
                 }
-            } else {
-                query(".calcite-panels").removeClass("invisible");
             }
-        }
 
-        // Tab Events (Views)
-        query(".calcite-navbar li a[data-toggle='tab']").on("click", function (e) {
-            syncTabs(e);
-            if (e.target.text.indexOf("Map") > -1) {
-                syncViews(app.sceneView, app.mapView);
-                app.activeView = app.mapView;
-            } else {
-                syncViews(app.mapView, app.sceneView);
-                app.activeView = app.sceneView;
-            }
-            syncSearch();
-        });
-        // Tab
-        function syncTabs(e) {
-            query(".calcite-navbar li.active").removeClass("active");
-            query(e.target).addClass("active");
-        }
-
-        // View
-        function syncViews(fromView, toView) {
-            watchUtils.whenTrueOnce(toView, "ready").then(function (result) {
-                watchUtils.whenTrueOnce(toView, "stationary").then(function (result) {
-                    toView.goTo(fromView.viewpoint);
-                    toView.popup.reposition();
-                });
+            // Tab Events (Views)
+            query(".calcite-navbar li a[data-toggle='tab']").on("click", function(e) {
+                syncTabs(e);
+                if (e.target.text.indexOf("Map") > -1) {
+                    syncViews(app.sceneView, app.mapView);
+                    app.activeView = app.mapView;
+                } else {
+                    syncViews(app.mapView, app.sceneView);
+                    app.activeView = app.sceneView;
+                }
+                syncSearch();
             });
-        }
-
-        // Search
-        function syncSearch() {
-            app.searchWidgetNav.viewModel.view = app.activeView;
-            // Sync
-            if (app.searchWidgetNav.selectedResult) {
-                app.searchWidgetNav.search(app.searchWidgetNav.selectedResult.name);
+            // Tab
+            function syncTabs(e) {
+                query(".calcite-navbar li.active").removeClass("active");
+                query(e.target).addClass("active");
             }
-            app.activeView.popup.reposition();
-        }
 
-        // Basemap events
-        query("#selectBasemapPanel").on("change", function (e) {
-            app.mapView.map.basemap = e.target.value;
-            $('#basemap').removeClass('open');
-        });
-        // Collapsible popup (optional)
-        query(".esri-popup .esri-title").on("click", function (e) {
-            query(".esri-popup .esri-container").toggleClass("esri-popup-collapsed");
-            app.activeView.popup.reposition();
-        });
-        // Home
+            // View
+            function syncViews(fromView, toView) {
+                watchUtils.whenTrueOnce(toView, "ready").then(function(result) {
+                    watchUtils.whenTrueOnce(toView, "stationary").then(function(result) {
+                        toView.goTo(fromView.viewpoint);
+                        toView.popup.reposition();
+                    });
+                });
+            }
+
+            // Search
+            function syncSearch() {
+                app.searchWidgetNav.viewModel.view = app.activeView;
+                // Sync
+                if (app.searchWidgetNav.selectedResult) {
+                    app.searchWidgetNav.search(app.searchWidgetNav.selectedResult.name);
+                }
+                app.activeView.popup.reposition();
+            }
+
+            // Basemap events
+            query("#selectBasemapPanel").on("change", function(e) {
+                app.mapView.map.basemap = e.target.value;
+                $('#basemap').removeClass('open');
+            });
+            // Collapsible popup (optional)
+            query(".esri-popup .esri-title").on("click", function(e) {
+                query(".esri-popup .esri-container").toggleClass("esri-popup-collapsed");
+                app.activeView.popup.reposition();
+            });
+            // Home
 
 
 
-        $('#togglePts').click(function(){
-            if($(this).is(':checked')&& typeof startDate !== "undefined"){
+            $('#togglePts').click(function() {
+                if ($(this).is(':checked') && typeof startDate !== "undefined") {
                     map.add(fl);
                     map.add(gLayerMRP);
 
-            }
-                    else if ($(this).is(':checked')&& typeof startDate == "undefined"){
-                $('#togglePts').attr('checked', false);
-            }
-            else {
-                map.remove(fl);
-            }
-        });
+                } else if ($(this).is(':checked') && typeof startDate == "undefined") {
+                    $('#togglePts').attr('checked', false);
+                } else {
+                    map.remove(fl);
+                }
+            });
 
-        $('#toggleHeat').click(function(){
+            $('#toggleHeat').click(function() {
 
-            if($(this).is(':checked')){
+                if ($(this).is(':checked')) {
                     map.add(resightID);
                     map.add(resightUT);
                     map.add(gLayer);
                     map.add(gLayerMRP);
 
-            }
-                    else if ($(this).is(':checked')&& typeof startDate == "undefined"){
-                $('#togglePts').attr('checked', false);
-            }
-            else {
-                map.remove(resightID);
-                map.remove(resightUT);
-            }
-        });
-        $('#toggleColony').click(function(){
+                } else if ($(this).is(':checked') && typeof startDate == "undefined") {
+                    $('#togglePts').attr('checked', false);
+                } else {
+                    map.remove(resightID);
+                    map.remove(resightUT);
+                }
+            });
+            $('#toggleColony').click(function() {
 
-            if($(this).is(':checked')){
+                if ($(this).is(':checked')) {
                     map.add(colonies);
                     map.add(gLayer);
                     map.add(gLayerMRP);
 
-            }
+                } else {
+                    map.remove(colonies);
 
-            else {
-                map.remove(colonies);
-
-            }
-        });
-
-        $('#resetBtn').click(function (event) {
-            event.preventDefault();
-            $('#daterange').val('Most Recent Points Shown');
-            $('#nameselect').multiselect("selectAll", false);
-            $('#nameselect').multiselect('refresh');
-            $('#togglePts').attr('checked', false);
-            map.remove(fl);
-            map.add(mrp);
-            gLayer.removeAll();
-            gLayerMRP.removeAll();
-        });
-
-        $('.panel-close').click(function (event) {
-            event.preventDefault();
-            $('#panelBasemaps').toggleClass('hidden show');
-            $('#basemapNav2').toggleClass('active');
-
-        });
-
-        $('#filterNav2').click(function (event) {
-            event.preventDefault();
-            $('#filtercont').toggleClass('hidden show');
-            $('#filterNav2').toggleClass('active');
-        });
-        $('li#basemapNav2').click(function (event) {
-            event.preventDefault();
-            $('#panelBasemaps').toggleClass('hidden show');
-            $('#basemapNav2').toggleClass('active');
-        });
-        $('#legendNav').click(function (event) {
-            event.preventDefault();
-            $('.esri-legend').toggleClass('hidden show');
-            //console.log(screen.width);
-            if ((screen.width<768)) {
-                console.log("screen small");
-                // if screen size is 1025px wide or larger
-            $('.esri-legend').toggleClass('forceLegend');
-            }
-
-            $('#legendNav').toggleClass('active');
-        });
-
-    $(
-            document).ready(function() {
-
-        $('#daterange').keypress(function(e) {
-            if(e.which == 13) { // Checks for the enter key
-                e.preventDefault();
-                $("#applyBtn").click();
-    }});
-        $('#nameselect').multiselect({
-            includeSelectAllOption: true,
-            maxHeight: 200, dropUp:true
-        });
-        $("#nameselect").multiselect('selectAll', false);
-        $("#nameselect").multiselect('updateButtonText');
-
-        function cb(start, end) {
-        $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-    }
-    cb(moment().subtract(29, 'days'), moment());
-
-    $('#daterange').daterangepicker({
-        "timePicker":true,
-        "startDate": moment().subtract(6, 'days'),
-        "endDate": moment(),
-        "minDate":"08/10/2015",
-        "maxDate": moment(),
-        "autoApply":true,
-        autoUpdateInput: false,
-        locale: {
-          cancelLabel: 'Clear'
-      },
-        ranges: {
-           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-           'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-            'Last Year': [moment().subtract(1, 'year'), moment()],
-            'Show All Data': ["08/10/2015", moment()]
-        },
-        "drops":"up",
-        "opens":"center"
-    },
-        function(start, end, label) {
-            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
-                startDate = start;
-                endDate = end;
-        }
-    );
-
-        /* $('#daterange').daterangepicker({
-     autoUpdateInput: false,
-            locale: {
-          cancelLabel: 'Clear'
-      },
-            "showDropdowns": true,
-    "timePicker": true,
-    "autoApply": true,
-    "ranges": {
-        "Last 7 Days": [
-            week,
-            today
-        ],
-        "Last 30 Days": [
-            month,
-            today
-        ],
-        "Last Year": [
-            year,
-            today
-        ],
-        "Last Southern Migration": [
-            new Date().setDate(today.getDate()-180),
-            today
-        ],
-        "Last Northern Migration": [
-            new Date().setDate(today.getDate()-365),
-                today
-        ]
-    },
-    "opens": "right",
-            "drops":"up"
-}, function(start, end, label) {
-  console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
-});*/
-        $(document).on('click', '#basemap .dropdown-menu', function (e) {
-            e.stopPropagation();
-        });
-        $(document).on('click', '#layers .dropdown-menu', function (e) {
-            e.stopPropagation();
-        });
-
-
-
-
-        function isInArray(value, array) {
-            return array.indexOf(value) > -1;
-            }
-
-        $('#applyBtn').click(function (event) {
-            $('#load').toggleClass('hidden show');
-            event.preventDefault();
-            gLayer.removeAll();
-            gLayerMRP.removeAll();
-            map.remove(mrp);
-
-            var selected = $('#nameselect option:selected').map(function (a, item) {
-                return item.value;
-            });
-            if (selected.length > 0) {
-                var nameListStr = "name IN (";
-                for (var i = 0; i < selected.length; i++) {
-                    if (i < selected.length - 1) {
-                        nameListStr = nameListStr + "'" + selected[i] + "',";
-                    }
-                    else {
-                        nameListStr = nameListStr + "'" + selected[i] + "')";
-                    }
                 }
-            }
-            else{
-                nameListStr = "";
-            }
-            var dQuery;
-            //console.log(startDate);
-            if (typeof startDate !== "undefined") {
-                var sDate = startDate.format('MM-DD-YYYY');
-                var eDate = endDate.format('MM-DD-YYYY');
-                dQuery = "Date_time <= date'"+eDate+"' AND Date_time >= date'"+sDate+"'";
-            }
-            else {
-                dQuery = ""
-            }
-            if (nameListStr == ""){
-                var query = dQuery
-            }
-            else{
-                var query = dQuery + " AND "+ nameListStr;
-            }
-            //console.log(nameListStr);
-            //var query = "ptt_id IN "+nameListStr;
+            });
 
-            console.log(query);
-            //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
-            //console.log(dQuery);
-            fl.definitionExpression = query;
-            fl.queryFeatures().then(function(results){
-              // prints the array of result graphics to the console
+            $('#resetBtn').click(function(event) {
+                event.preventDefault();
+                $('#daterange').val('Most Recent Points Shown');
+                $('#nameselect').multiselect("selectAll", false);
+                $('#nameselect').multiselect('refresh');
+                $('#togglePts').attr('checked', false);
+                map.remove(fl);
+                map.add(mrp);
+                gLayer.removeAll();
+                gLayerMRP.removeAll();
+            });
 
-                var ptt_list = [];
-                var geom = results.features;
-                geom.forEach(function(i){
-                    var x = i.attributes.name;
-                        if (!isInArray(x,ptt_list)){
-                            ptt_list.push(x);
-                            }
+            $('.panel-close').click(function(event) {
+                event.preventDefault();
+                $('#panelBasemaps').toggleClass('hidden show');
+                $('#basemapNav2').toggleClass('active');
+
+            });
+
+            $('#filterNav2').click(function(event) {
+                event.preventDefault();
+                $('#filtercont').toggleClass('hidden show');
+            });
+            $('li#basemapNav2').click(function(event) {
+                event.preventDefault();
+                $('#panelBasemaps').toggleClass('hidden show');
+                $('#basemapNav2').toggleClass('active');
+            });
+            $('#legendNav').click(function(event) {
+                event.preventDefault();
+                $('.esri-legend').toggleClass('hidden show');
+                //console.log(screen.width);
+                if ((screen.width < 768)) {
+                    console.log("screen small");
+                    // if screen size is 1025px wide or larger
+                    $('.esri-legend').toggleClass('forceLegend');
+                }
+
+                $('#legendNav').toggleClass('active');
+            });
+
+            $(
+                document).ready(function() {
+
+                $('#daterange').keypress(function(e) {
+                    if (e.which == 13) { // Checks for the enter key
+                        e.preventDefault();
+                        $("#applyBtn").click();
+                    }
+                });
+                $('#nameselect').multiselect({
+                    includeSelectAllOption: true,
+                    maxHeight: 250,
+                    dropUp: true
+                });
+                $("#nameselect").multiselect('selectAll', false);
+                $("#nameselect").multiselect('updateButtonText');
+
+                function cb(start, end) {
+                    $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+                cb(moment().subtract(29, 'days'), moment());
+
+                $('#daterange').daterangepicker({
+                        timePicker: true,
+                        startDate: "08/10/2015",
+                        endDate: moment(),
+                        minDate: "08/10/2015",
+                        maxDate: moment(),
+                        autoUpdateInput: false,
+                        autoApply: true,
+                        parentEl: $("#filtercont"),
+                        locale: {
+                            cancelLabel: 'Clear'
+                        },
+                        ranges: {
+                            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                            'This Month': [moment().startOf('month'), moment().endOf('month')],
+                            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                            'Last Year': [moment().subtract(1, 'year'), moment()],
+                            'Show All Data': ["08/10/2015", moment()]
+                        },
+                        drops: 'up',
+                        opens: "center"
+                    },
+                    function(start, end, label) {
+                        console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label);
+                        startDate = start;
+                        endDate = end;
+                    }
+                );
+
+                $(document).on('click', '#basemap .dropdown-menu', function(e) {
+                    e.stopPropagation();
+                });
+                $(document).on('click', '#layers .dropdown-menu', function(e) {
+                    e.stopPropagation();
                 });
 
-                var ptList = [];
-                for (var i = 0; i < ptt_list.length; i++) {
-                    var latLngArray = [];
+                $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                });
 
-                    var ptList2 = [];
-                    geom.forEach(function (arrayItem) {
-                        if (arrayItem.attributes.name == ptt_list[i]) {
-                            ptList2.push(arrayItem);
-                                var coords = [];
-                                coords.push(arrayItem.geometry.longitude);
-                                coords.push(arrayItem.geometry.latitude);
-                                latLngArray.push(coords);
+                $('#daterange').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+                });
 
+
+
+                function isInArray(value, array) {
+                    return array.indexOf(value) > -1;
+                }
+
+                $('#applyBtn').click(function(event) {
+                    $('#load').toggleClass('hidden show');
+                    $('#filtercont').toggleClass('hidden show');
+                    event.preventDefault();
+                    gLayer.removeAll();
+                    gLayerMRP.removeAll();
+                    map.remove(mrp);
+
+                    var selected = $('#nameselect option:selected').map(function(a, item) {
+                        return item.value;
+                    });
+                    if (selected.length > 0) {
+                        var nameListStr = "name IN (";
+                        for (var i = 0; i < selected.length; i++) {
+                            if (i < selected.length - 1) {
+                                nameListStr = nameListStr + "'" + selected[i] + "',";
+                            } else {
+                                nameListStr = nameListStr + "'" + selected[i] + "')";
+                            }
                         }
-
-                    });
-                     ptList2.sort(function(a, b) {
-                        return parseFloat(a.attributes.Date_time) - parseFloat(b.attributes.Date_time);
-                    });
-                    ptList.push(ptList2);
+                    } else {
+                        nameListStr = "";
                     }
+                    console.log(nameListStr);
+                    console.log(nameListStr.length);
+                    var dQuery;
 
+                    if (startDate == null) {
+                        dQuery = "";
+                    } else {
+                        var sDate = startDate.format('MM-DD-YYYY');
+                        var eDate = endDate.format('MM-DD-YYYY');
+                        dQuery = "Date_time <= date'" + eDate + "' AND Date_time >= date'" + sDate + "'";
 
+                    }
+                    console.log(dQuery.length);
+                    var query;
+                    if (nameListStr == "" && dQuery.length > 2) {
+                        query = dQuery;
+                    } else if (nameListStr == "" && dQuery == "") {
+                        query = "name IN ()";
+                        $('#load').toggleClass('hidden show');
+                    } else if (nameListStr.length > 2 && dQuery.length == 0) {
+                        query = nameListStr;
+                    } else {
+                        query = dQuery + " AND " + nameListStr;
+                    }
+                    //console.log(nameListStr);
+                    //var query = "ptt_id IN "+nameListStr;
 
+                    console.log(query);
+                    //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
+                    //console.log(dQuery);
+                    fl.definitionExpression = query;
+                    fl.queryFeatures().then(function(results) {
+                        // prints the array of result graphics to the console
 
+                        var ptt_list = [];
+                        var geom = results.features;
+                        geom.forEach(function(i) {
+                            var x = i.attributes.name;
+                            if (!isInArray(x, ptt_list)) {
+                                ptt_list.push(x);
+                            }
+                        });
 
-                    console.log("ListL",ptList.length);
-                    for (var x = 0; x < ptList.length;x++) {
-                        var coordinates =[];
-                        var name = ptList[x][0].attributes.name;
-                        for(var y=0; y < ptList[x].length;y++){
-                            /*if (y=  ptList[x].length-1){
-                                ///////////////////////
-//                                var ll = [];
-//                                var c = [];
-//                            c.push(ptList[x][y].geometry.longitude);
-//                            c.push(ptList[x][y].geometry.latitude);
-//                            ll.push(coords);
-                            var ptAtt = {
-                                name: name,
-                            };
-                                var mrpPt = new Point({
-                                    latitude:ptList[x][y].geometry.latitude,
-                                    longitude: ptList[x][y].geometry.longitude,
-                                });
-                                var mrpGraphic = new Graphic({
-                                geometry: mrpPt,
-                                symbol: new SimpleMarkerSymbol({
-                                        color: dict[name],
-                                        size: '12px'
-                                        }),
-                                attributes: ptAtt
+                        var ptList = [];
+                        for (var i = 0; i < ptt_list.length; i++) {
+                            var latLngArray = [];
+
+                            var ptList2 = [];
+                            geom.forEach(function(arrayItem) {
+                                if (arrayItem.attributes.name == ptt_list[i]) {
+                                    ptList2.push(arrayItem);
+                                    var coords = [];
+                                    coords.push(arrayItem.geometry.longitude);
+                                    coords.push(arrayItem.geometry.latitude);
+                                    latLngArray.push(coords);
+
+                                }
+
                             });
-
-                            gLayerMRP.add(mrpGraphic);
-                                //////////////////////////
-                            }*/
-                            var coordTemp = [];
-                            coordTemp.push(ptList[x][y].geometry.longitude);
-                            coordTemp.push(ptList[x][y].geometry.latitude);
-                            coordinates.push(coordTemp);
+                            ptList2.sort(function(a, b) {
+                                return parseFloat(a.attributes.Date_time) - parseFloat(b.attributes.Date_time);
+                            });
+                            ptList.push(ptList2);
                         }
-                        var endIndex = ptList[x].length -1;
-                        var date1 = ptList[x][endIndex].attributes.Date_time;
-                        var ptAtt = {
+
+
+
+
+                        console.log("ListL", ptList.length);
+                        for (var x = 0; x < ptList.length; x++) {
+                            var coordinates = [];
+                            var name = ptList[x][0].attributes.name;
+                            for (var y = 0; y < ptList[x].length; y++) {
+                                var coordTemp = [];
+                                coordTemp.push(ptList[x][y].geometry.longitude);
+                                coordTemp.push(ptList[x][y].geometry.latitude);
+                                coordinates.push(coordTemp);
+                            }
+                            var endIndex = ptList[x].length - 1;
+                            var date1 = ptList[x][endIndex].attributes.Date_time;
+                            var ptAtt = {
                                 name: name,
                                 Date_time: date1
                             };
-                                var mrpPt = new Point({
-                                    latitude:ptList[x][endIndex].geometry.latitude,
-                                    longitude: ptList[x][endIndex].geometry.longitude,
-                                });
-                                var mrpGraphic = new Graphic({
+                            var mrpPt = new Point({
+                                latitude: ptList[x][endIndex].geometry.latitude,
+                                longitude: ptList[x][endIndex].geometry.longitude,
+                            });
+                            var mrpGraphic = new Graphic({
                                 geometry: mrpPt,
                                 symbol: new SimpleMarkerSymbol({
-                                        color: dict[name],
-                                        size: '12px'
-                                        }),
+                                    color: dict[name],
+                                    size: '12px'
+                                }),
                                 attributes: ptAtt
                             });
 
                             gLayerMRP.add(mrpGraphic);
 
-                        var pl = new Polyline({
-                            paths: coordinates
-                        });
-                        var lineAtt = {
-                        name: name
-                      };
-                         var lineSymbol = new SimpleLineSymbol({
-                        color: dict[name],
-                        width: "1.5px"
+                            var pl = new Polyline({
+                                paths: coordinates
+                            });
+                            var lineAtt = {
+                                name: name
+                            };
+                            var lineSymbol = new SimpleLineSymbol({
+                                color: dict[name],
+                                width: "1.5px"
+                            });
+                            var plGraphic = new Graphic({
+                                geometry: pl,
+                                symbol: lineSymbol,
+                                attributes: lineAtt
+                            });
+                            gLayer.add(plGraphic);
+                        }
+                        //console.log(latLngArray);
+
+
+
+                        $('#load').toggleClass('hidden show');
                     });
-                        var plGraphic = new Graphic({
-                        geometry: pl,
-                        symbol: lineSymbol,
-                        attributes: lineAtt
-                    });
-                        gLayer.add(plGraphic);
-                    }
-                    //console.log(latLngArray);
+                    //map.add(fl);
+                    map.add(gLayer);
+                    map.add(gLayerMRP);
+                });
 
 
-
-            $('#load').toggleClass('hidden show');
+                var drp = $('#daterange').data(
+                    'daterangepicker');
+                console.log(drp.startDate_d);
             });
-            //map.add(fl);
-            map.add(gLayer);
-            map.add(gLayerMRP);
+            app.mapView.watch("updating", function(val) {
+                if (val == 'loaded') {
+                    //hide gif
+                    $('#load').toggleClass('hidden show');
+                } else {
+                    //show gif
+                    $('#load').toggleClass('hidden show');
+                }
+            }); // wait for the layer view to finish updating
+
         });
-
-        $(function() {
-  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format(
-                      'MM/DD/YYYY') + ' - ' + picker.endDate.format(
-                      'MM/DD/YYYY'));
-  });
-
-  $('#daterange').on('cancel.daterangepicker',
-          function(ev, picker) {
-      $(this).val('');
-  });
-
-});
-        var drp = $('#daterange').data(
-                'daterangepicker');
-          console.log(drp.startDate_d);
-    });
-    app.mapView.watch("updating", function(val) {
-        if (val == 'loaded'){
-            //hide gif
-            $('#load').toggleClass('hidden show');
-        }
-        else{
-            //show gif
-            $('#load').toggleClass('hidden show');
-        }
-    });// wait for the layer view to finish updating
-
-});
-
-  </script>
+    </script>
 
 
 
 </body>
+
 </html>
