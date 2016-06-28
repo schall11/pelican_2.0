@@ -114,13 +114,13 @@
 </head>
 
 <body class="calcite-nav-bottom" style="background-color:#333;">
-    <div class="hidden" id="load"><img src="load.gif" class="img-fluid" alt="Loading..." style="heigh:32px; width:32px;"></div>
+    <div class="hidden" id="load"><img src="load.gif" class="img-responsive" alt="Loading..." style="height:32px; width:32px;"></div>
     <!-- Navbar -->
 
     <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75 dropup">
         <!-- Header -->
         <div class="navbar-header">
-            <a class="navbar-brand"><img src="pelican_fly.png" class="img-fluid" alt="Flying pelican"></a>
+            <a class="navbar-brand"><img src="pelican_fly.png" class="img-responsive" alt="Flying pelican"></a>
         </div>
         <!-- Title -->
         <div class="calcite-title calcite-overflow-hidden">
@@ -152,7 +152,7 @@
 								 	<h3>What is this project all about?</h3>
 								 	<hr>
 								 	<p>Pelicans are pretty easy to spot. They are large, weigh 10-20 pounds and have a wingspan of 8-10 feet. They are white with a long neck and a massive, orange bill. You can often see them by the hundreds either swimming, fishing or soaring. They can soar for what seems like forever, on long, broad white and black wings. Seeing one is easy, and usually there isn&#8217;t just one. Catching one, however, is hard.</p>
-                                        <div id="attachment_4379" style="width: 385px" class="wp-caption alignleft"><a href="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png" rel="attachment wp-att-4379"><img class="wp-image-4379" src="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png" alt="American white pelicans in Utah." width="375" height="211" srcset="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png 777w, http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog-300x169.png 300w, http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog-768x432.png 768w" sizes="(max-width: 375px) 100vw, 375px" /></a><p class="wp-caption-text">American white pelicans in Utah.</p></div>
+                                        <div id="attachment_4379" style="width: 385px" class="wp-caption alignleft"><a href="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png" rel="attachment wp-att-4379"><img class=img-responsive" src="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png" alt="American white pelicans in Utah." width="375" height="211" srcset="http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog.png 777w, http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog-300x169.png 300w, http://wildlife.utah.gov/blog/wp-content/uploads/2016/02/pelicans_blog-768x432.png 768w" sizes="(max-width: 375px) 100vw, 375px" /></a><p class="wp-caption-text">American white pelicans in Utah.</p></div>
                                         <p>I&#8217;ve had the privilege of being involved in the monitoring and management of American White Pelicans in Utah. Pelicans have had some tough times, from disturbance of nesting colonies, pesticide use and population controls.</p>
                                         <p>But through conservation efforts, pelicans have started to make a comeback. They are still not as abundant as they used to be, but the overall outlook is bright. That is a good thing for these birds and for people like me who love to see them.</p>
                                         <p>However, it can also be a not-so-good thing if you are a fish in a sensitive fishery, or an airplane that just had a negative, mid-air interaction with a pelican.</p>
@@ -687,7 +687,8 @@
             // Basemap events
             query("#selectBasemapPanel").on("change", function(e) {
                 app.mapView.map.basemap = e.target.value;
-                $('#basemap').removeClass('open');
+                //$('#basemap').removeClass('open');
+                $('.dropdown.open .dropdown-toggle').dropdown('toggle');
             });
             // Collapsible popup (optional)
             query(".esri-popup .esri-title").on("click", function(e) {
