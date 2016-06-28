@@ -207,11 +207,12 @@
                                                     <option value="Eleanor">Eleanor</option>
                                                     <option value="Everett">Everett</option>
                                                     <option value="Finnigan">Finnigan</option>
-                                                    <option value="Flagg">Finnigan</option>
+                                                    <option value="Flagg">Flagg</option>
                                                     <option value="George">George</option>
                                                     <option value="Gerald">Gerald</option>
                                                     <option value="Hector">Hector</option>
                                                     <option value="Indie">Indie</option>
+                                                    <option value="Jerome">Jerome</option>
                                                  </select>
                                         </div>
                                         <!-- form group [rows] -->
@@ -274,7 +275,7 @@
                     </li>
                     <li>
                         <div class="checkbox" style="margin-left:20px;margin-right:20px;">
-                            <label><input type="checkbox" id = "toggleColony" checked> Toggle Colony Layer</label>
+                            <label><input type="checkbox" id = "toggleColony"> Toggle Colony Layer</label>
                         </div>
                     </li>
                 </ul>
@@ -393,8 +394,6 @@
             "esri/widgets/Home",
             "esri/widgets/Compass",
             "esri/views/MapView",
-            "esri/views/SceneView",
-            "esri/widgets/Search",
             "esri/layers/FeatureLayer",
             "esri/layers/GraphicsLayer",
             "esri/Graphic",
@@ -407,7 +406,7 @@
             "esri/core/watchUtils",
             "dojo/query",
             "dojo/domReady!"
-        ], function(Map, Basemap, Home, Compass, MapView, SceneView, Search, FeatureLayer, GraphicsLayer, Graphic, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
+        ], function(Map, Basemap, Home, Compass, MapView, FeatureLayer, GraphicsLayer, Graphic, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
 
             // App
             app = {
@@ -560,7 +559,7 @@
 
 
 
-            map.add(colonies);
+
             map.add(legendLayer);
             map.add(mrp);
 
@@ -577,50 +576,17 @@
             legend.startup();
             app.mapView.ui.add(legend, "bottom-left");
             // Scene
-            var mapScene = new Map({
-                basemap: app.basemap,
-                ground: "world-elevation"
-            });
-            app.sceneView = new SceneView({
-                container: "sceneViewDiv",
-                map: mapScene,
-                scale: app.scale,
-                center: app.center,
-                padding: app.viewPadding,
-                ui: {
-                    padding: app.uiPadding
-                }
-            });
-            app.activeView = app.mapView;
-            app.activeView.then(function() {
-                app.initialExtent = app.activeView.extent;
-            });
+
             // Search
 
 
 
-            app.searchWidgetNav = createSearchWidget("searchNavDiv");
 
-            function createSearchWidget(parentId) {
-                var search = new Search({
-                    viewModel: {
-                        view: app.activeView,
-                        highlightEnabled: false,
-                        popupEnabled: true,
-                        showPopupOnSelect: true
-                    }
-                }, parentId);
-                search.startup();
-                return search;
-            }
 
-            // Popup Events
-            app.mapView.popup.watch("currentDockPosition", function(result) {
-                setPanelVisibility();
-            });
-            app.sceneView.popup.watch("currentDockPosition", function(result) {
-                setPanelVisibility();
-            });
+
+
+
+
 
 
             // Panel Events
@@ -634,17 +600,7 @@
                     setPanelVisibility();
                 })
                 // Panel show/hide
-            function setPanelVisibility() {
-                if (app.activeView.popup.visible && app.activeView.popup.currentDockPosition && !(window.innerWidth > 544 && window.innerWidth < 768)) {
-                    if (query(".calcite-panels .panel.in").length > 0) {
-                        query(".calcite-panels").addClass("invisible");
-                    } else {
-                        query(".calcite-panels").removeClass("invisible");
-                    }
-                } else {
-                    query(".calcite-panels").removeClass("invisible");
-                }
-            }
+
 
             // Tab Events (Views)
             query(".calcite-navbar li a[data-toggle='tab']").on("click", function(e) {
@@ -659,30 +615,6 @@
                 syncSearch();
             });
             // Tab
-            function syncTabs(e) {
-                query(".calcite-navbar li.active").removeClass("active");
-                query(e.target).addClass("active");
-            }
-
-            // View
-            function syncViews(fromView, toView) {
-                watchUtils.whenTrueOnce(toView, "ready").then(function(result) {
-                    watchUtils.whenTrueOnce(toView, "stationary").then(function(result) {
-                        toView.goTo(fromView.viewpoint);
-                        toView.popup.reposition();
-                    });
-                });
-            }
-
-            // Search
-            function syncSearch() {
-                app.searchWidgetNav.viewModel.view = app.activeView;
-                // Sync
-                if (app.searchWidgetNav.selectedResult) {
-                    app.searchWidgetNav.search(app.searchWidgetNav.selectedResult.name);
-                }
-                app.activeView.popup.reposition();
-            }
 
             // Basemap events
             query("#selectBasemapPanel").on("change", function(e) {
@@ -1004,9 +936,7 @@
                 });
 
 
-                var drp = $('#daterange').data(
-                    'daterangepicker');
-                console.log(drp.startDate_d);
+
             });
             app.mapView.watch("updating", function(val) {
                 if (val == 'loaded') {
