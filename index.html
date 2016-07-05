@@ -385,7 +385,7 @@
         var nameColor = [];
         var dict = {};
         for (var n = 0; n < names_all.length; n++) {
-            dict[names_all[n]] = name_colors[n]
+            dict[names_all[n]] = name_colors[n];
             var tL = [];
             tL.push(names_all[n]);
             tL.push(name_colors[n]);
@@ -599,9 +599,7 @@
                 }
             });
             // Window Events
-            query(window).on("resize", function() {
-                    setPanelVisibility();
-                })
+
                 // Panel show/hide
 
 
@@ -675,16 +673,33 @@
             });
 
             $('#resetBtn').click(function(event) {
+                //legendLayer.renderer = rendererPtsMRP;
                 event.preventDefault();
                 $('#modalFilter').modal('hide');
                 $('#daterange').val('Most Recent Points Shown');
                 $('#nameselect').multiselect("selectAll", false);
                 $('#nameselect').multiselect('refresh');
                 $('#togglePts').attr('checked', false);
+                var rendererVis = new UniqueValueRenderer({
+                field: "name"
+                    //defaultSymbol: new SimpleFillSymbol()
+            });
+                var selected = $('#nameselect option:selected').map(function(a, item) {
+                        return item.value;
+                    });
+                for (var i = 0; i < selected.length; i++) {
+                            rendererVis.addUniqueValueInfo(selected[i],
+                                new SimpleMarkerSymbol({
+                                    color: dict[selected[i]],
+                                    size: '12px'
+                                })
+                            );}
+                legendLayer.renderer = rendererVis;
                 map.remove(fl);
                 map.add(mrp);
                 gLayer.removeAll();
                 gLayerMRP.removeAll();
+
             });
 
             $('.panel-close').click(function(event) {
@@ -800,8 +815,22 @@
                         return item.value;
                     });
                     if (selected.length > 0) {
+                                //
+                        var rendererVis = new UniqueValueRenderer({
+                        field: "name"
+                            //defaultSymbol: new SimpleFillSymbol()
+                    });
+                    legendLayer.renderer = rendererVis;
+
+                        //
                         var nameListStr = "name IN (";
                         for (var i = 0; i < selected.length; i++) {
+                            rendererVis.addUniqueValueInfo(selected[i],
+                                new SimpleMarkerSymbol({
+                                    color: dict[selected[i]],
+                                    size: '12px'
+                                })
+                            );
                             if (i < selected.length - 1) {
                                 nameListStr = nameListStr + "'" + selected[i] + "',";
                             } else {

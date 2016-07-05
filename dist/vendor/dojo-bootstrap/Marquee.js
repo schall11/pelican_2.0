@@ -166,7 +166,7 @@ define([
         start:function (s) {
             var _this = this;
             if (this.messages.length === 0 || this.running) {
-                return;
+                
             } else if(this.messages.length === 1) {
                 _show(this.messages[0]);
                 on.emit(_this.domNode, 'changed', {bubbles:false, cancelable:false, currentIndex:0, currentMessage:this.messages[0]});

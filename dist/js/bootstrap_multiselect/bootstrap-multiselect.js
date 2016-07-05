@@ -786,7 +786,7 @@
                         }
 
                         $options.push(this.getOptionByValue(value));
-                    }, this))
+                    }, this));
 
                     // Cannot use select or deselect here because it would call updateOptGroups again.
 
@@ -1535,7 +1535,7 @@
          * Update opt groups.
          */
         updateOptGroups: function() {
-            var $groups = $('li.multiselect-group', this.$ul)
+            var $groups = $('li.multiselect-group', this.$ul);
 
             $groups.each(function() {
                 var $options = $(this).nextUntil('li.multiselect-group')

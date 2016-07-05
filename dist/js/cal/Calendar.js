@@ -225,7 +225,7 @@
     $('.dr-input', this.element).toggleClass('dr-active');
     $('.dr-presets', this.element).toggleClass('dr-active');
     this.element.toggleClass('dr-active');
-  }
+  };
 
 
   Calendar.prototype.presetCreate = function() {
@@ -289,7 +289,7 @@
     });
 
     return ul_presets;
-  }
+  };
 
 
   Calendar.prototype.calendarSetDates = function() {
@@ -306,7 +306,7 @@
       if (old_date != new_date)
         $('.dr-date', this.element).html(new_date);
     }
-  }
+  };
 
 
   Calendar.prototype.calendarSaveDates = function() {
@@ -317,7 +317,7 @@
       if ($(this.selected).html().length && !moment(this.orig_current_date).isSame(this.current_date))
         return this.callback();
     }
-  }
+  };
 
   Calendar.prototype.calendarCheckDate = function(d) {
     var regex = /(?!<=\d)(st|nd|rd|th)/;
@@ -341,7 +341,7 @@
 
     // Add current year if year is not included
     if (d_array.length == 2) {
-      d_array.push(moment().format(this.display_year_format))
+      d_array.push(moment().format(this.display_year_format));
       d = d_array.join(' ');
     }
 
@@ -353,7 +353,7 @@
     }
 
     return new Date(d);
-  }
+  };
 
   Calendar.prototype.calendarCheckDates = function() {
     var s = $('.dr-date-start', this.element).html();
@@ -399,7 +399,7 @@
     this.start_date = s == 'Invalid Date' ? this.start_date : s;
     this.end_date = e == 'Invalid Date' ? this.end_date : e;
     this.current_date = c == 'Invalid Date' ? this.current_date : c;
-  }
+  };
 
 
   Calendar.prototype.stringToDate = function(str) {
@@ -414,7 +414,7 @@
     }
 
     return this.current_date;
-  }
+  };
 
 
   Calendar.prototype.calendarOpen = function(selected, switcher) {
@@ -584,7 +584,7 @@
     this.element.addClass('dr-active');
 
     this.calIsOpen = true;
-  }
+  };
 
 
   Calendar.prototype.calendarClose = function(type) {
@@ -606,7 +606,7 @@
     this.element.removeClass('dr-active');
 
     this.calIsOpen = false;
-  }
+  };
 
 
   Calendar.prototype.calendarCreate = function(switcher) {
@@ -636,7 +636,7 @@
 
       $('.dr-day-list', self.element).append('<li class="'+ classString +'" data-date="'+ d.date +'">'+ d.str +'</li>');
     });
-  }
+  };
 
 
   Calendar.prototype.calendarArray = function(start, end, current, switcher) {
@@ -657,7 +657,7 @@
         day: current_month_end_day ? current_month_end_day : 7 - current_month_end_day,
         str: +last_day.format('D')
       }
-    }
+    };
 
 
     // Beginning faded dates
@@ -725,7 +725,7 @@
 
 
     return start_hidden.concat(visible, end_hidden);
-  }
+  };
 
 
   Calendar.prototype.calendarHTML = function(type) {
@@ -795,7 +795,7 @@
         '<ul class="dr-day-list"></ul>' +
       '</div>' +
     '</div>');
-  }
+  };
 
 
   Calendar.prototype.range = function(length) {
@@ -806,7 +806,7 @@
     }
 
     return range;
-  }
+  };
 
 
   return Calendar;

@@ -45,7 +45,7 @@ define([
         constructor: function (element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             this.domNode = element;
-            this.indicators = query('.carousel-indicators', this.domNode)
+            this.indicators = query('.carousel-indicators', this.domNode);
             if (this.options.slide) { this.slide(this.options.slide); }
             if (this.options.pause === 'hover') {
                 on(this.domNode, mouse.enter, lang.hitch(this, 'pause'));

@@ -87,7 +87,7 @@ define([
             else {
                 var scrollTop = this.element.scrollTop;
             }
-            scrollTop += parseInt(this.options.offset, 10)
+            scrollTop += parseInt(this.options.offset, 10);
             var scrollHeight = this.element.scrollHeight || win.body().scrollHeight;
             //TODO: innerHeight may not work across browsers
             var domHeight = (this.element.tagName === "BODY") ? this.domNode.innerHeight : dompos.h;
