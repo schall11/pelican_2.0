@@ -31,8 +31,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="212" column="90" selection-start-line="212" selection-start-column="90" selection-end-line="212" selection-end-column="90" />
+            <state relative-caret-position="859">
+              <caret line="217" column="81" selection-start-line="217" selection-start-column="81" selection-end-line="217" selection-end-column="81" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -59,8 +59,8 @@
       <file leaf-file-name="argos_script.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Desktop/ArgosPy/argos_script.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="749">
-              <caret line="232" column="0" selection-start-line="232" selection-start-column="0" selection-end-line="232" selection-end-column="0" />
+            <state relative-caret-position="3740">
+              <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
               <folding>
                 <element signature="e#44#59#0" expanded="true" />
               </folding>
@@ -81,7 +81,7 @@
       <file leaf-file-name="calcite-bootstrap.min-v0.2.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
+            <state relative-caret-position="0">
               <caret line="0" column="113117" selection-start-line="0" selection-start-column="113117" selection-end-line="0" selection-end-column="113117" />
               <folding />
             </state>
@@ -91,7 +91,7 @@
       <file leaf-file-name="calcite-maps-arcgis-4.x.min-v0.2.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dist/css/calcite-maps-arcgis-4.x.min-v0.2.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-741">
+            <state relative-caret-position="68">
               <caret line="4" column="14605" selection-start-line="4" selection-start-column="14601" selection-end-line="4" selection-end-column="14605" />
               <folding />
             </state>
@@ -446,7 +446,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13072917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -843,44 +843,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dellll.py" />
     <entry file="file://$PROJECT_DIR$/p2L.py" />
-    <entry file="file://$USER_HOME$/Desktop/ArgosPy/delme.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/css/calcite-maps-arcgis-4.x.min-v0.2.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-741">
-          <caret line="4" column="14605" selection-start-line="4" selection-start-column="14601" selection-end-line="4" selection-end-column="14605" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/ArgosPy/argos_script.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="749">
-          <caret line="232" column="0" selection-start-line="232" selection-start-column="0" selection-end-line="232" selection-end-column="0" />
-          <folding>
-            <element signature="e#44#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="0" column="113117" selection-start-line="0" selection-start-column="113117" selection-end-line="0" selection-end-column="113117" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="212" column="90" selection-start-line="212" selection-start-column="90" selection-end-line="212" selection-end-column="90" />
+        <state relative-caret-position="859">
+          <caret line="217" column="81" selection-start-line="217" selection-start-column="81" selection-end-line="217" selection-end-column="81" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -900,6 +866,40 @@
             <element signature="n#style#0;n#div#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#select#0;n#ul#0;n#div#3;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/ArgosPy/argos_script.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3740">
+          <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
+          <folding>
+            <element signature="e#44#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/ArgosPy/delme.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="113117" selection-start-line="0" selection-start-column="113117" selection-end-line="0" selection-end-column="113117" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/css/calcite-maps-arcgis-4.x.min-v0.2.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="14605" selection-start-line="4" selection-start-column="14601" selection-end-line="4" selection-end-column="14605" />
+          <folding />
         </state>
       </provider>
     </entry>
