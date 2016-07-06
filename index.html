@@ -204,7 +204,7 @@
                                         <div id = "nameGrp" class="form-group">
 
                                                 <select id="nameselect" class="form-control input-sm" multiple="multiple">
-                                                    <option value="Abigail">Abigail</option>
+                                                    <!--<option value="Abigail">Abigail</option>
                                                     <option value="Annabelle">Annabelle</option>
                                                     <option value="Barnabus">Barnabus</option>
                                                     <option value="Bartholomew">Bartholomew</option>
@@ -223,7 +223,7 @@
                                                     <option value="Jerome">Jerome</option>
                                                     <option value="Kirk">Kirk</option>
                                                     <option value="Loretta">Loretta</option>
-                                                    <option value="Manuel">Manuel</option>
+                                                    <option value="Manuel">Manuel</option>-->
                                                  </select>
                                         </div>
                                         <!-- form group [rows] -->
@@ -330,9 +330,10 @@
 
     <script>
         var app;
-        var startDate;
-        var endDate;
-        var names_all = ["Abigail", "Annabelle", "Barnabus", "Bartholomew", "Cecilia", "Chester", "Daphne", "Derek", "Eleanor", "Everett", "Finnigan", "Flagg", "George", "Gerald", "Hector", "Indie", "Jerome", "Kirk", "Loretta","Manuel"];
+        var startDate = moment().subtract(4, 'days');
+        var endDate = moment();
+        /*var names_all = ["Abigail", "Annabelle", "Barnabus", "Bartholomew", "Cecilia", "Chester", "Daphne", "Derek", "Eleanor", "Everett", "Finnigan", "Flagg", "George", "Gerald", "Hector", "Indie", "Jerome", "Kirk", "Loretta","Manuel"];*/
+        var names_all =[];
         var name_colors = [
             [166, 206, 227],
             [31, 120, 180],
@@ -389,16 +390,12 @@
             [0, 255, 0]
 
         ];
-
+         function isInArray(value, array) {
+                    return array.indexOf(value) > -1;
+                }
         var nameColor = [];
         var dict = {};
-        for (var n = 0; n < names_all.length; n++) {
-            dict[names_all[n]] = name_colors[n];
-            var tL = [];
-            tL.push(names_all[n]);
-            tL.push(name_colors[n]);
-            nameColor.push(tL);
-        }
+
 
         require(["esri/Map",
             "esri/Basemap",
@@ -485,26 +482,7 @@
                 field: "name"
                     //defaultSymbol: new SimpleFillSymbol()
             });
-            for (i in dict) {
-                rendererPts.addUniqueValueInfo(i,
-                    new SimpleMarkerSymbol({
-                        color: dict[i],
-                        size: '6px'
-                    })
-                );
-                rendererPtsMRP.addUniqueValueInfo(i,
-                    new SimpleMarkerSymbol({
-                        color: dict[i],
-                        size: '12px'
-                    })
-                );
-                rendererLns.addUniqueValueInfo(i,
-                    new SimpleLineSymbol({
-                        color: dict[i],
-                        width: 1
-                    })
-                );
-            }
+
             var template = new PopupTemplate({
                 title: "{name}",
                 content: "Seen here on {Date_time}",
@@ -547,8 +525,8 @@
                 popupTemplate: templateLn
             });
             var legendLayer = new FeatureLayer({
-                url: 'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Tracked_Pelicans/FeatureServer',
-                renderer: rendererPtsMRP
+                url: 'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Tracked_Pelicans/FeatureServer'
+
             });
             var gLayerMRP = new GraphicsLayer({
                 popupTemplate: template
@@ -566,6 +544,7 @@
                 renderer: rendererPts
 
             });
+
             var colonies = new FeatureLayer({
                 url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Western_Breeding_Colonies/FeatureServer/0",
                 outFields: ["*"],
@@ -584,8 +563,12 @@
 
 
 
+
+
             map.add(legendLayer);
             map.add(mrp);
+
+
 
             var legend = new Legend({
                 view: app.mapView,
@@ -602,7 +585,182 @@
             // Scene
 
             // Search
+            app.mapView.whenLayerView(mrp).then(function(lyrView) {
+     lyrView.watch("updating", function(val) {
 
+         if (!val) { // wait for the layer view to finish updating
+
+             // query all the features available for drawing.
+             lyrView.queryFeatures().then(function(results) {
+
+
+                 //console.log(graphics);
+
+                 $.each(results, function(index, value) {
+                     var attributes = value.attributes;
+                     var name = attributes.name;
+                     console.log(name);
+                     $('#nameselect').append($('<option/>', {
+                         value: name,
+                         text: name
+                     }));
+                     names_all.push(name);
+                     names_all.sort();
+                 });
+                 /*$('#nameselect').append("<option value='" + name+ "'>" + name + "</option>");*/
+
+             });
+             console.log(names_all);
+             for (var n = 0; n < names_all.length; n++) {
+                 dict[names_all[n]] = name_colors[n];
+                 var tL = [];
+                 tL.push(names_all[n]);
+                 tL.push(name_colors[n]);
+                 nameColor.push(tL);
+             }
+             console.log(dict);
+             for (i in dict) {
+                 rendererPts.addUniqueValueInfo(i,
+                     new SimpleMarkerSymbol({
+                         color: dict[i],
+                         size: '6px'
+                     })
+                 );
+                 rendererPtsMRP.addUniqueValueInfo(i,
+                     new SimpleMarkerSymbol({
+                         color: dict[i],
+                         size: '12px'
+                     })
+                 );
+                 rendererLns.addUniqueValueInfo(i,
+                     new SimpleLineSymbol({
+                         color: dict[i],
+                         width: 1
+                     })
+                 );
+             }
+             $('#nameselect').multiselect({
+                 includeSelectAllOption: true
+             });
+             $("#nameselect").multiselect('selectAll', false);
+             $("#nameselect").multiselect('updateButtonText');
+             legendLayer.renderer = rendererPtsMRP;
+             mrp.renderer = rendererPtsMRP;
+
+             var start = startDate.format('MM-DD-YYYY');
+                        var end = endDate.format('MM-DD-YYYY');
+                        var dQuery = "Date_time <= date'" + end + "' AND Date_time >= date'" + start + "'";
+                    //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
+                    //console.log(dQuery);
+                    fl.definitionExpression = dQuery;
+                    fl.queryExtent().then(function(results){
+                      // go to the extent of the results satisfying the query
+                      console.log(results.extent);
+                        app.mapView.goTo(results.extent);
+                        console.log("went to extent");
+                    });
+                    fl.queryFeatures().then(function(results) {
+                        // prints the array of result graphics to the console
+                        //console.log(results.extent);
+                        var ptt_list = [];
+                        var geom = results.features;
+                        geom.forEach(function(i) {
+                            var x = i.attributes.name;
+                            if (!isInArray(x, ptt_list)) {
+                                ptt_list.push(x);
+                            }
+                        });
+
+                        var ptList = [];
+                        for (var i = 0; i < ptt_list.length; i++) {
+                            var latLngArray = [];
+
+                            var ptList2 = [];
+                            geom.forEach(function(arrayItem) {
+                                if (arrayItem.attributes.name == ptt_list[i]) {
+                                    ptList2.push(arrayItem);
+                                    var coords = [];
+                                    coords.push(arrayItem.geometry.longitude);
+                                    coords.push(arrayItem.geometry.latitude);
+                                    latLngArray.push(coords);
+
+                                }
+
+                            });
+                            ptList2.sort(function(a, b) {
+                                return parseFloat(a.attributes.Date_time) - parseFloat(b.attributes.Date_time);
+                            });
+                            ptList.push(ptList2);
+                        }
+
+
+
+
+                        console.log("ListL", ptList.length);
+                        for (var x = 0; x < ptList.length; x++) {
+                            var coordinates = [];
+                            var name = ptList[x][0].attributes.name;
+                            for (var y = 0; y < ptList[x].length; y++) {
+                                var coordTemp = [];
+                                coordTemp.push(ptList[x][y].geometry.longitude);
+                                coordTemp.push(ptList[x][y].geometry.latitude);
+                                coordinates.push(coordTemp);
+                            }
+                            var endIndex = ptList[x].length - 1;
+                            var date1 = ptList[x][endIndex].attributes.Date_time;
+                            var ptAtt = {
+                                name: name,
+                                Date_time: date1
+                            };
+                            var mrpPt = new Point({
+                                latitude: ptList[x][endIndex].geometry.latitude,
+                                longitude: ptList[x][endIndex].geometry.longitude,
+                            });
+                            var mrpGraphic = new Graphic({
+                                geometry: mrpPt,
+                                symbol: new SimpleMarkerSymbol({
+                                    color: dict[name],
+                                    size: '12px'
+                                }),
+                                attributes: ptAtt
+                            });
+
+                            gLayerMRP.add(mrpGraphic);
+
+                            var pl = new Polyline({
+                                paths: coordinates
+                            });
+                            var lineAtt = {
+                                name: name
+                            };
+                            var lineSymbol = new SimpleLineSymbol({
+                                color: dict[name],
+                                width: "1.5px"
+                            });
+                            var plGraphic = new Graphic({
+                                geometry: pl,
+                                symbol: lineSymbol,
+                                attributes: lineAtt
+                            });
+                            gLayer.add(plGraphic);
+                        }
+                        //console.log(latLngArray);
+
+
+
+                        //$('#load').toggleClass('hidden show');
+                    });
+                    map.remove(mrp);
+                    gLayer.popupEnabled = false;
+                    //app.mapView.popupManager.enabled = false;
+                    map.add(gLayer);
+                    map.add(gLayerMRP);
+                    console.log(gLayer);
+                    console.log(app.mapView);
+
+         }
+     });
+ });
 
 
 
@@ -733,6 +891,8 @@
             $('#filterNav2').click(function(event) {
                 event.preventDefault();
                 $('#filtercont').toggleClass('hidden show');
+
+
             });
             $('li#basemapNav2').click(function(event) {
                 event.preventDefault();
@@ -761,11 +921,7 @@
                         $("#applyBtn").click();
                     }
                 });
-                $('#nameselect').multiselect({
-                    includeSelectAllOption: true
-                });
-                $("#nameselect").multiselect('selectAll', false);
-                $("#nameselect").multiselect('updateButtonText');
+
 
                 function cb(start, end) {
                     $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -819,9 +975,7 @@
 
 
 
-                function isInArray(value, array) {
-                    return array.indexOf(value) > -1;
-                }
+
 
                 $('#applyBtn').click(function(event) {
                     $('#modalFilter').modal('hide');
