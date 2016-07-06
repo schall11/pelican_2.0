@@ -400,6 +400,7 @@
             "esri/layers/FeatureLayer",
             "esri/layers/GraphicsLayer",
             "esri/Graphic",
+                "esri/tasks/support/Query",
             "esri/widgets/Popup",
             "esri/PopupTemplate",
             "esri/geometry/Polyline", "esri/geometry/Point",
@@ -409,7 +410,7 @@
             "esri/core/watchUtils",
             "dojo/query",
             "dojo/domReady!"
-        ], function(Map, Basemap, Home, Compass, MapView, FeatureLayer, GraphicsLayer, Graphic, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
+        ], function(Map, Basemap, Home, Compass, MapView, FeatureLayer, GraphicsLayer, Graphic, Query, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
 
             // App
             app = {
@@ -450,8 +451,9 @@
                     dockOptions: {
                         buttonEnabled: true,
                         breakpoint: true,
-                        position: 'top-center'
-                    }
+                        position: 'bottom-center'
+                    },
+                    visible:false
                 }
             });
             var homeBtn = new Home({
@@ -510,6 +512,15 @@
                     visible: true
                 }]
             });
+             var templateLn = new PopupTemplate({
+                title: "{name}",
+                content: "Track line for {name}",
+                fieldInfos: [{
+                    fieldName: "name",
+                    label: "Name",
+                    visible: true
+                }]
+            });
             var colonyTemplate = new PopupTemplate({
                 title: "{COLONY}",
                 content: "Colony Name: {COLONY}<br>Population: {pop}",
@@ -524,7 +535,9 @@
             });
 
             //console.log(app.mapView.popup.ViewModel);
-            var gLayer = new GraphicsLayer({});
+            var gLayer = new GraphicsLayer({
+                popupTemplate: templateLn
+            });
             var legendLayer = new FeatureLayer({
                 url: 'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Tracked_Pelicans/FeatureServer',
                 renderer: rendererPtsMRP
@@ -840,8 +853,7 @@
                     } else {
                         nameListStr = "";
                     }
-                    console.log(nameListStr);
-                    console.log(nameListStr.length);
+
                     var dQuery;
 
                     if (startDate == null) {
@@ -852,7 +864,7 @@
                         dQuery = "Date_time <= date'" + eDate + "' AND Date_time >= date'" + sDate + "'";
 
                     }
-                    console.log(dQuery.length);
+
                     var query;
                     if (nameListStr == "" && dQuery.length > 2) {
                         query = dQuery;
@@ -871,9 +883,15 @@
                     //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
                     //console.log(dQuery);
                     fl.definitionExpression = query;
+                    fl.queryExtent().then(function(results){
+                      // go to the extent of the results satisfying the query
+                      console.log(results.extent);
+                        app.mapView.goTo(results.extent);
+                        console.log("went to extent");
+                    });
                     fl.queryFeatures().then(function(results) {
                         // prints the array of result graphics to the console
-
+                        //console.log(results.extent);
                         var ptt_list = [];
                         var geom = results.features;
                         geom.forEach(function(i) {
@@ -963,8 +981,12 @@
                         $('#load').toggleClass('hidden show');
                     });
                     //map.add(fl);
+                    gLayer.popupEnabled = false;
+                    //app.mapView.popupManager.enabled = false;
                     map.add(gLayer);
                     map.add(gLayerMRP);
+                    console.log(gLayer);
+                    console.log(app.mapView);
                 });
 
 
