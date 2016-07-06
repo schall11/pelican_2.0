@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="35e9212d-a1f7-4894-89f4-d7c09e1ce66f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css" afterPath="$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
     </list>
     <ignored path="peli_WIP.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="31" column="91" selection-start-line="31" selection-start-column="91" selection-end-line="31" selection-end-column="91" />
+            <state relative-caret-position="629">
+              <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -77,11 +79,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="calcite-bootstrap.min-v0.2.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="calcite-bootstrap.min-v0.2.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
-              <caret line="0" column="106590" selection-start-line="0" selection-start-column="106585" selection-end-line="0" selection-end-column="106590" />
+              <caret line="0" column="86271" selection-start-line="0" selection-start-column="86271" selection-end-line="0" selection-end-column="86271" />
               <folding />
             </state>
           </provider>
@@ -117,8 +119,8 @@
         <option value="$PROJECT_DIR$/p2L.py" />
         <option value="$USER_HOME$/Desktop/ArgosPy/delme.py" />
         <option value="$USER_HOME$/Desktop/ArgosPy/argos_script.py" />
-        <option value="$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css" />
       </list>
     </option>
   </component>
@@ -485,7 +487,14 @@
       <option name="project" value="LOCAL" />
       <updated>1467824440715</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Attempt to fix android scroll refresh">
+      <created>1467824451356</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1467824451356</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -919,18 +928,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="0" column="106590" selection-start-line="0" selection-start-column="106585" selection-end-line="0" selection-end-column="106590" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="31" column="91" selection-start-line="31" selection-start-column="91" selection-end-line="31" selection-end-column="91" />
+        <state relative-caret-position="629">
+          <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -950,6 +951,14 @@
             <element signature="n#style#0;n#div#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#select#0;n#ul#0;n#div#3;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/css/calcite-bootstrap.min-v0.2.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="0" column="86271" selection-start-line="0" selection-start-column="86271" selection-end-line="0" selection-end-column="86271" />
+          <folding />
         </state>
       </provider>
     </entry>
