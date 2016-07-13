@@ -48,7 +48,6 @@
         }
 
         .esri-legend {
-            max-width: 30px;
             background-color: #333333;
             color: white;
             border: 1px solid #4c4c4c;
@@ -278,18 +277,24 @@
                 <ul class="dropdown-menu ">
                     <li>
                         <div class="checkbox" style="margin-left:20px;margin-right:20px;">
+                            <label><input type="checkbox" id = "hideTrack"> Hide Track Lines
+                        </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkbox" style="margin-left:20px;margin-right:20px;">
                             <label><input type="checkbox" id = "togglePts"> Show Data Points
                         </label>
                         </div>
                     </li>
                     <li>
                         <div class="checkbox" style="margin-left:20px;margin-right:20px;">
-                            <label><input type="checkbox" id = "toggleHeat"> Toggle Resight Locations</label>
+                            <label><input type="checkbox" id = "toggleHeat"> Show Resight Locations</label>
                         </div>
                     </li>
                     <li>
                         <div class="checkbox" style="margin-left:20px;margin-right:20px;">
-                            <label><input type="checkbox" id = "toggleColony"> Toggle Colony Layer</label>
+                            <label><input type="checkbox" id = "toggleColony"> Show Colony Layer</label>
                         </div>
                     </li>
                 </ul>
@@ -463,8 +468,12 @@
                         position: 'bottom-center'
                     },
                     visible: false
+                },
+                constraints: {
+                    rotationEnabled: false
                 }
             });
+
             var homeBtn = new Home({
                 view: app.mapView
             });
@@ -524,16 +533,73 @@
                 }]
             });
 
+            var resightTemplate = new PopupTemplate({
+                title: "Resight Location",
+                content: "<b>Band Number:</b> {Band_Numbe}<br><b>Date:</b> {Date}<br><b>Banding Year:</b> {Banding_Ye}<br><b>Natal Colony:</b> {Natal_Colo}<br><b>Status:</b> {Status}<br>",
+                fieldInfos: [{
+                    fieldName: "Band_Numbe",
+                    label: "Band Number"
+                }, {
+                    fieldName: "Date",
+                    label: "Date",
+                    format: {
+                        dateFormat: 'short-date'
+                    }},
+                {
+                    fieldName: "Banding_Ye",
+                    label: "Banding Year"
+                },
+                        {
+                    fieldName: "Natal_Colo",
+                    label: "Natal Colony"
+                },
+                        {
+                    fieldName: "Status",
+                    label: "Status"
+                }
+                ]
+            });
+            var resightTemplateUT = new PopupTemplate({
+                title: "Resight Location",
+                content: "<b>Band Number:</b> {Band_No_}<br><b>Banding Date:</b> {Band_Date}<br><b>Return Date:</b> {Return_Date}<br><b>Natal Colony:</b> {Banding_Location}<br><b>Status:</b> {Status}<br>",
+                fieldInfos: [{
+                    fieldName: "Band_No_",
+                    label: "Band Number"
+                }, {
+                    fieldName: "Return_Date",
+                    label: "Return Date",
+                    format: {
+                        dateFormat: 'short-date'
+                    }},
+                        {
+                    fieldName: "Band_Date",
+                    label: "Banding Date",
+                    format: {
+                        dateFormat: 'short-date'
+                    }},
+                        {
+                    fieldName: "Banding_Location",
+                    label: "Natal Colony"
+                },
+                        {
+                    fieldName: "Status",
+                    label: "Status"
+                }
+                ]
+            });
+
             //console.log(app.mapView.popup.ViewModel);
             var gLayer = new GraphicsLayer({
-                popupTemplate: templateLn
+                popupTemplate: templateLn,
+                id: "tracks"
             });
             var legendLayer = new FeatureLayer({
                 url: 'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Tracked_Pelicans/FeatureServer'
 
             });
             var gLayerMRP = new GraphicsLayer({
-                popupTemplate: template
+                popupTemplate: template,
+                id: "mrp"
             });
             var mrp = new FeatureLayer({
                 url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/1',
@@ -556,11 +622,13 @@
             });
             var resightUT = new FeatureLayer({
                 url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/0",
-                outFields: ["*"]
+                outFields: ["*"],
+                popupTemplate: resightTemplateUT
             });
             var resightID = new FeatureLayer({
                 url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/1",
-                outFields: ["*"]
+                outFields: ["*"],
+                popupTemplate: resightTemplate
             });
             fl.load();
 
@@ -575,12 +643,23 @@
             var legend = new Legend({
                 view: app.mapView,
                 layerInfos: [{
-                    layer: legendLayer,
-                    title: "Tracked Pelicans"
-                }, {
                     layer: colonies,
                     title: "Breeding Colonies"
-                }]
+                },
+                        {
+                        layer: resightUT,
+                        title: "Pelican Band Resightings - UT"
+                    },
+                    {
+                        layer: resightID,
+                        title: "Pelican Band Resightings - ID"
+                    },
+                    {
+                    layer: legendLayer,
+                    title: "Tracked Pelicans"
+                }
+
+                ]
             });
             legend.startup();
             app.mapView.ui.add(legend, "bottom-left");
@@ -801,6 +880,14 @@
             });
             // Home
 
+            $('#hideTrack').click(function() {
+                if ($(this).is(':checked')) {
+                    map.remove(gLayer);
+
+                } else {
+                    map.add(gLayer);
+                }
+            });
 
 
             $('#togglePts').click(function() {
@@ -1135,8 +1222,11 @@
                     });
                     //map.add(fl);
                     gLayer.popupEnabled = false;
+
                     //app.mapView.popupManager.enabled = false;
-                    map.add(gLayer);
+                    if (!$('#hideTrack').is(':checked')) {
+                        map.add(gLayer);
+                    }
                     map.add(gLayerMRP);
                     console.log(gLayer);
                     console.log(app.mapView);
@@ -1149,12 +1239,31 @@
                 if (val == 'loaded') {
                     //hide gif
                     $('#load').toggleClass('hidden show');
+
                 } else {
                     //show gif
                     $('#load').toggleClass('hidden show');
+
                 }
             }); // wait for the layer view to finish updating
-
+            /*app.mapView.on("click", function(event) {
+  app.mapView.hitTest(event.screenPoint).then(function(response) {
+    console.log(response);
+      if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrp'){
+      console.log("Top graphic found! Here it is: ", response.results[0].graphic);
+          app.mapView.popup.open({
+                title: "Yeah",
+              content: "GFY",
+                location: event.mapPoint
+              });
+          console.log(event.mapPoint);
+          console.log(response.results[0].graphic.geometry.x,response.results[0].graphic.geometry.y);
+    }
+      else{console.log("nah man");
+          app.mapView.popup.close();
+      }
+  });
+});*/
         });
     </script>
 
