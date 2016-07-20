@@ -45,12 +45,14 @@
             padding: 0;
             height: 100%;
             font-weight: 400;
+            overflow:hidden;
         }
 
         .esri-legend {
             background-color: #333333;
             color: white;
             border: 1px solid #4c4c4c;
+
         }
 
         @media screen and (max-width: 768px) {
@@ -116,6 +118,7 @@
             font-size: 14px;
             font-weight: 400;
         }
+
     </style>
 
 </head>
@@ -587,10 +590,10 @@
                 }
                 ]
             });
-
+            app.mapView.popupManager.enabled = false;
             //console.log(app.mapView.popup.ViewModel);
             var gLayer = new GraphicsLayer({
-                popupTemplate: templateLn,
+
                 id: "tracks"
             });
             var legendLayer = new FeatureLayer({
@@ -1060,6 +1063,8 @@
                     $('#load').toggleClass('hidden show');
                     $('#filtercont').toggleClass('hidden show');
                     event.preventDefault();
+                    app.mapView.popup.close();
+                    app.mapView.goTo(homeBtn.viewpoint);
                     gLayer.removeAll();
                     gLayerMRP.removeAll();
                     map.remove(mrp);
@@ -1246,24 +1251,30 @@
 
                 }
             }); // wait for the layer view to finish updating
-            /*app.mapView.on("click", function(event) {
+            app.mapView.on("click", function(event) {
   app.mapView.hitTest(event.screenPoint).then(function(response) {
     console.log(response);
       if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrp'){
-      console.log("Top graphic found! Here it is: ", response.results[0].graphic);
+      console.log("Top graphic found! Here it is: ", response.results[0].graphic,response.results[0].graphic.attributes.Date_time);
+          var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
+          var name = response.results[0].graphic.attributes.name;
+          datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
+          console.log(datePop,name);
           app.mapView.popup.open({
-                title: "Yeah",
-              content: "GFY",
+                title: name,
+              content: "Seen here on "+ datePop,
                 location: event.mapPoint
               });
           console.log(event.mapPoint);
           console.log(response.results[0].graphic.geometry.x,response.results[0].graphic.geometry.y);
+          console.log(response.results[0].graphic);
     }
       else{console.log("nah man");
           app.mapView.popup.close();
       }
   });
-});*/
+});
+
         });
     </script>
 
