@@ -499,101 +499,10 @@
                     //defaultSymbol: new SimpleFillSymbol()
             });
 
-            var template = new PopupTemplate({
-                title: "{name}",
-                content: "Seen here on {Date_time}",
-                fieldInfos: [{
-                    fieldName: "Date_time",
-                    label: "Date",
-                    format: {
-                        dateFormat: 'short-date-short-time'
-                    }
-                }, {
-                    fieldName: "name",
-                    label: "Name",
-                    visible: true
-                }]
-            });
-            var templateLn = new PopupTemplate({
-                title: "{name}",
-                content: "Track line for {name}",
-                fieldInfos: [{
-                    fieldName: "name",
-                    label: "Name",
-                    visible: true
-                }]
-            });
-            var colonyTemplate = new PopupTemplate({
-                title: "{COLONY}",
-                content: "Colony Name: {COLONY}<br>Population: {pop}",
-                fieldInfos: [{
-                    fieldName: "COLONY",
-                    label: "Colony Name"
-                }, {
-                    fieldName: "pop",
-                    label: "Population",
-                    visible: true
-                }]
-            });
 
-            var resightTemplate = new PopupTemplate({
-                title: "Resight Location",
-                content: "<b>Band Number:</b> {Band_Numbe}<br><b>Date:</b> {Date}<br><b>Banding Year:</b> {Banding_Ye}<br><b>Natal Colony:</b> {Natal_Colo}<br><b>Status:</b> {Status}<br>",
-                fieldInfos: [{
-                    fieldName: "Band_Numbe",
-                    label: "Band Number"
-                }, {
-                    fieldName: "Date",
-                    label: "Date",
-                    format: {
-                        dateFormat: 'short-date'
-                    }},
-                {
-                    fieldName: "Banding_Ye",
-                    label: "Banding Year"
-                },
-                        {
-                    fieldName: "Natal_Colo",
-                    label: "Natal Colony"
-                },
-                        {
-                    fieldName: "Status",
-                    label: "Status"
-                }
-                ]
-            });
-            var resightTemplateUT = new PopupTemplate({
-                title: "Resight Location",
-                content: "<b>Band Number:</b> {Band_No_}<br><b>Banding Date:</b> {Band_Date}<br><b>Return Date:</b> {Return_Date}<br><b>Natal Colony:</b> {Banding_Location}<br><b>Status:</b> {Status}<br>",
-                fieldInfos: [{
-                    fieldName: "Band_No_",
-                    label: "Band Number"
-                }, {
-                    fieldName: "Return_Date",
-                    label: "Return Date",
-                    format: {
-                        dateFormat: 'short-date'
-                    }},
-                        {
-                    fieldName: "Band_Date",
-                    label: "Banding Date",
-                    format: {
-                        dateFormat: 'short-date'
-                    }},
-                        {
-                    fieldName: "Banding_Location",
-                    label: "Natal Colony"
-                },
-                        {
-                    fieldName: "Status",
-                    label: "Status"
-                }
-                ]
-            });
             app.mapView.popupManager.enabled = false;
             //console.log(app.mapView.popup.ViewModel);
             var gLayer = new GraphicsLayer({
-
                 id: "tracks"
             });
             var legendLayer = new FeatureLayer({
@@ -601,19 +510,18 @@
 
             });
             var gLayerMRP = new GraphicsLayer({
-                popupTemplate: template,
                 id: "mrp"
             });
             var mrp = new FeatureLayer({
                 url: 'http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/1',
                 outFields: ["*"],
-                popupTemplate: template,
+                id: "mrpMain",
                 renderer: rendererPtsMRP
             });
             var fl = new FeatureLayer({
                 url: "http://maps.dnr.utah.gov:6080/arcgis/rest/services/DWR/AWPE_Argos_Data/MapServer/0",
                 outFields: ["*"],
-                popupTemplate: template,
+                id: 'dataPts',
                 renderer: rendererPts
 
             });
@@ -621,17 +529,17 @@
             var colonies = new FeatureLayer({
                 url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Western_Breeding_Colonies/FeatureServer/0",
                 outFields: ["*"],
-                popupTemplate: colonyTemplate
+                id: "colonies"
             });
             var resightUT = new FeatureLayer({
                 url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/0",
                 outFields: ["*"],
-                popupTemplate: resightTemplateUT
+                id: "resightUT"
             });
             var resightID = new FeatureLayer({
                 url: "http://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/pelican_resight_locations/FeatureServer/1",
                 outFields: ["*"],
-                popupTemplate: resightTemplate
+                id: "resightID"
             });
             fl.load();
 
@@ -1269,6 +1177,59 @@
           console.log(response.results[0].graphic.geometry.x,response.results[0].graphic.geometry.y);
           console.log(response.results[0].graphic);
     }
+          else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'dataPts'){
+              var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
+              var name = response.results[0].graphic.attributes.name;
+              datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
+              app.mapView.popup.open({
+                    title: name,
+                  content: "Seen here on "+ datePop,
+                    location: event.mapPoint
+                  });
+      }
+              else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrpMain'){
+              var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
+              var name = response.results[0].graphic.attributes.name;
+              datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
+              app.mapView.popup.open({
+                    title: name,
+                  content: "Seen here on "+ datePop,
+                    location: event.mapPoint
+                  });
+      }
+              else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'colonies'){
+              var name = response.results[0].graphic.attributes.COLONY + " Colony";
+              var population = response.results[0].graphic.attributes.Pop;
+              app.mapView.popup.open({
+                    title: name,
+                  content: "Estimated Population of "+ population.toString(),
+                    location: event.mapPoint
+                  });
+      }
+              else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'resightUT'){
+              var band = response.results[0].graphic.attributes.Band_No_;
+          var bandDate = moment.unix((response.results[0].graphic.attributes.Band_Date)/1000).format('MMMM Do YYYY');
+              var returnDate =moment.unix((response.results[0].graphic.attributes.Return_Date)/1000).format('MMMM Do YYYY');
+          var bandingLocation = response.results[0].graphic.attributes.Banding_Location;
+          var bandStatus = response.results[0].graphic.attributes.Status;
+              app.mapView.popup.open({
+                    title: "Resighting Location",
+                  content: "<b>Band Number:</b> "+band+"<br><b>Banding Date:</b> "+bandDate+"<br><b>Return Date:</b> "+ returnDate+"<br><b>Natal Colony:</b> "+ bandingLocation+"<br><b>Status:</b> "+ bandStatus+"<br>",
+                    location: event.mapPoint
+                  });
+      }
+              else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'resightID'){
+              var band = response.results[0].graphic.attributes.Band_Numbe;
+          var resightDate = moment.unix((response.results[0].graphic.attributes.Date)/1000).format('MMMM Do YYYY');
+          var bandYear = response.results[0].graphic.attributes.Banding_Ye;
+          var natalColony = response.results[0].graphic.attributes.Natal_Colo;
+          var bandStatus = response.results[0].graphic.attributes.Status;
+              app.mapView.popup.open({
+                    title: "Resighting Location",
+                  content: "<b>Band Number: </b>"+ band+ "<br><b>Date:</b>"+resightDate +"<br><b>Banding Year:</b>"+ bandYear+"<br><b>Natal Colony:</b>"+ natalColony+ "<br><b>Status:</b>"+ bandStatus+"<br>",
+                    location: event.mapPoint
+                  });
+      }
       else{console.log("nah man");
           app.mapView.popup.close();
       }
