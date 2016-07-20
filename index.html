@@ -708,7 +708,7 @@
                                     geometry: mrpPt,
                                     symbol: new SimpleMarkerSymbol({
                                         color: dict[name],
-                                        size: '13px'
+                                        size: '15px'
                                     }),
                                     attributes: ptAtt
                                 });
@@ -1103,7 +1103,7 @@
                                 geometry: mrpPt,
                                 symbol: new SimpleMarkerSymbol({
                                     color: dict[name],
-                                    size: '13px'
+                                    size: '15px'
                                 }),
                                 attributes: ptAtt
                             });
@@ -1118,7 +1118,7 @@
                             };
                             var lineSymbol = new SimpleLineSymbol({
                                 color: dict[name],
-                                width: "1.5px"
+                                width: "1px"
                             });
                             var plGraphic = new Graphic({
                                 geometry: pl,
@@ -1177,7 +1177,7 @@
           console.log(response.results[0].graphic.geometry.x,response.results[0].graphic.geometry.y);
           console.log(response.results[0].graphic);
     }
-          else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'dataPts'){
+          else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'dataPts'){
               var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
               var name = response.results[0].graphic.attributes.name;
               datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
@@ -1187,7 +1187,7 @@
                     location: event.mapPoint
                   });
       }
-              else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrpMain'){
+              else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrpMain'){
               var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
               var name = response.results[0].graphic.attributes.name;
               datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
@@ -1197,7 +1197,7 @@
                     location: event.mapPoint
                   });
       }
-              else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'colonies'){
+              else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'colonies'){
               var name = response.results[0].graphic.attributes.COLONY + " Colony";
               var population = response.results[0].graphic.attributes.Pop;
               app.mapView.popup.open({
@@ -1206,7 +1206,7 @@
                     location: event.mapPoint
                   });
       }
-              else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'resightUT'){
+              else if(response.results.length == 1  && response.results[0].graphic && response.results[0].graphic.layer.id == 'resightUT'){
               var band = response.results[0].graphic.attributes.Band_No_;
           var bandDate = moment.unix((response.results[0].graphic.attributes.Band_Date)/1000).format('MMMM Do YYYY');
               var returnDate =moment.unix((response.results[0].graphic.attributes.Return_Date)/1000).format('MMMM Do YYYY');
@@ -1218,7 +1218,7 @@
                     location: event.mapPoint
                   });
       }
-              else if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'resightID'){
+              else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'resightID'){
               var band = response.results[0].graphic.attributes.Band_Numbe;
           var resightDate = moment.unix((response.results[0].graphic.attributes.Date)/1000).format('MMMM Do YYYY');
           var bandYear = response.results[0].graphic.attributes.Banding_Ye;
@@ -1230,7 +1230,21 @@
                     location: event.mapPoint
                   });
       }
-      else{console.log("nah man");
+              else if(response.results.length > 1){
+                console.log("Firing loop");
+                for (var x = 0; x < response.results.length; x++) {
+                    if (response.results[x].graphic.layer.id == 'mrp'){
+
+              var datePop = moment.unix((response.results[x].graphic.attributes.Date_time)/1000);
+              var name = response.results[x].graphic.attributes.name;
+              datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
+              app.mapView.popup.open({
+                    title: name,
+                  content: "Seen here on "+ datePop,
+                    location: event.mapPoint
+                  });
+      }}}
+      else{console.log("Clicked Track Line");
           app.mapView.popup.close();
       }
   });
