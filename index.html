@@ -425,9 +425,10 @@
             "esri/widgets/Legend",
             "esri/renderers/UniqueValueRenderer",
             "esri/core/watchUtils",
+                "esri/geometry/support/webMercatorUtils",
             "dojo/query",
             "dojo/domReady!"
-        ], function(Map, Basemap, Home, Compass, MapView, FeatureLayer, GraphicsLayer, Graphic, Query, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils, query) {
+        ], function(Map, Basemap, Home, Compass, MapView, FeatureLayer, GraphicsLayer, Graphic, Query, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils,webMercatorUtils, query) {
 
             // App
             app = {
@@ -1161,9 +1162,14 @@
             }); // wait for the layer view to finish updating
             app.mapView.on("click", function(event) {
   app.mapView.hitTest(event.screenPoint).then(function(response) {
-    console.log(response);
+
+      console.log("Map Point",event.mapPoint);
       if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrp'){
       console.log("Top graphic found! Here it is: ", response.results[0].graphic,response.results[0].graphic.attributes.Date_time);
+          var center = webMercatorUtils.geographicToWebMercator(new Point({
+                                latitude: response.results[0].graphic.geometry.latitude,
+                                longitude: response.results[0].graphic.geometry.longitude,
+                            }));
           var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
           var name = response.results[0].graphic.attributes.name;
           datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
@@ -1171,43 +1177,59 @@
           app.mapView.popup.open({
                 title: name,
               content: "Seen here on "+ datePop,
-                location: event.mapPoint
+                location: center
               });
           console.log(event.mapPoint);
           console.log(response.results[0].graphic.geometry.x,response.results[0].graphic.geometry.y);
           console.log(response.results[0].graphic);
     }
           else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'dataPts'){
-              var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
+            var center = webMercatorUtils.geographicToWebMercator(new Point({
+                                latitude: response.results[0].graphic.geometry.latitude,
+                                longitude: response.results[0].graphic.geometry.longitude,
+                            }));
+          var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
               var name = response.results[0].graphic.attributes.name;
               datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
               app.mapView.popup.open({
                     title: name,
                   content: "Seen here on "+ datePop,
-                    location: event.mapPoint
+                    location: center
                   });
       }
               else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrpMain'){
-              var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
+            var center = webMercatorUtils.geographicToWebMercator(new Point({
+                                latitude: response.results[0].graphic.geometry.latitude,
+                                longitude: response.results[0].graphic.geometry.longitude,
+                            }));
+          var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
               var name = response.results[0].graphic.attributes.name;
               datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
               app.mapView.popup.open({
                     title: name,
                   content: "Seen here on "+ datePop,
-                    location: event.mapPoint
+                    location: center
                   });
       }
               else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'colonies'){
-              var name = response.results[0].graphic.attributes.COLONY + " Colony";
+            var center = webMercatorUtils.geographicToWebMercator(new Point({
+                                latitude: response.results[0].graphic.geometry.latitude,
+                                longitude: response.results[0].graphic.geometry.longitude,
+                            }));
+          var name = response.results[0].graphic.attributes.COLONY + " Colony";
               var population = response.results[0].graphic.attributes.Pop;
               app.mapView.popup.open({
                     title: name,
                   content: "Estimated Population of "+ population.toString(),
-                    location: event.mapPoint
+                    location: center
                   });
       }
               else if(response.results.length == 1  && response.results[0].graphic && response.results[0].graphic.layer.id == 'resightUT'){
-              var band = response.results[0].graphic.attributes.Band_No_;
+            var center = webMercatorUtils.geographicToWebMercator(new Point({
+                                latitude: response.results[0].graphic.geometry.latitude,
+                                longitude: response.results[0].graphic.geometry.longitude,
+                            }));
+          var band = response.results[0].graphic.attributes.Band_No_;
           var bandDate = moment.unix((response.results[0].graphic.attributes.Band_Date)/1000).format('MMMM Do YYYY');
               var returnDate =moment.unix((response.results[0].graphic.attributes.Return_Date)/1000).format('MMMM Do YYYY');
           var bandingLocation = response.results[0].graphic.attributes.Banding_Location;
@@ -1215,11 +1237,15 @@
               app.mapView.popup.open({
                     title: "Resighting Location",
                   content: "<b>Band Number:</b> "+band+"<br><b>Banding Date:</b> "+bandDate+"<br><b>Return Date:</b> "+ returnDate+"<br><b>Natal Colony:</b> "+ bandingLocation+"<br><b>Status:</b> "+ bandStatus+"<br>",
-                    location: event.mapPoint
+                    location: center
                   });
       }
               else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'resightID'){
-              var band = response.results[0].graphic.attributes.Band_Numbe;
+            var center = webMercatorUtils.geographicToWebMercator(new Point({
+                                latitude: response.results[0].graphic.geometry.latitude,
+                                longitude: response.results[0].graphic.geometry.longitude,
+                            }));
+          var band = response.results[0].graphic.attributes.Band_Numbe;
           var resightDate = moment.unix((response.results[0].graphic.attributes.Date)/1000).format('MMMM Do YYYY');
           var bandYear = response.results[0].graphic.attributes.Banding_Ye;
           var natalColony = response.results[0].graphic.attributes.Natal_Colo;
@@ -1227,21 +1253,24 @@
               app.mapView.popup.open({
                     title: "Resighting Location",
                   content: "<b>Band Number: </b>"+ band+ "<br><b>Date:</b>"+resightDate +"<br><b>Banding Year:</b>"+ bandYear+"<br><b>Natal Colony:</b>"+ natalColony+ "<br><b>Status:</b>"+ bandStatus+"<br>",
-                    location: event.mapPoint
+                    location: center
                   });
       }
               else if(response.results.length > 1){
                 console.log("Firing loop");
                 for (var x = 0; x < response.results.length; x++) {
-                    if (response.results[x].graphic.layer.id == 'mrp'){
-
+                    if (response.results[x].graphic.layer.id == 'mrp' || response.results[x].graphic.layer.id == 'dataPts'){
+                var center = webMercatorUtils.geographicToWebMercator(new Point({
+                                latitude: response.results[x].graphic.geometry.latitude,
+                                longitude: response.results[x].graphic.geometry.longitude,
+                            }));
               var datePop = moment.unix((response.results[x].graphic.attributes.Date_time)/1000);
               var name = response.results[x].graphic.attributes.name;
               datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
               app.mapView.popup.open({
                     title: name,
                   content: "Seen here on "+ datePop,
-                    location: event.mapPoint
+                    location: center
                   });
       }}}
       else{console.log("Clicked Track Line");
