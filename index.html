@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -637,7 +638,7 @@
                         mrp.renderer = rendererPtsMRP;
 
                         var start = startDate.format('MM-DD-YYYY');
-                        var end = endDate.format('MM-DD-YYYY');
+                        var end = endDate.add(24,'hours').format('MM-DD-YYYY');
                         var dQuery = "Date_time <= date'" + end + "' AND Date_time >= date'" + start + "'";
                         //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
                         //console.log(dQuery);
@@ -1014,7 +1015,7 @@
                         dQuery = "";
                     } else {
                         var sDate = startDate.format('MM-DD-YYYY');
-                        var eDate = endDate.format('MM-DD-YYYY');
+                        var eDate = endDate.add(24,'hours').format('MM-DD-YYYY');
                         dQuery = "Date_time <= date'" + eDate + "' AND Date_time >= date'" + sDate + "'";
 
                     }
