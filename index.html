@@ -119,7 +119,23 @@
             font-size: 14px;
             font-weight: 400;
         }
-
+    #panelInfo {
+        position:absolute;
+        bottom: 65px;
+        right:0px;
+        color:white;
+        background-color: rgb(51,51,51);
+        z-index: 200;
+        padding: 10px;
+        font-size:16px;
+        border-top:1px solid rgb(76,76,76);
+        border-left:1px solid rgb(76,76,76);
+        height: 44px;
+    }
+        #panelInfo:hover{
+            border-bottom: 1px solid white;
+            cursor: pointer;
+        }
     </style>
 
 </head>
@@ -128,7 +144,7 @@
     <div class="hidden" id="load"><img src="load.gif" class="img-responsive" alt="Loading..." style="height:32px; width:32px;"></div>
     <!-- Navbar -->
 
-    <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75 dropup">
+    <nav class="navbar calcite-navbar navbar-fixed-bottom calcite-text-light calcite-bg-dark calcite-black-75 dropup" style="border-top:1px solid rgb(76,76,76);">
         <!-- Header -->
         <div class="navbar-header">
             <a class="navbar-brand"><img src="pelican_fly.png" class="img-responsive" alt="Flying pelican"></a>
@@ -148,6 +164,10 @@
 
 
     </nav>
+    <!--/.FilterDisplayInfo -->
+    <div id="panelInfo" class="panel panel-default">
+        <div class="panel-body" ></div>
+    </div>
     <!--/.ModalInfo -->
     <div class="modal fade" id="modalSplash" tabindex="-1" role="dialog" aria-labelledby="splashlModal" style="overflow-y: auto;">
         <div class="modal-dialog" role="document">
@@ -904,7 +924,9 @@
 
                 $('#legendNav').toggleClass('active');
             });
-
+            $('#panelInfo').click(function(event) {
+                $("#filterNav2").click();
+            });
             $(
                 document).ready(function() {
 
@@ -949,6 +971,7 @@
                         endDate = end;
                     }
                 );
+                $( "#panelInfo" ).text(startDate.format('MM-DD-YYYY') + ' to ' + endDate.format('MM-DD-YYYY'));
 
                 $(document).on('click', '#basemap .dropdown-menu', function(e) {
                     e.stopPropagation();
@@ -973,6 +996,7 @@
                     $('#load').toggleClass('hidden show');
                     $('#filtercont').toggleClass('hidden show');
                     event.preventDefault();
+                    $( "#panelInfo" ).text(startDate.format('MM-DD-YYYY') + ' to ' + endDate.format('MM-DD-YYYY'));
                     app.mapView.popup.close();
                     app.mapView.goTo(homeBtn.viewpoint);
                     gLayer.removeAll();
