@@ -119,22 +119,37 @@
             font-size: 14px;
             font-weight: 400;
         }
-    #panelInfo {
+    #panelInfoBox {
         position:absolute;
         bottom: 65px;
         right:0px;
         color:white;
         background-color: rgba(51,51,51,0.9);
         z-index: 2;
-        padding: 10px;
-        font-size:16px;
+        /*padding: 10px;*/
+        /*font-size:16px;*/
         border-top:1px solid rgb(76,76,76);
         border-left:1px solid rgb(76,76,76);
-        height: 44px;
+        /*height: 44px;*/
     }
-        #panelInfo:hover{
+        #panelInfo, #panelInfoHighlight{
+            background-color: rgba(51,51,51,0.9);
+            color:white;
+            padding: 10px;
+            font-size:16px;
+            text-align: center;
+        }
+        #panelInfoBox:hover{
             border-bottom: 1px solid white;
             cursor: pointer;
+        }
+        .esri-legend .esri-legend__layer-cell--info:hover{
+            font-weight: bold;
+            cursor:pointer;
+        }
+        .highlight {
+            font-weight: bold;
+            color: rgb(0,251,255);
         }
     </style>
 
@@ -165,9 +180,9 @@
 
     </nav>
     <!--/.FilterDisplayInfo -->
-    <div id="panelInfo" class="panel panel-default">
-        <div class="panel-body" ></div>
-    </div>
+    <div id = "panelInfoBox" class = "panel panel-default">
+    <div id="panelInfo" class="panel panel-default"></div>
+        </div>
     <!--/.ModalInfo -->
     <div class="modal fade" id="modalSplash" tabindex="-1" role="dialog" aria-labelledby="splashlModal" style="overflow-y: auto;">
         <div class="modal-dialog" role="document">
@@ -527,11 +542,17 @@
             var gLayer = new GraphicsLayer({
                 id: "tracks"
             });
+            var gLayerHighlight = new GraphicsLayer({
+                id: "tracks"
+            });
             var legendLayer = new FeatureLayer({
                 url: 'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Tracked_Pelicans/FeatureServer'
 
             });
             var gLayerMRP = new GraphicsLayer({
+                id: "mrp"
+            });
+            var gLayerMRPHighlight = new GraphicsLayer({
                 id: "mrp"
             });
             var mrp = new FeatureLayer({
@@ -564,12 +585,19 @@
                 id: "resightID"
             });
             fl.load();
-
+            function removeHighlight(){
+                    $(".esri-legend__layer-cell.esri-legend__layer-cell--info.highlight").removeClass("highlight");
+                    gLayerMRPHighlight.removeAll();
+                    map.remove(gLayerMRPHighlight);
+                    gLayerHighlight.removeAll();
+                    map.remove(gLayerHighlight);
+                }
 
 
 
             map.add(legendLayer);
             map.add(mrp);
+
 
 
 
@@ -863,14 +891,18 @@
                 }
             });
 
+
+
             $('#resetBtn').click(function(event) {
                 //legendLayer.renderer = rendererPtsMRP;
                 event.preventDefault();
+                $( "#panelInfo" ).text("Most recent point for each pelican");
                 $('#modalFilter').modal('hide');
                 $('#daterange').val('Most Recent Points Shown');
                 $('#nameselect').multiselect("selectAll", false);
                 $('#nameselect').multiselect('refresh');
                 $('#togglePts').attr('checked', false);
+                removeHighlight();
                 var rendererVis = new UniqueValueRenderer({
                     field: "name"
                         //defaultSymbol: new SimpleFillSymbol()
@@ -924,11 +956,10 @@
 
                 $('#legendNav').toggleClass('active');
             });
-            $('#panelInfo').click(function(event) {
+            $('#panelInfoBox').click(function(event) {
                 $("#filterNav2").click();
             });
-            $(
-                document).ready(function() {
+            $(document).ready(function() {
 
                 $('#daterange').keypress(function(e) {
                     if (e.which == 13) { // Checks for the enter key
@@ -971,6 +1002,7 @@
                         endDate = end;
                     }
                 );
+
                 $( "#panelInfo" ).text(startDate.format('MM-DD-YYYY') + ' to ' + endDate.format('MM-DD-YYYY'));
 
                 $(document).on('click', '#basemap .dropdown-menu', function(e) {
@@ -978,6 +1010,29 @@
                 });
                 $(document).on('click', '#layers .dropdown-menu', function(e) {
                     e.stopPropagation();
+                });
+                $(document).on('click', '.esri-legend .esri-legend__layer-cell--info', function(e) {
+                    var txt = $(e.target).text();
+                    var target = e.target;
+                    removeHighlight();
+                    $(target).addClass('highlight');
+                    for (var i = 0; i < (gLayerMRP.graphics.items).length; i++) {
+                        if (gLayerMRP.graphics.items[i].attributes.name == txt && gLayer.graphics.items[i].attributes.name == txt){
+                            var cloneGraphic = gLayerMRP.graphics.items[i].clone();
+                            cloneGraphic.symbol.outline.color.g = 251;
+                            cloneGraphic.symbol.outline.color.b = 255;
+                            cloneGraphic.symbol.outline.width = 2;
+                            gLayerMRPHighlight.add(cloneGraphic);
+                            var cloneTrack = gLayer.graphics.items[i].clone();
+                            cloneTrack.symbol.color.g = 251;
+                            cloneTrack.symbol.color.b = 255;
+                            cloneTrack.symbol.color.r = 0;
+                            cloneTrack.symbol.width = 2;
+                            gLayerHighlight.add(cloneTrack);
+                        }
+                    }
+                    map.add(gLayerHighlight);
+                    map.add(gLayerMRPHighlight);
                 });
 
                 $('#daterange').on('apply.daterangepicker', function(ev, picker) {
@@ -989,8 +1044,6 @@
                 });
 
 
-
-
                 $('#applyBtn').click(function(event) {
                     $('#modalFilter').modal('hide');
                     $('#load').toggleClass('hidden show');
@@ -999,6 +1052,7 @@
                     $( "#panelInfo" ).text(startDate.format('MM-DD-YYYY') + ' to ' + endDate.format('MM-DD-YYYY'));
                     app.mapView.popup.close();
                     app.mapView.goTo(homeBtn.viewpoint);
+                    removeHighlight();
                     gLayer.removeAll();
                     gLayerMRP.removeAll();
                     map.remove(mrp);
@@ -1300,6 +1354,7 @@
       }}}
       else{console.log("Clicked Track Line");
           app.mapView.popup.close();
+          removeHighlight();
       }
   });
 });
