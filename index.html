@@ -150,6 +150,10 @@
             font-weight: bold;
             color: rgb(0,251,255);
         }
+       /*.form-control:hover{
+           color:white;
+           background-color: blue;
+       }*/
     </style>
 
 </head>
@@ -172,7 +176,7 @@
         <ul class="nav navbar-nav">
             <li style="cursor:pointer;"><a id="modalToggle" aria-controls="InfoTab" role="button" data-toggle="modal" data-tooltip="More Info" title="More Info" data-placement="bottom" data-target="#modalSplash"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a>
             </li>
-            <a class="navbar-brand"><img src="http://wildlife.utah.gov/pelican_webmap/images/DWR_logo_small.png" class="img-fluid" alt="Flying pelican"></a>
+            <a href = "http://wildlife.utah.gov" target= _blank class="navbar-brand"><img src="http://wildlife.utah.gov/pelican_webmap/images/DWR_logo_small.png" class="img-fluid" alt="Flying pelican"></a>
         </ul>
 
 
@@ -227,7 +231,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color:white;">&times;</span></button><br>
                     <div class="text-center">
-                        <h2>Filter Data</h2></div>
+                        <h2><b>Filter Data</b></h2></div>
                 </div>
                 <div class="modal-body text-center">
 
@@ -270,7 +274,7 @@
                                     <div style="margin-bottom:5px;"><b>Filter by Date:</b></div>
                                     <div class="form-group">
 
-                                        <input type="button" class="form-control input-sm" id="daterange">
+                                        <input type="button" class="form-control input-sm btn-default" id="daterange">
                                     </div>
                                     <!-- form group [search] -->
                                     <div class="form-group">
@@ -467,7 +471,7 @@
             // App
             app = {
                 scale: 50000000,
-                center: [-111.95, 39.419],
+                center: [-99.20585937499908, 35.442538138566945],
                 zoom: 5,
                 initialExtent: null,
                 basemap: "dark-gray",
@@ -684,12 +688,12 @@
                         //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
                         //console.log(dQuery);
                         fl.definitionExpression = dQuery;
-                        fl.queryExtent().then(function(results) {
+                        /*fl.queryExtent().then(function(results) {
                             // go to the extent of the results satisfying the query
                             console.log(results.extent);
-                            app.mapView.goTo(results.extent);
+                            //app.mapView.goTo(results.extent); default load
                             console.log("went to extent");
-                        });
+                        });*/
                         fl.queryFeatures().then(function(results) {
                             // prints the array of result graphics to the console
                             //console.log(results.extent);
@@ -1041,7 +1045,7 @@
                     event.preventDefault();
                     $( "#panelInfo" ).text(startDate.format('MM-DD-YYYY') + ' to ' + endDate.format('MM-DD-YYYY'));
                     app.mapView.popup.close();
-                    app.mapView.goTo(homeBtn.viewpoint);
+                    //app.mapView.goTo(homeBtn.viewpoint);
                     removeHighlight();
                     gLayer.removeAll();
                     gLayerMRP.removeAll();
@@ -1106,12 +1110,12 @@
                     //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
                     //console.log(dQuery);
                     fl.definitionExpression = query;
-                    fl.queryExtent().then(function(results) {
+                    /*fl.queryExtent().then(function(results) {
                         // go to the extent of the results satisfying the query
                         console.log(results.extent);
-                        app.mapView.goTo(results.extent);
+                        //app.mapView.goTo(results.extent);
                         console.log("went to extent");
-                    });
+                    });*/
                     fl.queryFeatures().then(function(results) {
                         // prints the array of result graphics to the console
                         //console.log(results.extent);
@@ -1223,9 +1227,11 @@
                     //hide gif
                     $('#load').toggleClass('hidden show');
 
+
                 } else {
                     //show gif
                     $('#load').toggleClass('hidden show');
+                    console.log("mapview",app.mapView);
 
                 }
             }); // wait for the layer view to finish updating
