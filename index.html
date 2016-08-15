@@ -493,7 +493,7 @@
             // App
             app = {
                 scale: 50000000,
-                center: [-99.20585937499908, 35.442538138566945],
+                center: [-111.0937, 39.3210],
                 zoom: 5,
                 initialExtent: null,
                 basemap: "dark-gray",
@@ -630,6 +630,9 @@
             var legend = new Legend({
                 view: app.mapView,
                 layerInfos: [{
+                    layer: legendLayer,
+                    title: "Tracked Pelicans"
+                },{
                     layer: colonies,
                     title: "Breeding Colonies"
                 },
@@ -640,11 +643,7 @@
                     {
                         layer: resightID,
                         title: "Pelican Band Resightings - ID"
-                    },
-                    {
-                    layer: legendLayer,
-                    title: "Tracked Pelicans"
-                }
+                    }
 
                 ]
             });
@@ -716,12 +715,12 @@
                         //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
                         //console.log(dQuery);
                         fl.definitionExpression = dQuery;
-                        /*fl.queryExtent().then(function(results) {
+                        fl.queryExtent().then(function(results) {
                             // go to the extent of the results satisfying the query
                             console.log(results.extent);
-                            //app.mapView.goTo(results.extent); default load
+                            app.mapView.goTo(results.extent.expand(1.25));/* default load*/
                             console.log("went to extent");
-                        });*/
+                        });
                         fl.queryFeatures().then(function(results) {
                             // prints the array of result graphics to the console
                             //console.log(results.extent);
@@ -1150,12 +1149,12 @@
                     //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
                     //console.log(dQuery);
                     fl.definitionExpression = query;
-                    /*fl.queryExtent().then(function(results) {
+                    fl.queryExtent().then(function(results) {
                         // go to the extent of the results satisfying the query
                         console.log(results.extent);
-                        //app.mapView.goTo(results.extent);
+                        app.mapView.goTo(results.extent.expand(1.75));
                         console.log("went to extent");
-                    });*/
+                    });
                     fl.queryFeatures().then(function(results) {
                         // prints the array of result graphics to the console
                         //console.log(results.extent);
