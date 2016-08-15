@@ -150,6 +150,13 @@
             font-weight: bold;
             color: rgb(0,251,255);
         }
+
+        .highlightBasemap{
+            background-color:#d7d7d7;
+        }
+        .basemapUL li{
+            text-align:center;
+        }
        /*.form-control:hover{
            color:white;
            background-color: blue;
@@ -316,7 +323,7 @@
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   <span class="esri-icon esri-icon-layers"></span><span class="hidden-xs hidden-sm">   Toggle Layers</span>
               </button>
-                <ul class="dropdown-menu ">
+                <ul class="dropdown-menu dropdown-menu-right">
                     <li>
                         <div class="checkbox" style="margin-left:20px;margin-right:20px;">
                             <label><input type="checkbox" id = "hideTrack"> Hide Track Lines
@@ -336,7 +343,7 @@
                     </li>
                     <li>
                         <div class="checkbox" style="margin-left:20px;margin-right:20px;">
-                            <label><input type="checkbox" id = "toggleColony"> Show Colony Layer</label>
+                            <label><input type="checkbox" id = "toggleColony" checked> Show Colony Layer</label>
                         </div>
                     </li>
                 </ul>
@@ -346,7 +353,7 @@
                   <span class="glyphicon glyphicon-th-list"></span><span class="hidden-xs hidden-sm">   Toggle Legend</span>
               </button>
             </div>
-            <div id="basemap" class='btn-group'>
+            <!--<div id="basemap" class='btn-group'>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   <span class="esri-icon esri-icon-basemap"></span><span class="hidden-xs hidden-sm">   Change Basemap</span>
               </button>
@@ -359,7 +366,21 @@
                         <option value="dark-gray" data-vector="dark-gray-vector" selected="">Dark Gray</option>
                     </select>
                 </ul>
+            </div>-->
+            <div id="basemap" class='btn-group'>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="esri-icon esri-icon-basemap"></span><span class="hidden-xs hidden-sm">   Change Basemap</span>
+              </button>
+                <ul class="dropdown-menu dropdown-menu-right basemapUL">
+                        <li id="satellite" data-vector="satellite"  ><a href="#">Imagery</a></li>
+                        <li id="hybrid" data-vector="hybrid"><a href="#">Imagery with Labels</a></li>
+                        <li id="national-geographic" data-vector="national-geographic"><a href="#">National Geographic</a></li>
+                        <li id="topo" data-vector="topo-vector"><a href="#">Topographic</a></li>
+                        <li id="dark-gray" data-vector="dark-gray-vector" class="highlightBasemap" ><a href="#">Dark Gray</a></li>
+                </ul>
             </div>
+
+
         </div>
         <div id="tabContainer" class="tab-content">
             <div id="2dTab" class="tab-pane fade in active" role="tabpanel">
@@ -380,7 +401,7 @@
 
     <script>
         var app;
-        var startDate = moment().subtract(4, 'days');
+        var startDate = moment().subtract(7, 'days');
         var endDate = moment();
         /*var names_all = ["Abigail", "Annabelle", "Barnabus", "Bartholomew", "Cecilia", "Chester", "Daphne", "Derek", "Eleanor", "Everett", "Finnigan", "Flagg", "George", "Gerald", "Hector", "Indie", "Jerome", "Kirk", "Loretta","Manuel"];*/
         var names_all = [];
@@ -461,12 +482,13 @@
             "esri/geometry/Polyline", "esri/geometry/Point",
             "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleMarkerSymbol",
             "esri/widgets/Legend",
+                "esri/widgets/Locate",
             "esri/renderers/UniqueValueRenderer",
             "esri/core/watchUtils",
                 "esri/geometry/support/webMercatorUtils",
             "dojo/query",
             "dojo/domReady!"
-        ], function(Map, Basemap, Home, MapView, FeatureLayer, GraphicsLayer, Graphic, Query, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, UniqueValueRenderer, watchUtils,webMercatorUtils, query) {
+        ], function(Map, Basemap, Home, MapView, FeatureLayer, GraphicsLayer, Graphic, Query, Popup, PopupTemplate, Polyline, Point, SimpleLineSymbol, SimpleMarkerSymbol, Legend, Locate, UniqueValueRenderer, watchUtils,webMercatorUtils, query) {
 
             // App
             app = {
@@ -520,6 +542,7 @@
                 view: app.mapView
             });
             app.mapView.ui.add(homeBtn, "top-left");
+
             var rendererPts = new UniqueValueRenderer({
                 field: "name"
                     //defaultSymbol: new SimpleFillSymbol()
@@ -581,7 +604,13 @@
                 outFields: ["*"],
                 id: "resightID"
             });
+            var locateGL = new GraphicsLayer();
             fl.load();
+            var locateWidget = new Locate({
+                  view: app.mapView,   // Attaches the Locate button to the view
+                  graphicsLayer: locateGL  // The layer the locate graphic is assigned to
+                });
+             app.mapView.ui.add(locateWidget, "top-left");
             function removeHighlight(){
                     $(".esri-legend__layer-cell.esri-legend__layer-cell--info.highlight").removeClass("highlight");
                     gLayerMRPHighlight.removeAll();
@@ -592,8 +621,8 @@
 
 
 
-            map.add(legendLayer);
-            map.add(mrp);
+            /*map.add(legendLayer);*/
+            map.addMany([legendLayer,mrp,colonies, locateGL]);
 
 
 
@@ -645,7 +674,6 @@
                             /*$('#nameselect').append("<option value='" + name+ "'>" + name + "</option>");*/
 
                         });
-                        console.log(names_all);
                         for (var n = 0; n < names_all.length; n++) {
                             dict[names_all[n]] = name_colors[n];
                             $('#nameselect').append($('<option/>', {
@@ -812,7 +840,7 @@
 
 
             // Tab Events (Views)
-            query(".calcite-navbar li a[data-toggle='tab']").on("click", function(e) {
+            /*query(".calcite-navbar li a[data-toggle='tab']").on("click", function(e) {
                 syncTabs(e);
                 if (e.target.text.indexOf("Map") > -1) {
                     syncViews(app.sceneView, app.mapView);
@@ -822,15 +850,27 @@
                     app.activeView = app.sceneView;
                 }
                 syncSearch();
-            });
+            });*/
             // Tab
 
             // Basemap events
-            query("#selectBasemapPanel").on("change", function(e) {
+            /*query("#selectBasemapPanel").on("change", function(e) {
                 app.mapView.map.basemap = e.target.value;
                 //$('#basemap').removeClass('open');
                 $('.dropdown.open .dropdown-toggle').dropdown('toggle');
+            });*/
+
+            $('ul.basemapUL li').click(function() {
+                app.mapView.map.basemap = this.id;
+                $(this).addClass('highlightBasemap');
+                $(this).siblings().removeClass('highlightBasemap');
+                /*console.log(this.id);
+                console.log($(this).attr('data-vector'));*/
             });
+            $(".dropdown-menu a").click(function() {
+                $(this).closest(".dropdown-menu").prev().dropdown("toggle");
+            });
+
             // Collapsible popup (optional)
             query(".esri-popup .esri-title").on("click", function(e) {
                 query(".esri-popup .esri-container").toggleClass("esri-popup-collapsed");
@@ -973,15 +1013,14 @@
 
                 $('#daterange').daterangepicker({
                         autoApply: true,
-                        startDate: moment().subtract(3, 'days'),
+                        startDate: moment().subtract(7, 'days'),
                         endDate: moment(),
                         minDate: "08/10/2015",
                         maxDate: moment(),
                         parentEl: $("#filtercont"),
                         ranges: {
-                            'Last 24 Hours': [moment().subtract(24, 'hours'), moment()],
-                            'Last 3 Days': [moment().subtract(3, 'days'), moment()],
-                            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                            'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                            'Last 14 Days': [moment().subtract(14, 'days'), moment()],
                             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
                             'Last 90 Days': [moment().subtract(3, 'months'), moment()],
                             'Last Year': [moment().subtract(1, 'year'), moment()],
@@ -999,34 +1038,35 @@
 
                 $( "#panelInfo" ).text(startDate.format('MM-DD-YYYY') + ' to ' + endDate.format('MM-DD-YYYY'));
 
-                $(document).on('click', '#basemap .dropdown-menu', function(e) {
-                    e.stopPropagation();
-                });
                 $(document).on('click', '#layers .dropdown-menu', function(e) {
                     e.stopPropagation();
                 });
                 $(document).on('click', '.esri-legend .esri-legend__layer-cell--info', function(e) {
                     var txt = $(e.target).text();
                     var target = e.target;
-                    removeHighlight();
-                    $(target).addClass('highlight');
-                    for (var i = 0; i < (gLayerMRP.graphics.items).length; i++) {
-                        if (gLayerMRP.graphics.items[i].attributes.name == txt && gLayer.graphics.items[i].attributes.name == txt){
-                            var cloneGraphic = gLayerMRP.graphics.items[i].clone();
-                            cloneGraphic.symbol.outline.color.g = 251;
-                            cloneGraphic.symbol.outline.color.b = 255;
-                            cloneGraphic.symbol.outline.width = 2;
-                            gLayerMRPHighlight.add(cloneGraphic);
-                            var cloneTrack = gLayer.graphics.items[i].clone();
-                            cloneTrack.symbol.color.g = 251;
-                            cloneTrack.symbol.color.b = 255;
-                            cloneTrack.symbol.color.r = 0;
-                            cloneTrack.symbol.width = 2;
-                            gLayerHighlight.add(cloneTrack);
+                    /*if (isInArray(txt,names_all)){*/
+                    if (isInArray(txt,names_all)){
+                        removeHighlight();
+                        $(target).addClass('highlight');
+                        console.log(closest);
+                        for (var i = 0; i < (gLayerMRP.graphics.items).length; i++) {
+                            if (gLayerMRP.graphics.items[i].attributes.name == txt && gLayer.graphics.items[i].attributes.name == txt){
+                                var cloneGraphic = gLayerMRP.graphics.items[i].clone();
+                                cloneGraphic.symbol.outline.color.g = 251;
+                                cloneGraphic.symbol.outline.color.b = 255;
+                                cloneGraphic.symbol.outline.width = 2;
+                                gLayerMRPHighlight.add(cloneGraphic);
+                                var cloneTrack = gLayer.graphics.items[i].clone();
+                                cloneTrack.symbol.color.g = 251;
+                                cloneTrack.symbol.color.b = 255;
+                                cloneTrack.symbol.color.r = 0;
+                                cloneTrack.symbol.width = 2;
+                                gLayerHighlight.add(cloneTrack);
+                            }
                         }
+                        map.add(gLayerHighlight);
+                        map.add(gLayerMRPHighlight);
                     }
-                    map.add(gLayerHighlight);
-                    map.add(gLayerMRPHighlight);
                 });
 
                 $('#daterange').on('apply.daterangepicker', function(ev, picker) {
@@ -1235,12 +1275,11 @@
 
                 }
             }); // wait for the layer view to finish updating
+
+
             app.mapView.on("click", function(event) {
   app.mapView.hitTest(event.screenPoint).then(function(response) {
-
-      console.log("Map Point",event.mapPoint);
-      if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrp'){
-      console.log("Top graphic found! Here it is: ", response.results[0].graphic,response.results[0].graphic.attributes.Date_time);
+            if(response.results.length > 0 && response.results[0].graphic && response.results[0].graphic.layer.id == 'mrp'){
           var center = webMercatorUtils.geographicToWebMercator(new Point({
                                 latitude: response.results[0].graphic.geometry.latitude,
                                 longitude: response.results[0].graphic.geometry.longitude,
@@ -1248,15 +1287,11 @@
           var datePop = moment.unix((response.results[0].graphic.attributes.Date_time)/1000);
           var name = response.results[0].graphic.attributes.name;
           datePop = datePop.format("dddd, MMMM Do YYYY, h:mm:ss a");
-          console.log(datePop,name);
           app.mapView.popup.open({
                 title: name,
               content: "Seen here on "+ datePop,
                 location: center
               });
-          console.log(event.mapPoint);
-          console.log(response.results[0].graphic.geometry.x,response.results[0].graphic.geometry.y);
-          console.log(response.results[0].graphic);
     }
           else if(response.results.length == 1 && response.results[0].graphic && response.results[0].graphic.layer.id == 'dataPts'){
             var center = webMercatorUtils.geographicToWebMercator(new Point({
