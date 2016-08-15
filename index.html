@@ -181,7 +181,7 @@
         </div>
         <!-- Nav -->
         <ul class="nav navbar-nav">
-            <li style="cursor:pointer;"><a id="modalToggle" aria-controls="InfoTab" role="button" data-toggle="modal" data-tooltip="More Info" title="More Info" data-placement="bottom" data-target="#modalSplash"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a>
+            <li style="cursor:pointer;"><a id="modalToggle" aria-controls="InfoTab" role="button" data-toggle="modal" data-tooltip="More Info" title="More Info" data-placement="bottom" target = _blank href="http://wildlife.utah.gov/blog/2016/round-trip-flights-salt-lake-city-to-mazatlan/"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a><!--data-target="#modalSplash"-->
             </li>
             <a href = "http://wildlife.utah.gov" target= _blank class="navbar-brand"><img src="http://wildlife.utah.gov/pelican_webmap/images/DWR_logo_small.png" class="img-fluid" alt="Flying pelican"></a>
         </ul>
@@ -622,33 +622,13 @@
 
 
             /*map.add(legendLayer);*/
-            map.addMany([legendLayer,mrp,colonies, locateGL]);
+            map.addMany([legendLayer,mrp,colonies,locateGL]);
 
 
 
 
-            var legend = new Legend({
-                view: app.mapView,
-                layerInfos: [{
-                    layer: legendLayer,
-                    title: "Tracked Pelicans"
-                },{
-                    layer: colonies,
-                    title: "Breeding Colonies"
-                },
-                        {
-                        layer: resightUT,
-                        title: "Pelican Band Resightings - UT"
-                    },
-                    {
-                        layer: resightID,
-                        title: "Pelican Band Resightings - ID"
-                    }
 
-                ]
-            });
-            legend.startup();
-            app.mapView.ui.add(legend, "bottom-left");
+
             // Scene
 
             // Search
@@ -817,6 +797,28 @@
                         //app.mapView.popupManager.enabled = false;
                         map.add(gLayer);
                         map.add(gLayerMRP);
+                         var legend = new Legend({
+                            view: app.mapView,
+                            layerInfos: [{
+                                layer: legendLayer,
+                                title: "Tracked Pelicans"
+                            },{
+                                layer: colonies,
+                                title: "Breeding Colonies"
+                            },
+                            {
+                                layer: resightUT,
+                                title: "Pelican Band Resightings - UT"
+                            },
+                                {
+                                    layer: resightID,
+                                    title: "Pelican Band Resightings - ID"
+                                }
+                            ]
+                        });
+
+                        legend.startup();
+                        app.mapView.ui.add(legend, "bottom-left");
                         console.log(gLayer);
                         console.log(app.mapView);
 
@@ -1047,7 +1049,7 @@
                     if (isInArray(txt,names_all)){
                         removeHighlight();
                         $(target).addClass('highlight');
-                        console.log(closest);
+
                         for (var i = 0; i < (gLayerMRP.graphics.items).length; i++) {
                             if (gLayerMRP.graphics.items[i].attributes.name == txt && gLayer.graphics.items[i].attributes.name == txt){
                                 var cloneGraphic = gLayerMRP.graphics.items[i].clone();
