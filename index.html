@@ -183,7 +183,7 @@
         <ul class="nav navbar-nav">
             <li style="cursor:pointer;"><a id="modalToggle" aria-controls="InfoTab" role="button" data-toggle="modal" data-tooltip="More Info" title="More Info" data-placement="bottom" target = _blank href="http://wildlife.utah.gov/blog/2016/round-trip-flights-salt-lake-city-to-mazatlan/"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a><!--data-target="#modalSplash"-->
             </li>
-            <a href = "http://wildlife.utah.gov" target= _blank class="navbar-brand"><img src="http://wildlife.utah.gov/pelican_webmap/images/DWR_logo_small.png" class="img-fluid" alt="Flying pelican"></a>
+            <a href = "http://wildlife.utah.gov" target= _blank class="navbar-brand"><img src="//utahdnr.maps.arcgis.com/sharing/rest/content/items/def203c88d0249c584009342326d0df2/data" class="img-fluid" alt="Flying pelican"></a>
         </ul>
 
 
@@ -690,7 +690,7 @@
                         mrp.renderer = rendererPtsMRP;
 
                         var start = startDate.format('MM-DD-YYYY');
-                        var end = endDate.add(24,'hours').format('MM-DD-YYYY');
+                        var end = endDate.add(23,'hours').format('MM-DD-YYYY');
                         var dQuery = "Date_time <= date'" + end + "' AND Date_time >= date'" + start + "'";
                         //dQuery = "Date_time <= date'06-16-2016' AND Date_time >= date'05-01-2016'";
                         //console.log(dQuery);
@@ -1128,7 +1128,7 @@
                         dQuery = "";
                     } else {
                         var sDate = startDate.format('MM-DD-YYYY');
-                        var eDate = endDate.add(24,'hours').format('MM-DD-YYYY');
+                        var eDate = endDate.add(23,'hours').format('MM-DD-YYYY');
                         dQuery = "Date_time <= date'" + eDate + "' AND Date_time >= date'" + sDate + "'";
 
                     }
