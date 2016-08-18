@@ -622,7 +622,7 @@
 
 
             /*map.add(legendLayer);*/
-            map.addMany([legendLayer,mrp,colonies,locateGL]);
+            map.addMany([legendLayer,gLayer,gLayerMRP,mrp,colonies,locateGL]);
 
 
 
@@ -640,7 +640,7 @@
                         // query all the features available for drawing.
                         lyrView.queryFeatures().then(function(results) {
 
-
+                            console.log(results);
                             //console.log(graphics);
 
                             $.each(results, function(index, value) {
@@ -795,8 +795,8 @@
                         map.remove(mrp);
                         gLayer.popupEnabled = false;
                         //app.mapView.popupManager.enabled = false;
-                        map.add(gLayer);
-                        map.add(gLayerMRP);
+                        //map.add(gLayer);
+                        //map.add(gLayerMRP);
                          var legend = new Legend({
                             view: app.mapView,
                             layerInfos: [{
@@ -824,6 +824,7 @@
 
                     }
                 });
+                console.log("Done parsing graphics");
             });
 
 
