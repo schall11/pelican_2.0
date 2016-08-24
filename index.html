@@ -161,6 +161,25 @@
            color:white;
            background-color: blue;
        }*/
+        #utahgov_statewideheader {
+    z-index: 10;
+    width: 100%;
+    position: absolute !important;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    #utahgov_statewideheader {
+        display: none;
+    }
+    #buttonContainer {
+        top:20px !important;
+    }
+    .esri-ui-top-left{
+            top:0 !important;
+        }
+}
+        .esri-ui-top-left{
+            top:10px;
+        }
     </style>
 
 </head>
@@ -312,7 +331,7 @@
 
     <div class="calcite-map calcite-map-absolute calcite-overflow-hidden">
 
-        <div id="buttonContainer" style="position:absolute; top:20px; right:10px; z-index: 5;">
+        <div id="buttonContainer" style="position:absolute; top:40px; right:10px; z-index: 5;">
             <div class="btn-group ">
 
                 <button id="filterNav2" type="button" class="btn btn-default " data-toggle="modal" data-target="#modalFilter">
@@ -398,6 +417,7 @@
 
     <!-- ArcGIS JS 4.0 -->
     <script src="http://js.arcgis.com/4.0/"></script>
+    <script type="text/javascript" src="https://secure.utah.gov/nav/fluidheader.js"></script>
 
     <script>
         var app;
@@ -704,6 +724,7 @@
                         fl.queryFeatures().then(function(results) {
                             // prints the array of result graphics to the console
                             //console.log(results.extent);
+                            console.log("Querying features;;");
                             var ptt_list = [];
                             var geom = results.features;
                             geom.forEach(function(i) {
@@ -738,7 +759,7 @@
 
 
 
-                            console.log("ListL", ptList.length);
+//                            console.log("ListL", ptList.length);
                             for (var x = 0; x < ptList.length; x++) {
                                 var coordinates = [];
                                 var name = ptList[x][0].attributes.name;
@@ -785,6 +806,7 @@
                                     attributes: lineAtt
                                 });
                                 gLayer.add(plGraphic);
+                                console.log(coordinates);
                             }
                             //console.log(latLngArray);
 
