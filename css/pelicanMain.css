@@ -1,0 +1,128 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-weight: 400;
+    overflow: hidden;
+}
+.esri-legend {
+    background-color: rgba(51, 51, 51, 0.9);
+    color: white;
+    border: 1px solid #4c4c4c;
+    z-index: 3;
+}
+@media screen and (max-width: 768px) {
+    .esri-legend {
+        display: none;
+    }
+}
+.forceLegend {
+    display: block !important;
+}
+.esri-ui-top-left {
+    z-index: 0;
+}
+#load {
+    position: absolute;
+    z-index: 5;
+    top: 40%;
+    left: 50%;
+}
+.dropdown-toggle {
+    min-width: auto;
+    width: 100% !important;
+}
+.dropdown-menu select {
+    left: 0;
+}
+#filter-panel .btn-group {
+    display: block;
+}
+#filter-panel .dropdown-toggle {
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 85%!important;
+}
+#filter-panel .btn {
+    float: none;
+}
+#filter-panel .form-control {
+    width: 85%;
+}
+@media screen and (max-width: 768px) {
+    #filter-panel {
+        width: 100%!important;
+    }
+}
+#nameGrp .btn-group {
+    width: 100%;
+}
+.ranges li {
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+}
+#panelInfoBox {
+    position: absolute;
+    bottom: 65px;
+    right: 0px;
+    background-color: rgba(51, 51, 51, 0.9);
+    z-index: 1;
+    /*padding: 10px;*/
+    /*font-size:16px;*/
+
+    border-top: 1px solid rgb(76, 76, 76);
+    border-left: 1px solid rgb(76, 76, 76);
+    /*height: 44px;*/
+}
+#panelInfo,
+#panelInfoHighlight {
+    background-color: rgba(51, 51, 51, 0);
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+#panelInfoBox:hover {
+    border-bottom: 1px solid white;
+    cursor: pointer;
+}
+.esri-legend .esri-legend__layer-cell--info:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+.highlight {
+    font-weight: bold;
+    color: rgb(0, 251, 255);
+}
+.highlightBasemap {
+    background-color: #d7d7d7;
+}
+.basemapUL li {
+    text-align: center;
+}
+/*.form-control:hover{
+           color:white;
+           background-color: blue;
+       }*/
+
+#utahgov_statewideheader {
+    z-index: 10;
+    width: 100%;
+    position: absolute !important;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    #utahgov_statewideheader {
+        display: none;
+    }
+    #buttonContainer {
+        top: 20px !important;
+    }
+    .esri-ui-top-left {
+        top: 0 !important;
+    }
+}
+.esri-ui-top-left {
+    top: 10px;
+}
