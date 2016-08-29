@@ -150,7 +150,6 @@ require(["esri/Map", "esri/Basemap", "esri/widgets/Home", "esri/views/MapView", 
                         text: names_all[n][0]
                     }));
                 }
-                console.log(dict);
                 for (i in dict) {
                     rendererPts.addUniqueValueInfo(i, new SimpleMarkerSymbol({
                         color: dict[i],
