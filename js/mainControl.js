@@ -129,7 +129,7 @@ require(["esri/Map", "esri/Basemap", "esri/widgets/Home", "esri/views/MapView", 
             gLayerHighlight.removeAll();
             map.remove(gLayerHighlight);
         }
-    map.addMany([legendLayer, gLayer, gLayerMRP, mrp, colonies, locateGL]);
+    map.addMany([legendLayer,colonies,gLayer, gLayerMRP, mrp, locateGL]);
     // Search
     app.mapView.whenLayerView(mrp).then(function(lyrView) {
         lyrView.watch("updating", function(val) {
