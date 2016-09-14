@@ -1,3 +1,9 @@
+$(document).ready(function () {
+    if(!Cookies.get('splash_show')) {
+                $('#modalSplash').modal();
+                Cookies.set('splash_show', true, {path: ''});
+            }
+});
 var app;
 var startDate = moment().subtract(7, 'days');
 var endDate = moment();
@@ -278,6 +284,7 @@ require(["esri/Map", "esri/Basemap", "esri/widgets/Home", "esri/views/MapView", 
             app.activeView.popup.dockEnabled = false;
         }
     });
+    // $('#modalToggle').click();
     $('ul.basemapUL li').click(function() {
         app.mapView.map.basemap = this.id;
         $(this).addClass('highlightBasemap');

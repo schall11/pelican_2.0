@@ -5,8 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <meta name="description" content="Utah DWR PeliTrack">
-    <meta property="og:image" content="http://wildlife.utah.gov/pelican_webmap/images/DWR_logo.png" />
+    <meta name="description" content="Utah Division of Wildlife Resources PeliTrack">
+    <meta property="og:url"                content="https://wildlife.utah.gov/pelican_webmap/" />
+    <meta property="og:title"              content="Utah Division of Wildlife Resources PeliTrack: Pelican Tracking Map" />
+    <meta property="og:description"        content="Track the movements of American White Pelicans with our interactive map. The pelicans are wearing solar-powered GPS transmitters that store waypoints and then transmit them back through the satellite system. We've built a web-based map that automatically updates with all their latest travels." />
+    <meta property="og:image" content="https://wildlife.utah.gov/pelican_webmap/images/pelicans.png" />
+
     <title>PeliTrack</title>
 
     <!-- Calcite Bootstrap -->
@@ -23,6 +27,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- jQuery (for Bootstrap's JavaScript plugins). NOTE: You can also use pure Dojo. See examples. -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="dist/js/js-cookie/js.cookie.js"></script>
     <!-- Include all  plugins or individual files as needed -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -57,9 +62,11 @@
         </div>
         <!-- Nav -->
         <ul class="nav navbar-nav">
-            <li style="cursor:pointer;"><a id="modalToggle" aria-controls="InfoTab" role="button" data-toggle="modal" data-tooltip="More Info" title="More Info" data-placement="bottom" target=_ blank href="http://wildlife.utah.gov/blog/2016/round-trip-flights-salt-lake-city-to-mazatlan/"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a>
-                <!--data-target="#modalSplash"-->
+            <!--<button id="filterNav2" type="button" class="btn btn-default " data-toggle="modal" data-target="#modalFilter">-->
+            <!--<li style="cursor:pointer;"><a id="modalToggle" aria-controls="InfoTab" role="button" data-toggle="modal" data-tooltip="More Info" title="More Info" data-placement="bottom" target=_ blank href="http://wildlife.utah.gov/blog/2016/round-trip-flights-salt-lake-city-to-mazatlan/"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a>-->
+              <li style="cursor:pointer;"><a id="modalToggle" aria-controls="InfoTab" role="button" data-toggle="modal" data-tooltip="More Info" title="More Info" data-placement="bottom" data-target="#modalSplash"><span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs hidden-sm">  Info</span></a>
             </li>
+                <!--data-target="#modalSplash"-->
             <a href="http://wildlife.utah.gov" target=_ blank class="navbar-brand"><img src="images/DWR_logo_small.png" class="img-fluid" alt="Flying pelican">
             </a>
         </ul>
@@ -67,6 +74,47 @@
     <!--/.FilterDisplayInfo -->
     <div id="panelInfoBox" class="panel panel-default">
         <div id="panelInfo" class="panel panel-default"></div>
+    </div>
+    <!--/.ModalInfo -->
+    <div class="modal fade" id="modalSplash" tabindex="-1" role="dialog" aria-labelledby="splashlModal" style="overflow-y: auto;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color:white;">&times;</span>
+                    </button>
+                    <h3>What is this project all about?</h3>
+                    <!--<br>-->
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="splash-body">
+                                <div class="text-center">
+
+                                    <!--<hr>-->
+                                    <p>Thanks to solar-powered GPS transmitter backpacks, we can now track the movements and behaviors of American white pelicans — and you can too! The birds' locations update on this map every two to three days. The data gathered from this study will help biologists conserve Utah's pelican population, as well as avoid the issues that pelicans can cause.</p><br>
+                                    <img class="img-responsive"src="https://wildlife.utah.gov/pelican_webmap/images/pelicans.png" alt="image" /><br>
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <a class="btn btn-success btn-lg" href="http://wildlife.utah.gov/blog/2016/round-trip-flights-salt-lake-city-to-mazatlan/" target="_blank" style="margin-top:10px;margin-left:0px;">More Information</a>
+                                            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" aria-label="Close" style="margin-top:10px;margin-left:0px;"><span aria-hidden="true" style="color:white;">Explore the Map</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="modal-footer">-->
+
+                    <!--&lt;!&ndash;<a href="#" class="btn btn-primary">Save changes</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="#" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</a><br />&ndash;&gt;-->
+                    <!--<label>Hide this dialog on page load <input type="checkbox" name="dismiss"></label>-->
+
+              <!--</div>-->
+            </div>
+        </div>
     </div>
     <!--/.ModalFilter -->
     <div class="modal fade" id="modalFilter" tabindex="-1" role="dialog" aria-labelledby="modalFilter">
